@@ -21,7 +21,7 @@
   </p>
 
   <!-- Modern Dev Ecosystem Banner: Google Gemini • Google Antigravity • GitHub • VS Code -->
-  <img src="./assets/images/dev-banner.jpg" alt="Google Antigravity, GitHub, VS Code, Gemini Developer Ecosystem" width="100%" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 102, 177, 0.4);" />
+  <img src="assets/images/dev-banner.jpg" alt="Google Antigravity, GitHub, VS Code, Gemini Developer Ecosystem" width="100%" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 102, 177, 0.4);" />
 
   <!-- Ecosystem Badges -->
   <p>
@@ -39,12 +39,12 @@
 <div align="center">
   <p style="color: #ff3333; font-weight: 700; font-size: 15px; border: 2px solid #ff3333; border-radius: 10px; padding: 14px 20px; background: rgba(255, 51, 51, 0.08); max-width: 850px; margin: 24px auto; line-height: 1.6;">
     🛑 <b>IMPORTANT NOTICE:</b> THIS PROJECT IS CREATED FOR <b>EDUCATIONAL PURPOSES ONLY</b>.<br/>
-    ALL RIGHTS, TRADEMARKS, LOGOS, AND VEHICLE DESIGNS ARE STRICTLY OWNED BY <b>BMW (BAYERISCHE MOTOREN WERKE AG)</b> AND ITS  SHOWCASE.
+    ALL RIGHTS, TRADEMARKS, LOGOS, AND VEHICLE DESIGNS ARE STRICTLY OWNED BY <b>BMW (BAYERISCHE MOTOREN WERKE AG)</b> AND ITS OFFICIAL SHOWCASE.
   </p>
 </div>
 
 > [!CAUTION]
-> **LEGAL DISCLAIMER**: This website is built purely as an educational project and UI/UX design showcase demonstrating modern web technologies. All intellectual property and branding rights belong exclusively to **Bayerische Motoren Werke AG (BMW)**.
+> **LEGAL DISCLAIMER**: This website is built purely as an educational project and UI/UX design showcase demonstrating modern web technologies. All intellectual property, trademarks, and branding rights belong exclusively to **Bayerische Motoren Werke AG (BMW)**.
 
 ---
 
