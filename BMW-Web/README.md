@@ -1,56 +1,63 @@
 <div align="center">
 
-  <!-- Official BMW Roundel Logo -->
-  <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg" alt="BMW Logo" width="100" height="100" />
+  <!-- ═══════════════ OFFICIAL BMW HERO BANNER ═══════════════ -->
+  
+  <p align="center">
+    <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0066b1,100:040507&height=230&section=header&text=THE%20NEW%20BMW%20i7&fontSize=44&fontColor=ffffff&fontAlignY=38&desc=%E2%9C%A6%20PRESENTING%20TO%20YOU%20%E2%9C%A6%20THE%20FORWARDISM%20OF%20ELECTRIFIED%20LUXURY&descSize=14&descAlignY=62&descColor=00e5ff" width="100%" alt="BMW i7 Luxury Hero Banner" />
+  </p>
 
-  # THE NEW BMW i7 & 7 SERIES
-  ### *THE FORWARDISM OF ELECTRIFIED LUXURY*
+  <p align="center">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg" alt="BMW Logo" width="120" height="120" style="filter: drop-shadow(0 6px 20px rgba(0, 102, 177, 0.7));" />
+  </p>
 
-  <!-- Tech Stack Badges -->
-  <p>
+  <!-- Core Tech & Tools Badges -->
+  <p align="center">
     <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" />
     <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" />
     <img src="https://img.shields.io/badge/React_18-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
     <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
     <img src="https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=three.js&logoColor=white" alt="Three.js" />
     <img src="https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white" alt="Framer Motion" />
+    <img src="https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white" alt="VS Code" />
+    <img src="https://img.shields.io/badge/Google_Antigravity-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white" alt="Google Antigravity" />
+    <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
   </p>
 
-  <p>
-    <b>Designed & Engineered by <a href="https://github.com/tanmay119-pera">ADESH SRIVASTAVA (tanmay119-pera)</a></b>
+  <p align="center">
+    Designed & Engineered by <b><a href="https://github.com/tanmay119-pera">ADESH SRIVASTAVA (tanmay119-pera)</a></b>
   </p>
 
-  <!-- Modern Dev Ecosystem Banner: Google Gemini • Google Antigravity • GitHub • VS Code -->
-  <img src="assets/images/dev-banner.jpg" alt="Google Antigravity, GitHub, VS Code, Gemini Developer Ecosystem" width="100%" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 102, 177, 0.4);" />
+  <br/>
 
-  <!-- Ecosystem Badges -->
-  <p>
-    <img src="https://img.shields.io/badge/Google_Gemini-8E75FF?style=flat-square&logo=google&logoColor=white" alt="Gemini" />
-    <img src="https://img.shields.io/badge/Google_Antigravity-4285F4?style=flat-square&logo=google-cloud&logoColor=white" alt="Antigravity" />
-    <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white" alt="GitHub" />
-    <img src="https://img.shields.io/badge/VS_Code-007ACC?style=flat-square&logo=visual-studio-code&logoColor=white" alt="VS Code" />
+  <!-- ═══════════════ GEMINI AI PICTURE GENERATION BANNER ═══════════════ -->
+
+
+  <p align="center">
+    <a href="https://deepmind.google/technologies/gemini/">
+      <img src="https://img.shields.io/badge/Google_Gemini-AI_Picture_Generation-8E75FF?style=for-the-badge&logo=google&logoColor=white" alt="Google Gemini AI Picture Generation" />
+    </a>
   </p>
 
 </div>
 
 ---
 
-<!-- Prominent Red Line Legal & Educational Disclaimer -->
+<!-- ═══════════════ RED LINE LEGAL & EDUCATIONAL DISCLAIMER ═══════════════ -->
 <div align="center">
-  <p style="color: #ff3333; font-weight: 700; font-size: 15px; border: 2px solid #ff3333; border-radius: 10px; padding: 14px 20px; background: rgba(255, 51, 51, 0.08); max-width: 850px; margin: 24px auto; line-height: 1.6;">
-    🛑 <b>IMPORTANT NOTICE:</b> THIS PROJECT IS CREATED FOR <b>EDUCATIONAL PURPOSES ONLY</b>.<br/>
-    ALL RIGHTS, TRADEMARKS, LOGOS, AND VEHICLE DESIGNS ARE STRICTLY OWNED BY <b>BMW (BAYERISCHE MOTOREN WERKE AG)</b> AND ITS OFFICIAL SHOWCASE.
+  <p style="color: #ff3333; font-weight: 700; font-size: 15px; border: 2px solid #ff3333; border-radius: 10px; padding: 16px 24px; background: rgba(255, 51, 51, 0.08); max-width: 850px; margin: 24px auto; line-height: 1.6;">
+    🛑 <b>IMPORTANT NOTICE:</b> THIS WEBSITE IS CREATED FOR <b>EDUCATIONAL PURPOSES ONLY</b>.<br/>
+    ALL RIGHTS, TRADEMARKS, CAR DESIGNS, AND BRAND ASSETS ARE STRICTLY OWNED BY <b>BMW (BAYERISCHE MOTOREN WERKE AG)</b> AND ITS OFFICIAL SHOWCASE.
   </p>
 </div>
 
 > [!CAUTION]
-> **LEGAL DISCLAIMER**: This website is built purely as an educational project and UI/UX design showcase demonstrating modern web technologies. All intellectual property, trademarks, and branding rights belong exclusively to **Bayerische Motoren Werke AG (BMW)**.
+> **LEGAL DISCLAIMER**: This project is built purely as an educational design showcase demonstrating modern web technologies and 3D UI/UX elements. All intellectual property, vehicle models, and trademarks belong exclusively to **Bayerische Motoren Werke AG (BMW)**.
 
 ---
 
 ## 🌟 Overview
 
-An immersive, cinematic web platform celebrating the **BMW i7 Sedan & 7 Series**. Built with a futuristic dark aesthetic, interactive 3D engineering cutaways, 4K authentic vehicle photography, and smooth scroll choreography designed for high performance and zero-lag responsiveness.
+An immersive, cinematic web platform celebrating the **BMW i7 Sedan & 7 Series**. Built with a futuristic dark aesthetic, interactive 3D engineering cutaways, authentic 4K vehicle photography, and smooth scroll choreography designed for high performance and zero-lag responsiveness.
 
 ---
 
@@ -65,7 +72,7 @@ An immersive, cinematic web platform celebrating the **BMW i7 Sedan & 7 Series**
 
 ---
 
-## 💻 Tech Stack
+## 💻 Tech Stack & Tools
 
 | Layer | Technology | Highlights |
 | :--- | :--- | :--- |
@@ -75,6 +82,9 @@ An immersive, cinematic web platform celebrating the **BMW i7 Sedan & 7 Series**
 | **Styling & Theme** | `Tailwind CSS` | Custom BMW luxury palette (`#040507`, `#0066B1`, `#1C69D4`) |
 | **3D Graphics** | `Three.js` | WebGL hardware-accelerated 3D vehicle canvas |
 | **Choreography** | `Framer Motion` | GPU-accelerated scroll reveals and magnetic interactions |
+| **Development IDE** | `VS Code` | Modern coding environment with Live Server integration |
+| **AI Partner** | `Google Antigravity` | Agentic architecture and autonomous code acceleration |
+| **Version Control** | `GitHub` | Repository management, tracking, and open distribution |
 
 ---
 
@@ -103,7 +113,7 @@ An immersive, cinematic web platform celebrating the **BMW i7 Sedan & 7 Series**
   </tr>
   <tr>
     <td><b>📁 assets / images</b></td>
-    <td><b>4K Visual Gallery & Banners</b><br/>High-resolution real vehicle photography, developer ecosystem banner, and studio color variants.</td>
+    <td><b>4K Visual Gallery</b><br/>High-resolution real vehicle photography, executive interiors, and studio color variants.</td>
   </tr>
   <tr>
     <td><b>📁 assets / videos</b></td>
