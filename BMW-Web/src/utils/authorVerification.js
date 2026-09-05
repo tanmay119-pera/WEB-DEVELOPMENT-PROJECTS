@@ -2,19 +2,27 @@
  * =========================================================================
  * BMW i7 LUXURY EXPERIENCE — CRYPTOGRAPHIC PROVENANCE & INTEGRITY VERIFIER
  * =========================================================================
- * Author: ADESH SRIVASTAVA (tanmay119-pera)
- * Salted Cyclic XOR + Salted SHA-256 Tamper Protection
+ * This module seals the author identity and educational notice using
+ * a cryptographic salting technique (Salted Cyclic XOR + Salted SHA-256).
+ *
+ * Any unauthorized attempt to tamper with or alter the author attribution
+ * will trigger an integrity mismatch check.
  * =========================================================================
  */
 
+// Cryptographic Salt Key
 const SECURITY_SALT = 'BMW_i7_G70_BORN_ELECTRIC_2026_SALT_SECURE_HASH_9824';
+
+// Salt-encoded ciphertexts (Base64)
 const ENCODED_AUTHOR = 'AwkSDCEXDBV+Zh4RGxMYHmVkMSI6Pyg6bgMJH0Y6ISBl';
 const ENCODED_PURPOSE =
   'FiU+LElAOiVEWSsnbzs9fyY+ICIgNy1jOV1CElM7JiItIDY8KyI5cjUqOjE8OzoZV1xYO2N3HAZZPCJHRCojI3IqOjYlIi10IT02O0sQFBYvPDM4MjA/LCx1IjcwIiQwPHEZeV5YYjklPg1SMiZFWyxiLjwqfyc+JC0wcigwLFdEQRY9Ni0jOjhzMSx1EAgIaAAUZg==';
 
+// Expected Salted SHA-256 Hashes
 const EXPECTED_AUTHOR_HASH = '6fd5bad906e3992b823f0924c43a6c21d62cde7193b3ca81a2bcb6f7c49f8352';
 const EXPECTED_PURPOSE_HASH = 'ac81a87535e689c0de5e48f1b6477f545ef3d015d9d780421191ae3da41445d2';
 
+// Pure JavaScript synchronous SHA-256 implementation (browser & server compatible)
 function sha256Sync(ascii) {
   function rightRotate(value, amount) {
     return (value >>> amount) | (value << (32 - amount));
@@ -84,6 +92,7 @@ function sha256Sync(ascii) {
   return out;
 }
 
+// Salt-Decryption routine
 function decodeWithSalt(base64Str, saltKey) {
   let binary = '';
   if (typeof atob === 'function') {
@@ -99,10 +108,12 @@ function decodeWithSalt(base64Str, saltKey) {
   return decoded;
 }
 
+// Execute Salt Verification & Seal
 function sealProvenance() {
   const authorDecoded = decodeWithSalt(ENCODED_AUTHOR, SECURITY_SALT);
   const purposeDecoded = decodeWithSalt(ENCODED_PURPOSE, SECURITY_SALT);
 
+  // Compute Salted SHA-256 Hashes
   const calculatedAuthorHash = sha256Sync(authorDecoded + SECURITY_SALT);
   const calculatedPurposeHash = sha256Sync(purposeDecoded + SECURITY_SALT);
 
@@ -124,6 +135,7 @@ function sealProvenance() {
     brand: 'BMW i7 Luxury Experience Showcase',
   });
 
+  // Lock into window as an immutable, non-writable property
   if (typeof window !== 'undefined' && !window.__BMW_PROVENANCE__) {
     try {
       Object.defineProperty(window, '__BMW_PROVENANCE__', {
@@ -132,6 +144,7 @@ function sealProvenance() {
         configurable: false,
       });
 
+      // Branded verification watermark in developer console
       console.log(
         `%c BMW i7 CONCEPT SHOWCASE %c VERIFIED PROVENANCE %c\n` +
           `• Author: ${provenance.author}\n` +
@@ -141,7 +154,9 @@ function sealProvenance() {
         'background:#111622;color:#38bdf8;font-weight:bold;padding:4px 8px;border-radius:0 4px 4px 0;border:1px solid #0066B1;',
         'color:#94a3b8;font-family:monospace;font-size:11px;'
       );
-    } catch (e) {}
+    } catch (e) {
+      // Safeguard for strict mode environments
+    }
   }
 
   return provenance;

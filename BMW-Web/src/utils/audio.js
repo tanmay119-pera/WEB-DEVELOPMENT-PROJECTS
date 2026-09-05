@@ -1,14 +1,25 @@
+// Audio system completely muted and disabled
 class SoundController {
   constructor() {
     this.muted = true;
   }
+
   init() {}
-  toggleMute() { return true; }
+
+  toggleMute() {
+    return true;
+  }
+
   playClick() {}
+
   playHotspot() {}
+
   playMotorSurge() {}
+
   playSuccess() {}
+
   playWhoosh() {}
+
   playTone() {}
 }
 

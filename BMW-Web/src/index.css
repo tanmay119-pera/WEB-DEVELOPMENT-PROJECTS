@@ -1,0 +1,316 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    background-color: #050608;
+    color: #f1f5f9;
+  }
+
+  /* Lenis recommended CSS */
+  html.lenis, html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+  .lenis.lenis-scrolling iframe {
+    pointer-events: none;
+  }
+
+  /* Custom luxury scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #07080c;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #0066B1;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #38bdf8;
+  }
+}
+
+/* ==========================================
+   GLASSMORPHISM & GLOW UTILITIES
+   ========================================== */
+.glass-panel {
+  background: rgba(15, 17, 23, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-hover {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glass-panel-hover:hover {
+  background: rgba(22, 25, 34, 0.8);
+  border-color: rgba(0, 102, 177, 0.4);
+  box-shadow: 0 10px 40px -10px rgba(0, 102, 177, 0.25);
+}
+
+.text-glow {
+  text-shadow: 0 0 25px rgba(0, 102, 177, 0.6);
+}
+.text-glow-cyan {
+  text-shadow: 0 0 25px rgba(56, 189, 248, 0.7);
+}
+
+.bmw-grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+
+/* ==========================================
+   PREMIUM ANIMATION KEYFRAMES
+   ========================================== */
+
+/* 1. Text Reveal Clip Animation */
+@keyframes textRevealClip {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+.animate-text-reveal {
+  animation: textRevealClip 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 2. Slide Up Fade */
+@keyframes slideUpFade {
+  0% {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.animate-slide-up {
+  animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 3. Scale In */
+@keyframes scaleIn {
+  0% {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.animate-scale-in {
+  animation: scaleIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 4. Pulsing Glow Ring */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(0, 102, 177, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(0, 102, 177, 0);
+  }
+}
+.animate-pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* 5. Floating Bob */
+@keyframes floatBob {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+.animate-float {
+  animation: floatBob 4s ease-in-out infinite;
+}
+
+/* 6. Shimmer Sweep Effect */
+@keyframes shimmerSweep {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 102, 177, 0.15) 25%,
+    rgba(56, 189, 248, 0.25) 50%,
+    rgba(0, 102, 177, 0.15) 75%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmerSweep 3s linear infinite;
+}
+
+/* 7. Marquee Scroll */
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marqueeScroll 25s linear infinite;
+}
+.animate-marquee-fast {
+  animation: marqueeScroll 15s linear infinite;
+}
+
+/* 8. Breathing Scale */
+@keyframes breathScale {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+}
+.animate-breathe {
+  animation: breathScale 5s ease-in-out infinite;
+}
+
+/* 9. Border Glow Chase */
+@keyframes borderGlowChase {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+.border-glow-chase {
+  border-image: linear-gradient(
+    90deg,
+    rgba(0, 102, 177, 0.1),
+    rgba(0, 102, 177, 0.8),
+    rgba(56, 189, 248, 1),
+    rgba(0, 102, 177, 0.8),
+    rgba(0, 102, 177, 0.1)
+  ) 1;
+  animation: borderGlowChase 3s linear infinite;
+}
+
+/* 10. Spin Slow */
+@keyframes spinSlow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spinSlow 20s linear infinite;
+}
+
+/* 11. Counter Number Tick */
+@keyframes countReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.animate-count-reveal {
+  animation: countReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 12. Line Draw */
+@keyframes lineDraw {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+.animate-line-draw {
+  animation: lineDraw 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 13. Radar Ping */
+@keyframes radarPing {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  75%, 100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+.animate-radar-ping {
+  animation: radarPing 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* 14. Stagger Delay Utilities */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+
+/* 15. Magnetic Button Hover */
+.magnetic-btn {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.magnetic-btn:hover {
+  transform: scale(1.06) translateY(-2px);
+  box-shadow: 0 20px 50px -15px rgba(0, 102, 177, 0.6);
+}
+
+/* 16. Card 3D Tilt Hover Container */
+.card-3d-tilt {
+  perspective: 800px;
+  transform-style: preserve-3d;
+}
+.card-3d-tilt:hover {
+  transform: rotateY(3deg) rotateX(-2deg) scale(1.02);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 17. Optimized Noise Overlay (zero GPU blend mode overhead) */
+.noise-overlay {
+  position: relative;
+}
+
+/* 18. Section Divider Glow Line */
+.section-divider-glow {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,102,177,0.5), rgba(56,189,248,0.8), rgba(0,102,177,0.5), transparent);
+}
