@@ -17,7 +17,7 @@
   <!-- Developer Tools & AI Badges -->
   <p>
     <img src="https://img.shields.io/badge/Google_Gemini-AI_Pic_Generation-8E75FF?style=flat-square&logo=google&logoColor=white" alt="Gemini AI" />
-    <img src="https://img.shields.io/badge/Google_Antigravity-Coding_Workflow-4285F4?style=flat-square&logo=google-cloud&logoColor=white" alt="Google Antigravity" />
+    <img src="https://img.shields.io/badge/Google_Antigravity-IDE_Workflow-4285F4?style=flat-square&logo=google-cloud&logoColor=white" alt="Google Antigravity" />
     <img src="https://img.shields.io/badge/VS_Code-Live_Server-007ACC?style=flat-square&logo=visual-studio-code&logoColor=white" alt="VS Code" />
     <img src="https://img.shields.io/badge/GitHub-Version_Control-181717?style=flat-square&logo=github&logoColor=white" alt="GitHub" />
   </p>
