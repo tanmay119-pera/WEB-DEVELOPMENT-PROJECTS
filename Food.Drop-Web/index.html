@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodDrop - Order food online | India's #1 Food Delivery</title>
+    <meta name="description" content="Order food online from your favourite restaurants. FoodDrop Gold membership for exclusive discounts and free delivery.">
+    <link rel="stylesheet" href="Style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader-ring">
+            <div class="loader-inner"></div>
+        </div>
+        <p class="loader-text">🍽️ Preparing your feast...</p>
+    </div>
+
+    <!-- Floating Food Emojis -->
+    <div id="floating-emojis" aria-hidden="true"></div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="header-inner">
+            <a href="#" class="logo" aria-label="FoodDrop Home">
+                <div class="logo-mark">
+                    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
+                        <defs>
+                            <linearGradient id="fd-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#e23744"/>
+                                <stop offset="60%" stop-color="#ff5252"/>
+                                <stop offset="100%" stop-color="#d4a84b"/>
+                            </linearGradient>
+                            <linearGradient id="fd-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#f5d78e"/>
+                                <stop offset="50%" stop-color="#d4a84b"/>
+                                <stop offset="100%" stop-color="#b8922e"/>
+                            </linearGradient>
+                            <filter id="glow-drop" x="-20%" y="-20%" width="140%" height="140%">
+                                <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#e23744" flood-opacity="0.35"/>
+                            </filter>
+                        </defs>
+                        <circle cx="20" cy="20" r="18" stroke="url(#fd-gold)" stroke-width="1.5" stroke-dasharray="80 10" fill="rgba(20, 20, 20, 0.7)"/>
+                        <path d="M20 7 C20 7 28 15 28 21 C28 25.418 24.418 29 20 29 C15.582 29 12 25.418 12 21 C12 15 20 7 20 7 Z" fill="url(#fd-grad)" filter="url(#glow-drop)"/>
+                        <circle cx="20" cy="12" r="1.8" fill="#ffffff" opacity="0.9"/>
+                        <path d="M16 22 C16.5 24 18 25 20 25 C22 25 23.5 24 24 22" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" opacity="0.85"/>
+                        <path d="M10 33 C14 35 26 35 30 33" stroke="url(#fd-gold)" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <span class="logo-text">
+                    <span class="logo-food">Food</span><span class="logo-drop">Drop</span>
+                    <span class="logo-dot"></span>
+                </span>
+            </a>
+            <nav id="nav">
+                <ul>
+                    <li><a href="#gold">✨ Gold</a></li>
+                    <li><a href="#menu">🍕 Explore</a></li>
+                    <li><a href="#stats">📊 About</a></li>
+                    <li><a href="#" class="nav-btn login-btn">Log in</a></li>
+                    <li><a href="#" class="nav-btn signup-btn">Sign up</a></li>
+                </ul>
+            </nav>
+            <button id="menu-toggle" aria-label="Toggle navigation menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="hero-overlay"></div>
+        <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=1600&q=80" alt="Luxurious spread of Indian cuisine" class="hero-bg" id="hero-bg-img">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="hero-line hero-line-1">Discover</span>
+                <span class="hero-line hero-line-2">the best food</span>
+                <span class="hero-line hero-line-3">& drinks 🍛</span>
+            </h1>
+            <p class="hero-subtitle">Order from your favourite restaurants, delivered to your doorstep ⚡</p>
+            <div class="search-container">
+                <div class="search-box" id="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-input" placeholder="Search for restaurant, cuisine or a dish..." autocomplete="off">
+                    <div class="search-suggestions" id="search-suggestions"></div>
+                </div>
+            </div>
+            <div class="hero-tags">
+                <span class="tag" data-search="Biryani">🍚 Biryani</span>
+                <span class="tag" data-search="Pizza">🍕 Pizza</span>
+                <span class="tag" data-search="Burger">🍔 Burger</span>
+                <span class="tag" data-search="Sushi">🍣 Sushi</span>
+                <span class="tag" data-search="Dessert">🍰 Dessert</span>
+                <span class="tag" data-search="Coffee">☕ Coffee</span>
+            </div>
+        </div>
+        <div class="scroll-indicator" id="scroll-indicator">
+            <span>Scroll down</span>
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- Gold Membership Section -->
+    <section id="gold">
+        <div class="gold-sparkles" aria-hidden="true"></div>
+        <div class="section-inner">
+            <p class="gold-brand">FoodDrop</p>
+            <h2 class="gold-title">GOLD</h2>
+            <p class="gold-subtitle">India's Top Savings Program for Food Lovers</p>
+            <div class="gold-divider"></div>
+            <h3 class="gold-benefits-title">⭐ GOLD BENEFITS ⭐</h3>
+            <div class="benefits-grid">
+                <div class="benefit-card" data-animate="fade-up">
+                    <span class="benefit-emoji">🛵</span>
+                    <h4>Free Delivery</h4>
+                    <p>At all restaurants within 7 km</p>
+                </div>
+                <div class="benefit-card" data-animate="fade-up">
+                    <span class="benefit-emoji">💰</span>
+                    <h4>Up to 30% off</h4>
+                    <p>At 20,000+ partner restaurants</p>
+                </div>
+                <div class="benefit-card" data-animate="fade-up">
+                    <span class="benefit-emoji">⚡</span>
+                    <h4>Priority Delivery</h4>
+                    <p>Your food arrives first, always</p>
+                </div>
+                <div class="benefit-card" data-animate="fade-up">
+                    <span class="benefit-emoji">🎁</span>
+                    <h4>Exclusive Deals</h4>
+                    <p>Members-only offers every week</p>
+                </div>
+            </div>
+            <button class="gold-cta" id="gold-cta">
+                <span>Join Gold Now</span>
+                <span class="cta-sparkle">✨</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Menu / Explore Section -->
+    <section id="menu">
+        <div class="section-inner">
+            <h2 class="section-title" data-animate="fade-up">
+                <span class="title-emoji">🍽️</span>
+                What's on your mind?
+            </h2>
+            <p class="section-desc" data-animate="fade-up">Explore cuisines from around the world, right at your fingertips</p>
+            
+            <div class="cuisine-carousel" id="cuisine-carousel">
+                <div class="cuisine-card" data-animate="fade-up" data-delay="0">
+                    <div class="cuisine-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80" alt="Gourmet Burger" loading="lazy">
+                        <div class="cuisine-overlay">
+                            <span class="cuisine-rating">⭐ 4.5</span>
+                        </div>
+                    </div>
+                    <div class="cuisine-info">
+                        <h3>🍔 Burgers</h3>
+                        <p>Juicy, stacked & loaded</p>
+                        <span class="cuisine-time">⏱️ 25-35 min</span>
+                    </div>
+                </div>
+                <div class="cuisine-card" data-animate="fade-up" data-delay="100">
+                    <div class="cuisine-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80" alt="Hot Pizza" loading="lazy">
+                        <div class="cuisine-overlay">
+                            <span class="cuisine-rating">⭐ 4.7</span>
+                        </div>
+                    </div>
+                    <div class="cuisine-info">
+                        <h3>🍕 Pizza</h3>
+                        <p>Cheesy, crispy perfection</p>
+                        <span class="cuisine-time">⏱️ 20-30 min</span>
+                    </div>
+                </div>
+                <div class="cuisine-card" data-animate="fade-up" data-delay="200">
+                    <div class="cuisine-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=600&q=80" alt="Sushi Platter" loading="lazy">
+                        <div class="cuisine-overlay">
+                            <span class="cuisine-rating">⭐ 4.8</span>
+                        </div>
+                    </div>
+                    <div class="cuisine-info">
+                        <h3>🍣 Sushi</h3>
+                        <p>Fresh rolls & nigiri</p>
+                        <span class="cuisine-time">⏱️ 30-40 min</span>
+                    </div>
+                </div>
+                <div class="cuisine-card" data-animate="fade-up" data-delay="300">
+                    <div class="cuisine-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=600&q=80" alt="Indian Cuisine" loading="lazy">
+                        <div class="cuisine-overlay">
+                            <span class="cuisine-rating">⭐ 4.9</span>
+                        </div>
+                    </div>
+                    <div class="cuisine-info">
+                        <h3>🍛 Indian</h3>
+                        <p>Rich curries & tandoor</p>
+                        <span class="cuisine-time">⏱️ 30-45 min</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats / About Section -->
+    <section id="stats">
+        <div class="section-inner">
+            <h2 class="section-title" data-animate="fade-up">
+                Better food for more people 🚀
+            </h2>
+            <p class="section-desc" data-animate="fade-up">For over a decade, we've enabled our customers to discover new tastes, delivered right to their doorstep</p>
+            <div class="stats-grid">
+                <div class="stat-card" data-animate="fade-up">
+                    <span class="stat-emoji">🏪</span>
+                    <span class="stat-number" data-count="300000">0</span>
+                    <span class="stat-plus">+</span>
+                    <span class="stat-label">restaurants</span>
+                </div>
+                <div class="stat-card" data-animate="fade-up">
+                    <span class="stat-emoji">📍</span>
+                    <span class="stat-number" data-count="800">0</span>
+                    <span class="stat-plus">+</span>
+                    <span class="stat-label">cities</span>
+                </div>
+                <div class="stat-card" data-animate="fade-up">
+                    <span class="stat-emoji">📦</span>
+                    <span class="stat-number" data-count="3">0</span>
+                    <span class="stat-plus"> billion+</span>
+                    <span class="stat-label">orders delivered</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Download Section -->
+    <section id="app">
+        <div class="section-inner">
+            <div class="app-content" data-animate="fade-up">
+                <h2 class="app-title">Download Our App 📱</h2>
+                <p class="app-desc">Experience fast & easy online ordering on the FoodDrop app. We will send you a link, open it on your phone to download the app.</p>
+                <div class="app-input-group">
+                    <div class="app-input-wrap">
+                        <span class="phone-prefix">+91</span>
+                        <input type="tel" placeholder="Enter your phone number" id="phone-input">
+                    </div>
+                    <button class="app-send-btn" id="app-send-btn">Send Link ➡️</button>
+                </div>
+                <div class="app-stores">
+                    <button class="store-btn" id="google-play-btn">
+                        <span class="store-icon">▶️</span>
+                        <div class="store-text">
+                            <small>GET IT ON</small>
+                            <strong>Google Play</strong>
+                        </div>
+                    </button>
+                    <button class="store-btn" id="app-store-btn">
+                        <span class="store-icon">🍎</span>
+                        <div class="store-text">
+                            <small>Download on the</small>
+                            <strong>App Store</strong>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="#" class="logo" aria-label="FoodDrop Home">
+                        <div class="logo-mark">
+                            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
+                                <circle cx="20" cy="20" r="18" stroke="url(#fd-gold)" stroke-width="1.5" stroke-dasharray="80 10" fill="rgba(20, 20, 20, 0.7)"/>
+                                <path d="M20 7 C20 7 28 15 28 21 C28 25.418 24.418 29 20 29 C15.582 29 12 25.418 12 21 C12 15 20 7 20 7 Z" fill="url(#fd-grad)"/>
+                                <circle cx="20" cy="12" r="1.8" fill="#ffffff" opacity="0.9"/>
+                                <path d="M16 22 C16.5 24 18 25 20 25 C22 25 23.5 24 24 22" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" opacity="0.85"/>
+                                <path d="M10 33 C14 35 26 35 30 33" stroke="url(#fd-gold)" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <span class="logo-text">
+                            <span class="logo-food">Food</span><span class="logo-drop">Drop</span>
+                            <span class="logo-dot"></span>
+                        </span>
+                    </a>
+                    <p class="footer-tagline">Better food for more people ❤️</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>About</h4>
+                        <ul>
+                            <li><a href="#">Who We Are</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Work With Us</a></li>
+                            <li><a href="#">Investor Relations</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>For You</h4>
+                        <ul>
+                            <li><a href="#">Privacy</a></li>
+                            <li><a href="#">Terms</a></li>
+                            <li><a href="#">Security</a></li>
+                            <li><a href="#">Sitemap</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Learn More</h4>
+                        <ul>
+                            <li><a href="#">Add Restaurant</a></li>
+                            <li><a href="#gold">FoodDrop Gold 👑</a></li>
+                            <li><a href="#">Help & Support</a></li>
+                            <li><a href="#">Careers 🚀</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-socials">
+                <a href="#" aria-label="Facebook" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </a>
+                <a href="#" aria-label="X (Twitter)" class="social-link">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="#" aria-label="Instagram" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                </a>
+                <a href="#" aria-label="YouTube" class="social-link">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                </a>
+            </div>
+            <div class="footer-bottom">
+                <p>Copyright © 2026 FOOD DROP. All rights reserved. Built for educational purposes. Not affiliated with Any Company. Made by ADESH SRIVASTAVA(TANMAY) with ❤️ in India 🇮🇳</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <button id="back-to-top" aria-label="Scroll to top">🚀</button>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
