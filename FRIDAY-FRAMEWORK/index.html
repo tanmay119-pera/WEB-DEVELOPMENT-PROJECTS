@@ -149,7 +149,7 @@
           </div>
           <div class="user-info">
             <span class="user-name">Tanmay</span>
-            <span class="user-role">Super Admin (India)</span>
+            <span class="user-role">Principal Cloud Architect (Global Root)</span>
           </div>
           <button class="user-action-btn" title="Quick Profile Menu" id="user-menu-btn" aria-label="User Options">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -284,46 +284,58 @@
           <div class="welcome-copy">
             <div class="welcome-badge">
               <span class="pulse-indicator"></span>
-              <span>Global Multi-Region Grid Active</span>
+              <span>Enterprise Multi-Region Data Fabric Active • 99.999% High Availability</span>
             </div>
-            <h1 class="welcome-title">Welcome back, <span class="highlight-text">Tanmay</span> 🇮🇳 🇬🇧 🇯🇵</h1>
-            <p class="welcome-subtitle">Distributed Cloud Matrix: Real-time telemetry, auto-failover, and active shards across India, United Kingdom, and Japan.</p>
+            <h1 class="welcome-title">Welcome back, <span class="highlight-text">Tanmay</span></h1>
+            <p class="welcome-subtitle">Global distributed database control plane: Real-time telemetry, automated partition rebalancing, and low-latency replication across Americas, EMEA, and Asia-Pacific.</p>
           </div>
 
-          <!-- Interactive Quick Action Buttons (Add User & Country Randomizers) -->
+          <!-- Modern Global Action Bar -->
           <div class="quick-action-bar">
-            <button id="quick-add-user-btn" class="btn btn-emerald btn-icon-text ripple-effect" title="Open Add User Modal">
+            <button id="quick-add-user-btn" class="btn btn-emerald btn-icon-text ripple-effect" title="Provision new user or shard">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
-              <span>+ Add User</span>
+              <span>+ Add User / Node</span>
+            </button>
+            <button id="run-latency-audit-btn" class="btn btn-secondary btn-icon-text ripple-effect" title="Run real-time multi-region latency benchmark">
+              <svg class="pulse-target" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+              <span>Run Latency Audit</span>
             </button>
             <div class="country-buttons-group">
-              <button class="btn btn-country btn-country-in ripple-effect" id="btn-random-indian" title="Spawn Random Indian Engineer & Node">
-                <span class="flag-icon">🇮🇳</span>
-                <span class="btn-text">Random Indian</span>
-                <span class="btn-glow"></span>
+              <button class="btn btn-pill-region ripple-effect" data-spawn="us" title="Spawn US Engineer & Shard">
+                <span class="iso-tag">US</span>
+                <span class="btn-text">Americas</span>
               </button>
-              <button class="btn btn-country btn-country-uk ripple-effect" id="btn-random-uk" title="Spawn Random UK Engineer & Node">
-                <span class="flag-icon">🇬🇧</span>
-                <span class="btn-text">Random UK</span>
-                <span class="btn-glow"></span>
+              <button class="btn btn-pill-region ripple-effect" data-spawn="de" title="Spawn Germany / EU Engineer & Shard">
+                <span class="iso-tag">DE</span>
+                <span class="btn-text">Germany</span>
               </button>
-              <button class="btn btn-country btn-country-jp ripple-effect" id="btn-random-japan" title="Spawn Random Japan Engineer & Node">
-                <span class="flag-icon">🇯🇵</span>
-                <span class="btn-text">Random Japan</span>
-                <span class="btn-glow"></span>
+              <button class="btn btn-pill-region ripple-effect" data-spawn="uk" title="Spawn UK Engineer & Shard">
+                <span class="iso-tag">UK</span>
+                <span class="btn-text">London</span>
+              </button>
+              <button class="btn btn-pill-region ripple-effect" data-spawn="in" title="Spawn India Engineer & Shard">
+                <span class="iso-tag">IN</span>
+                <span class="btn-text">India</span>
+              </button>
+              <button class="btn btn-pill-region ripple-effect" data-spawn="jp" title="Spawn Japan Engineer & Shard">
+                <span class="iso-tag">JP</span>
+                <span class="btn-text">Tokyo</span>
+              </button>
+              <button class="btn btn-pill-region ripple-effect" data-spawn="sg" title="Spawn Singapore Engineer & Shard">
+                <span class="iso-tag">SG</span>
+                <span class="btn-text">Singapore</span>
               </button>
             </div>
           </div>
 
-          <!-- Quick Region Selector Tabs -->
+          <!-- Enterprise Region Selector Tabs -->
           <div class="timeframe-tabs" role="tablist">
-            <button class="time-tab active" data-period="all">All Regions (Global)</button>
-            <button class="time-tab" data-period="india">🇮🇳 India</button>
-            <button class="time-tab" data-period="uk">🇬🇧 UK</button>
-            <button class="time-tab" data-period="japan">🇯🇵 Japan</button>
-            <button class="time-tab" data-period="mumbai">Mumbai</button>
-            <button class="time-tab" data-period="london">London</button>
-            <button class="time-tab" data-period="tokyo">Tokyo</button>
+            <button class="time-tab active" data-period="all">Global Mesh (All)</button>
+            <button class="time-tab" data-period="americas">Americas (US/CA)</button>
+            <button class="time-tab" data-period="emea">EMEA (UK/DE)</button>
+            <button class="time-tab" data-period="apac">APAC (IN/JP/SG)</button>
+            <button class="time-tab" data-period="primary">Primary Masters</button>
+            <button class="time-tab" data-period="fast">Sub-2ms Nodes</button>
           </div>
         </section>
 
@@ -508,8 +520,110 @@
               </thead>
               <tbody id="table-body">
 
-                <!-- Global Node: London Primary (UK) -->
-                <tr data-status="primary" data-country="uk" class="db-row">
+                <!-- Node 1: US-East Primary (Americas) -->
+                <tr data-status="primary" data-region="americas" data-country="us" class="db-row">
+                  <td>
+                    <div class="resource-cell">
+                      <div class="resource-icon icon-blue">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                      </div>
+                      <div>
+                        <div class="resource-name">aurora_global_useast_01</div>
+                        <div class="resource-id">shard-id: #iad-pg-101</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="engine-badge engine-postgres">PostgreSQL 16</span></td>
+                  <td>
+                    <div class="engineer-tag">
+                      <span class="engineer-avatar avatar-us">MV</span>
+                      <span class="engineer-name">Marcus Vance <span class="iso-tag">US</span></span>
+                    </div>
+                  </td>
+                  <td><span class="region-pill">us-east-1 (N. Virginia)</span></td>
+                  <td><span class="status-pill status-success"><span class="dot animate-pulse"></span>Primary Active</span></td>
+                  <td>
+                    <div class="table-storage-bar">
+                      <div class="storage-meta"><span>1.8 TB / 2 TB</span><span>90%</span></div>
+                      <div class="progress-track"><div class="progress-fill fill-indigo" style="width: 90%;"></div></div>
+                    </div>
+                  </td>
+                  <td><span class="mono-text latency-fast">1.1ms</span></td>
+                  <td class="text-right">
+                    <button class="table-action-btn btn-action-glow" onclick="queryNode('aurora_global_useast_01')">Query</button>
+                  </td>
+                </tr>
+
+                <!-- Node 2: Frankfurt Telemetry (Europe / Germany) -->
+                <tr data-status="primary" data-region="emea" data-country="de" class="db-row">
+                  <td>
+                    <div class="resource-cell">
+                      <div class="resource-icon icon-amber">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                      </div>
+                      <div>
+                        <div class="resource-name">clickhouse_frankfurt_telemetry</div>
+                        <div class="resource-id">shard-id: #fra-ch-440</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="engine-badge engine-clickhouse">ClickHouse OLAP</span></td>
+                  <td>
+                    <div class="engineer-tag">
+                      <span class="engineer-avatar avatar-de">LW</span>
+                      <span class="engineer-name">Lukas Weber <span class="iso-tag">DE</span></span>
+                    </div>
+                  </td>
+                  <td><span class="region-pill">eu-central-1 (Frankfurt)</span></td>
+                  <td><span class="status-pill status-success"><span class="dot animate-pulse"></span>Zero Lag (OLAP)</span></td>
+                  <td>
+                    <div class="table-storage-bar">
+                      <div class="storage-meta"><span>3.6 TB / 5 TB</span><span>72%</span></div>
+                      <div class="progress-track"><div class="progress-fill fill-amber" style="width: 72%;"></div></div>
+                    </div>
+                  </td>
+                  <td><span class="mono-text latency-fast">1.8ms</span></td>
+                  <td class="text-right">
+                    <button class="table-action-btn btn-action-glow" onclick="queryNode('clickhouse_frankfurt_telemetry')">Metrics</button>
+                  </td>
+                </tr>
+
+                <!-- Node 3: Singapore Memory Hub (APAC / Singapore) -->
+                <tr data-status="primary" data-region="apac" data-country="sg" class="db-row">
+                  <td>
+                    <div class="resource-cell">
+                      <div class="resource-icon icon-red">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                      </div>
+                      <div>
+                        <div class="resource-name">redis_cache_singapore_hub</div>
+                        <div class="resource-id">shard-id: #sin-rd-901</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="engine-badge engine-redis">Redis 7.2 Memory</span></td>
+                  <td>
+                    <div class="engineer-tag">
+                      <span class="engineer-avatar avatar-sg">WZ</span>
+                      <span class="engineer-name">Wei Zhang <span class="iso-tag">SG</span></span>
+                    </div>
+                  </td>
+                  <td><span class="region-pill">ap-southeast-1 (Singapore)</span></td>
+                  <td><span class="status-pill status-success"><span class="dot animate-pulse"></span>Sub-ms Fast</span></td>
+                  <td>
+                    <div class="table-storage-bar">
+                      <div class="storage-meta"><span>196 GB / 256 GB</span><span>76%</span></div>
+                      <div class="progress-track"><div class="progress-fill fill-emerald" style="width: 76%;"></div></div>
+                    </div>
+                  </td>
+                  <td><span class="mono-text latency-fast">0.6ms</span></td>
+                  <td class="text-right">
+                    <button class="table-action-btn btn-action-glow" onclick="queryNode('redis_cache_singapore_hub')">Flush/Sync</button>
+                  </td>
+                </tr>
+
+                <!-- Node 4: London Primary (Europe / UK) -->
+                <tr data-status="primary" data-region="emea" data-country="uk" class="db-row">
                   <td>
                     <div class="resource-cell">
                       <div class="resource-icon icon-blue">
@@ -525,10 +639,10 @@
                   <td>
                     <div class="engineer-tag">
                       <span class="engineer-avatar avatar-uk">OS</span>
-                      <span class="engineer-name">Oliver Smith <span class="country-flag">🇬🇧</span></span>
+                      <span class="engineer-name">Oliver Smith <span class="iso-tag">UK</span></span>
                     </div>
                   </td>
-                  <td><span class="region-pill">eu-west-2 (London, UK)</span></td>
+                  <td><span class="region-pill">eu-west-2 (London Docklands)</span></td>
                   <td><span class="status-pill status-success"><span class="dot animate-pulse"></span>Primary Active</span></td>
                   <td>
                     <div class="table-storage-bar">
@@ -536,14 +650,14 @@
                       <div class="progress-track"><div class="progress-fill fill-indigo" style="width: 80%;"></div></div>
                     </div>
                   </td>
-                  <td><span class="mono-text latency-fast">1.5ms</span></td>
+                  <td><span class="mono-text latency-fast">1.4ms</span></td>
                   <td class="text-right">
                     <button class="table-action-btn btn-action-glow" onclick="queryNode('pg_eu_london_01')">Query</button>
                   </td>
                 </tr>
 
-                <!-- Global Node: Tokyo Fast Memory (Japan) -->
-                <tr data-status="primary" data-country="japan" class="db-row">
+                <!-- Node 5: Tokyo Edge (APAC / Japan) -->
+                <tr data-status="primary" data-region="apac" data-country="japan" class="db-row">
                   <td>
                     <div class="resource-cell">
                       <div class="resource-icon icon-red">
@@ -559,10 +673,10 @@
                   <td>
                     <div class="engineer-tag">
                       <span class="engineer-avatar avatar-jp">KS</span>
-                      <span class="engineer-name">Kenji Sato <span class="country-flag">🇯🇵</span></span>
+                      <span class="engineer-name">Kenji Sato <span class="iso-tag">JP</span></span>
                     </div>
                   </td>
-                  <td><span class="region-pill">ap-northeast-1 (Tokyo, Japan)</span></td>
+                  <td><span class="region-pill">ap-northeast-1 (Tokyo Equinix)</span></td>
                   <td><span class="status-pill status-success"><span class="dot animate-pulse"></span>In-Memory Sub-ms</span></td>
                   <td>
                     <div class="table-storage-bar">
@@ -576,75 +690,40 @@
                   </td>
                 </tr>
 
-                <!-- Global Node: Manchester ClickHouse OLAP (UK) -->
-                <tr data-status="replica" data-country="uk" class="db-row">
+                <!-- Node 6: Mumbai Cluster (APAC / India) -->
+                <tr data-status="primary" data-region="apac" data-country="india" class="db-row">
                   <td>
                     <div class="resource-cell">
-                      <div class="resource-icon icon-amber">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                      <div class="resource-icon icon-emerald">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
                       </div>
                       <div>
-                        <div class="resource-name">clickhouse_analytics_manchester</div>
-                        <div class="resource-id">shard-id: #man-ch-910</div>
+                        <div class="resource-name">pg_cluster_mumbai_01</div>
+                        <div class="resource-id">shard-id: #bom-pg-881</div>
                       </div>
                     </div>
                   </td>
-                  <td><span class="engine-badge engine-clickhouse">ClickHouse OLAP</span></td>
+                  <td><span class="engine-badge engine-postgres">PostgreSQL 16</span></td>
                   <td>
                     <div class="engineer-tag">
-                      <span class="engineer-avatar avatar-uk">EW</span>
-                      <span class="engineer-name">Emma Watson <span class="country-flag">🇬🇧</span></span>
+                      <span class="engineer-avatar avatar-in">AS</span>
+                      <span class="engineer-name">Aarav Sharma <span class="iso-tag">IN</span></span>
                     </div>
                   </td>
-                  <td><span class="region-pill">uk-man-01 (Manchester, UK)</span></td>
-                  <td><span class="status-pill status-replica"><span class="dot"></span>Replica (Synced)</span></td>
+                  <td><span class="region-pill">ap-south-1 (Mumbai Tier-4)</span></td>
+                  <td><span class="status-pill status-success"><span class="dot animate-pulse"></span>Primary Active</span></td>
                   <td>
                     <div class="table-storage-bar">
-                      <div class="storage-meta"><span>2.8 TB / 4 TB</span><span>70%</span></div>
-                      <div class="progress-track"><div class="progress-fill fill-cyan" style="width: 70%;"></div></div>
+                      <div class="storage-meta"><span>1.2 TB / 2 TB</span><span>60%</span></div>
+                      <div class="progress-track"><div class="progress-fill fill-emerald" style="width: 60%;"></div></div>
                     </div>
                   </td>
-                  <td><span class="mono-text latency-fast">2.8ms</span></td>
+                  <td><span class="mono-text latency-fast">2.1ms</span></td>
                   <td class="text-right">
-                    <button class="table-action-btn" onclick="queryNode('clickhouse_analytics_manchester')">Metrics</button>
+                    <button class="table-action-btn btn-action-glow" onclick="queryNode('pg_cluster_mumbai_01')">Query</button>
                   </td>
                 </tr>
-
-                <!-- Global Node: Osaka Vector Search (Japan) -->
-                <tr data-status="primary" data-country="japan" class="db-row">
-                  <td>
-                    <div class="resource-cell">
-                      <div class="resource-icon icon-violet">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                      </div>
-                      <div>
-                        <div class="resource-name">qdrant_osaka_ai_01</div>
-                        <div class="resource-id">shard-id: #osa-qd-702</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td><span class="engine-badge engine-vector">Qdrant Vector DB</span></td>
-                  <td>
-                    <div class="engineer-tag">
-                      <span class="engineer-avatar avatar-jp">HT</span>
-                      <span class="engineer-name">Haruto Takahashi <span class="country-flag">🇯🇵</span></span>
-                    </div>
-                  </td>
-                  <td><span class="region-pill">ap-northeast-3 (Osaka, Japan)</span></td>
-                  <td><span class="status-pill status-success"><span class="dot animate-pulse"></span>Embeddings Online</span></td>
-                  <td>
-                    <div class="table-storage-bar">
-                      <div class="storage-meta"><span>520 GB / 1 TB</span><span>52%</span></div>
-                      <div class="progress-track"><div class="progress-fill fill-violet" style="width: 52%;"></div></div>
-                    </div>
-                  </td>
-                  <td><span class="mono-text latency-fast">3.2ms</span></td>
-                  <td class="text-right">
-                    <button class="table-action-btn btn-action-glow" onclick="queryNode('qdrant_osaka_ai_01')">Search Test</button>
-                  </td>
-                </tr>
-                
-                <!-- Node 1: Mumbai Primary -->
+                <!-- Node 7: Mumbai Primary Legacy -->
                 <tr data-status="primary" class="db-row">
                   <td>
                     <div class="resource-cell">
@@ -1078,16 +1157,16 @@
                 <span class="pulse-indicator"></span>
                 <h2 class="panel-title">Global Engineering Fleet & Regional Leads</h2>
               </div>
-              <span class="panel-subtitle">Multi-region distributed infrastructure managed by engineers in India 🇮🇳, United Kingdom 🇬🇧, and Japan 🇯🇵</span>
+              <span class="panel-subtitle">High-availability distributed infrastructure managed across Americas, Europe, and Asia-Pacific</span>
             </div>
 
             <!-- Country Filter Pills for Team -->
             <div class="team-filter-group">
               <div class="filter-pills" role="tablist">
-                <button class="filter-pill team-pill active" data-team-filter="all">All Fleet (<span id="team-count-badge">12</span>)</button>
-                <button class="filter-pill team-pill" data-team-filter="india">🇮🇳 India</button>
-                <button class="filter-pill team-pill" data-team-filter="uk">🇬🇧 UK</button>
-                <button class="filter-pill team-pill" data-team-filter="japan">🇯🇵 Japan</button>
+                <button class="filter-pill team-pill active" data-team-filter="all">Global Fleet (<span id="team-count-badge">16</span>)</button>
+                <button class="filter-pill team-pill" data-team-filter="americas">Americas (US/CA)</button>
+                <button class="filter-pill team-pill" data-team-filter="emea">EMEA (Europe)</button>
+                <button class="filter-pill team-pill" data-team-filter="apac">APAC (Asia-Pac)</button>
               </div>
               <button class="btn btn-emerald btn-sm btn-icon-text ripple-effect" id="team-add-user-btn">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -1105,7 +1184,7 @@
       <!-- Dashboard Footer -->
       <footer class="app-footer">
         <div class="footer-left">
-          <span>&copy; 2026 <strong>friday-framework</strong>. Developed for <strong>Tanmay</strong> & Global Engineering Core (🇮🇳 India • 🇬🇧 UK • 🇯🇵 Japan).</span>
+          <span>&copy; 2026 <strong>friday-framework</strong>. Developed for <strong>Tanmay</strong> & Global Infrastructure Fleet.</span>
         </div>
         <div class="footer-right">
           <span class="footer-pill"><span class="dot-live"></span> Multi-Cloud Network: 100% Operational (<span id="active-shards-footer">28</span> Shards Synchronized)</span>
@@ -1119,27 +1198,27 @@
        FLOATING QUICK-SCROLL DOCK (BUTTERY SMOOTH NAVIGATION)
        Glassmorphic floating controller with one-click smooth scroll to sections
        ========================================================================== -->
-  <nav class="quick-scroll-dock" id="quick-scroll-dock" aria-label="Quick Section Navigation">
+    <nav class="quick-scroll-dock" id="quick-scroll-dock" aria-label="Quick Section Navigation">
     <div class="dock-container">
       <button class="dock-btn active" data-scroll-to="overview-section" title="Scroll to Overview">
-        <span class="dock-icon">⚡</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
         <span class="dock-label">Top</span>
       </button>
-      <button class="dock-btn" data-scroll-to="metrics-section" title="Scroll to Live Metrics">
-        <span class="dock-icon">📊</span>
+      <button class="dock-btn" data-scroll-to="metrics-section" title="Scroll to Telemetry">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
         <span class="dock-label">Metrics</span>
       </button>
-      <button class="dock-btn" data-scroll-to="database-section" title="Scroll to Shards Grid">
-        <span class="dock-icon">🗄️</span>
+      <button class="dock-btn" data-scroll-to="database-section" title="Scroll to Shards Matrix">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
         <span class="dock-label">Shards</span>
       </button>
       <button class="dock-btn" data-scroll-to="team-section" title="Scroll to Global Team">
-        <span class="dock-icon">👥</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
         <span class="dock-label">Team</span>
       </button>
       <div class="dock-divider"></div>
       <button class="dock-btn dock-btn-action ripple-effect" id="dock-add-user-btn" title="Quick Add User or Shard">
-        <span class="dock-icon">➕</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
         <span class="dock-label">Add User</span>
       </button>
     </div>
@@ -1164,19 +1243,16 @@
         </button>
       </div>
 
-      <!-- Quick Randomizer Preset Bar inside modal -->
+            <!-- Clean Multi-Region Presets -->
       <div class="modal-randomizer-bar">
-        <span class="randomizer-label">⚡ 1-Click Random Fill:</span>
+        <span class="randomizer-label">⚡ 1-Click Multi-Region Preset:</span>
         <div class="randomizer-buttons">
-          <button type="button" class="btn-random-preset btn-preset-in" id="preset-indian-btn">
-            <span>🇮🇳 Indian</span>
-          </button>
-          <button type="button" class="btn-random-preset btn-preset-uk" id="preset-uk-btn">
-            <span>🇬🇧 UK</span>
-          </button>
-          <button type="button" class="btn-random-preset btn-preset-jp" id="preset-japan-btn">
-            <span>🇯🇵 Japan</span>
-          </button>
+          <button type="button" class="btn-random-preset" data-preset="us">US</button>
+          <button type="button" class="btn-random-preset" data-preset="de">DE</button>
+          <button type="button" class="btn-random-preset" data-preset="uk">UK</button>
+          <button type="button" class="btn-random-preset" data-preset="in">IN</button>
+          <button type="button" class="btn-random-preset" data-preset="jp">JP</button>
+          <button type="button" class="btn-random-preset" data-preset="sg">SG</button>
         </div>
       </div>
 
@@ -1186,7 +1262,7 @@
         <div class="preview-details">
           <div class="preview-name-row">
             <span class="preview-name" id="preview-name">Aarav Sharma</span>
-            <span class="preview-country-badge" id="preview-country-badge">🇮🇳 India</span>
+            <span class="preview-country-badge" id="preview-country-badge"><span class="iso-tag">IN</span> India</span>
           </div>
           <div class="preview-meta">
             <span class="preview-role" id="preview-role">Lead Database Administrator</span>
@@ -1207,9 +1283,12 @@
           <div class="form-group flex-1">
             <label for="deploy-country" class="form-label">Country / Region</label>
             <select id="deploy-country" class="form-select" required>
-              <option value="india">🇮🇳 India</option>
-              <option value="uk">🇬🇧 United Kingdom</option>
-              <option value="japan">🇯🇵 Japan</option>
+              <option value="us">United States (Americas - us-east-1)</option>
+              <option value="de">Germany (EMEA - eu-central-1)</option>
+              <option value="uk">United Kingdom (EMEA - eu-west-2)</option>
+              <option value="in">India (APAC - ap-south-1)</option>
+              <option value="jp">Japan (APAC - ap-northeast-1)</option>
+              <option value="sg">Singapore (APAC - ap-southeast-1)</option>
             </select>
           </div>
         </div>
@@ -1245,15 +1324,14 @@
         <div class="form-group">
           <label for="deploy-env" class="form-label">Target Datacenter & Zone</label>
           <select id="deploy-env" class="form-select" required>
-            <!-- Dynamically updated based on country selection -->
-            <option value="ap-south-1 (Mumbai Tier-4)">ap-south-1 (Mumbai Tier-4, India) 🇮🇳</option>
-            <option value="blr-dc-02 (Bengaluru Tech Park)">blr-dc-02 (Bengaluru Tech Park, India) 🇮🇳</option>
-            <option value="del-edge-01 (Delhi NCR)">del-edge-01 (Delhi NCR, India) 🇮🇳</option>
-            <option value="ap-south-2 (Hyderabad Hub)">ap-south-2 (Hyderabad Hub, India) 🇮🇳</option>
-            <option value="eu-west-2 (London Docklands)">eu-west-2 (London Docklands, UK) 🇬🇧</option>
-            <option value="uk-man-01 (Manchester Edge)">uk-man-01 (Manchester Edge, UK) 🇬🇧</option>
-            <option value="ap-northeast-1 (Tokyo Equinix)">ap-northeast-1 (Tokyo Equinix TY3, Japan) 🇯🇵</option>
-            <option value="ap-northeast-3 (Osaka Cloud Hub)">ap-northeast-3 (Osaka Cloud Hub, Japan) 🇯🇵</option>
+            <option value="us-east-1 (N. Virginia DC2)">us-east-1 (N. Virginia Equinix, US)</option>
+            <option value="us-west-2 (Oregon Silicon)">us-west-2 (Oregon Silicon Cloud, US)</option>
+            <option value="eu-central-1 (Frankfurt FR5)">eu-central-1 (Frankfurt Equinix, Germany)</option>
+            <option value="eu-west-2 (London Docklands)">eu-west-2 (London Docklands, UK)</option>
+            <option value="ap-south-1 (Mumbai Tier-4)">ap-south-1 (Mumbai Tier-4, India)</option>
+            <option value="blr-dc-02 (Bengaluru Tech Park)">blr-dc-02 (Bengaluru Tech Park, India)</option>
+            <option value="ap-northeast-1 (Tokyo Equinix)">ap-northeast-1 (Tokyo Equinix TY3, Japan)</option>
+            <option value="ap-southeast-1 (Singapore Jurong)">ap-southeast-1 (Singapore Jurong DC)</option>
           </select>
         </div>
 

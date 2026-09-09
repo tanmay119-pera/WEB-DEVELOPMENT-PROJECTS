@@ -1,92 +1,152 @@
 /**
  * ==============================================================================
- * FRIDAY-FRAMEWORK: GLOBAL "ANTI-FRAMEWORK" CONTROLLER (INDIA • UK • JAPAN)
+ * FRIDAY-FRAMEWORK: ENTERPRISE GLOBAL CONTROL PLANE (US • DE • UK • IN • JP • SG)
  * ==============================================================================
  * 
  * High-performance, zero-dependency vanilla JS engine featuring:
- * - Multi-region Random User Generators (India 🇮🇳, United Kingdom 🇬🇧, Japan 🇯🇵)
- * - Buttery-smooth Scroll Navigation & Floating Quick Dock
- * - Reactive HTML5 <dialog> with 1-Click Presets & Live Preview Card
- * - Spotlight Cursor Glow & Physics-Based Spring Hover Motion
- * - Real-Time Search, Filtering, and Shard Syncing
+ * - Multi-Region Distributed Node Generators (Americas, EMEA, APAC)
+ * - Live Real-Time Latency Audit Benchmark Engine
+ * - Clean ISO Tag System (US, DE, UK, IN, JP, SG)
+ * - Buttery-Smooth Scroll Navigation & Minimalist SVG Quick Dock
+ * - Reactive HTML5 <dialog> with 1-Click Multi-Region Presets & Live Preview
+ * - Cursor Spotlight Ambient Glow & Kinetic Spring Physics
  * ==============================================================================
  */
 
-// REGIONAL DATASETS & GENERATORS (INDIA, UK, JAPAN)
+// GLOBAL MULTI-REGION POOLS (AMERICAS, EMEA, APAC)
 const REGIONAL_POOLS = {
-  india: {
+  us: {
+    region: 'Americas',
+    country: 'United States',
+    iso: 'US',
+    avatarClass: 'avatar-us',
+    names: [
+      'Marcus Vance', 'Sarah Jenkins', 'David Miller', 'Elena Rostova', 
+      'Chloe Bennett', 'Marcus Chen', 'Alexander Hayes', 'Rachel Moore'
+    ],
+    datacenters: [
+      'us-east-1 (N. Virginia Equinix DC2)',
+      'us-west-2 (Oregon Silicon Cloud)',
+      'us-central-1 (Iowa Hyperscale)',
+      'us-east-2 (Ohio Cloud Hub)'
+    ],
+    roles: [
+      'VP Infrastructure & Distributed Mesh',
+      'Principal Distributed Systems Architect',
+      'Staff Site Reliability Engineer',
+      'Low-Latency Partitioning Lead'
+    ],
+    shardPrefixes: ['iad', 'pdx', 'ord', 'cmh']
+  },
+  de: {
+    region: 'EMEA',
+    country: 'Germany',
+    iso: 'DE',
+    avatarClass: 'avatar-de',
+    names: [
+      'Lukas Weber', 'Hanna Schmidt', 'Maximilian Bauer', 'Felix Fischer',
+      'Laura Hoffmann', 'Leon Wagner', 'Sophie Becker'
+    ],
+    datacenters: [
+      'eu-central-1 (Frankfurt Equinix FR5)',
+      'eu-central-2 (Berlin Edge Hub)',
+      'eu-west-3 (Munich Cloud Park)'
+    ],
+    roles: [
+      'Principal OLAP Systems Engineer',
+      'ClickHouse Real-Time Analytics Lead',
+      'Distributed Storage Reliability Lead',
+      'Zero-Loss WAL Sync Architect'
+    ],
+    shardPrefixes: ['fra', 'ber', 'muc']
+  },
+  uk: {
+    region: 'EMEA',
+    country: 'United Kingdom',
+    iso: 'UK',
+    avatarClass: 'avatar-uk',
+    names: [
+      'Oliver Smith', 'Emma Watson', 'Arthur Pendelton', 'Charlotte Davies',
+      'George Clark', 'Liam Harris', 'Sophie Taylor', 'Harry Evans'
+    ],
+    datacenters: [
+      'eu-west-2 (London Docklands Tier-4)',
+      'uk-man-01 (Manchester Cloud Edge)',
+      'uk-edi-02 (Edinburgh Tech Hub)'
+    ],
+    roles: [
+      'Lead Database Cluster Architect',
+      'PostgreSQL Core Optimization Lead',
+      'High-Availability Resiliency Lead',
+      'Global Traffic Balancing Engineer'
+    ],
+    shardPrefixes: ['lon', 'man', 'edi']
+  },
+  in: {
+    region: 'APAC',
     country: 'India',
-    flag: '🇮🇳',
-    code: 'in',
+    iso: 'IN',
+    avatarClass: 'avatar-in',
     names: [
       'Aarav Sharma', 'Priya Patel', 'Rohan Gupta', 'Ananya Iyer', 
       'Vikram Malhotra', 'Sneha Kulkarni', 'Devendra Singh', 'Kavya Nair', 
-      'Ishaan Joshi', 'Pooja Reddy', 'Rajesh Kumar', 'Arjun Kapoor'
+      'Ishaan Joshi', 'Pooja Reddy', 'Rajesh Kumar'
     ],
     datacenters: [
-      'ap-south-1 (Mumbai Tier-4)',
+      'ap-south-1 (Mumbai Tier-4 Hub)',
       'blr-dc-02 (Bengaluru Tech Park)',
       'del-edge-01 (Delhi NCR)',
-      'ap-south-2 (Hyderabad Hub)',
-      'pnq-zone-a (Pune Edge)',
-      'maa-dc-01 (Chennai Coastal)'
+      'ap-south-2 (Hyderabad Systems Hub)'
     ],
     roles: [
       'Lead Database Administrator',
-      'Platform Reliability Engineer',
-      'Vector Search Specialist',
       'High-Concurrency Cache Lead',
-      'Distributed Storage Architect'
+      'Vector Search & RAG Infrastructure Lead',
+      'Zero-Downtime Migration Specialist'
     ],
-    shardPrefixes: ['bom', 'blr', 'del', 'hyd', 'pnq', 'maa']
+    shardPrefixes: ['bom', 'blr', 'del', 'hyd']
   },
-  uk: {
-    country: 'United Kingdom',
-    flag: '🇬🇧',
-    code: 'uk',
-    names: [
-      'Oliver Smith', 'Emma Watson', 'Arthur Pendelton', 'Charlotte Davies',
-      'George Clark', 'Liam Harris', 'Sophie Taylor', 'Harry Evans',
-      'Alistair Finch', 'Poppy Hughes'
-    ],
-    datacenters: [
-      'eu-west-2 (London Docklands)',
-      'uk-man-01 (Manchester Edge)',
-      'uk-edi-02 (Edinburgh Tech Hub)',
-      'uk-bri-01 (Bristol Tier-3)'
-    ],
-    roles: [
-      'Principal Distributed Systems Lead',
-      'Low-Latency OLAP Architect',
-      'Database Reliability Engineer',
-      'Cloud Infrastructure Lead',
-      'PostgreSQL Core Contributor'
-    ],
-    shardPrefixes: ['lon', 'man', 'edi', 'bri']
-  },
-  japan: {
+  jp: {
+    region: 'APAC',
     country: 'Japan',
-    flag: '🇯🇵',
-    code: 'jp',
+    iso: 'JP',
+    avatarClass: 'avatar-jp',
     names: [
       'Kenji Sato', 'Haruto Takahashi', 'Yui Tanaka', 'Ren Watanabe',
-      'Sakura Ito', 'Daiki Suzuki', 'Aoi Nakamura', 'Kaito Kobayashi',
-      'Hinata Yamamoto', 'Takumi Fujimoto'
+      'Sakura Ito', 'Daiki Suzuki', 'Aoi Nakamura', 'Kaito Kobayashi'
     ],
     datacenters: [
       'ap-northeast-1 (Tokyo Equinix TY3)',
       'ap-northeast-3 (Osaka Cloud Hub)',
-      'jp-ngo-01 (Nagoya Cloud Zone)',
-      'jp-fuk-02 (Fukuoka Edge)'
+      'jp-ngo-01 (Nagoya High-Speed Edge)'
     ],
     roles: [
-      'High-Speed Memory Architect',
-      'Vector & LLM Embeddings DBA',
-      'Kernel & Storage Specialist',
-      'Distributed Consensus Engineer',
-      'Real-Time Cluster Lead'
+      'Sub-Millisecond In-Memory Architect',
+      'Vector Embedding Storage Specialist',
+      'Distributed Consensus Kernel Engineer',
+      'High-Density Cache Strategist'
     ],
-    shardPrefixes: ['tyo', 'osa', 'ngo', 'fuk']
+    shardPrefixes: ['tyo', 'osa', 'ngo']
+  },
+  sg: {
+    region: 'APAC',
+    country: 'Singapore',
+    iso: 'SG',
+    avatarClass: 'avatar-sg',
+    names: [
+      'Wei Zhang', 'Jia-Ling Tan', 'Kevin Lim', 'Cheryl Wong',
+      'Marcus Teo', 'Jonathan Ng'
+    ],
+    datacenters: [
+      'ap-southeast-1 (Singapore Jurong DC)',
+      'sg-changi-02 (Changi Low-Latency Gateway)'
+    ],
+    roles: [
+      'Cross-Region Replication Architect',
+      'Ultra-Low Latency Network Lead',
+      'Global Edge Routing Specialist'
+    ],
+    shardPrefixes: ['sin', 'sga']
   }
 };
 
@@ -100,27 +160,26 @@ const ENGINES = [
 
 // INITIAL GLOBAL TEAM ROSTER
 let globalTeamMembers = [
-  { name: 'Tanmay', country: 'india', flag: '🇮🇳', role: 'Super Admin & Lead Architect', avatarClass: 'avatar-in', shards: 6, engine: 'PostgreSQL 16', latency: '1.2ms', status: 'Online' },
-  { name: 'Aarav Sharma', country: 'india', flag: '🇮🇳', role: 'Mumbai Lead DBA', avatarClass: 'avatar-in', shards: 3, engine: 'PostgreSQL 16', latency: '2.1ms', status: 'Online' },
-  { name: 'Oliver Smith', country: 'uk', flag: '🇬🇧', role: 'London Distributed Lead', avatarClass: 'avatar-uk', shards: 2, engine: 'PostgreSQL 16', latency: '1.5ms', status: 'Online' },
-  { name: 'Kenji Sato', country: 'japan', flag: '🇯🇵', role: 'Tokyo High-Speed Cache DBA', avatarClass: 'avatar-jp', shards: 2, engine: 'Redis 7.2 Memory', latency: '0.4ms', status: 'Online' },
-  { name: 'Priya Patel', country: 'india', flag: '🇮🇳', role: 'Bengaluru Cache Specialist', avatarClass: 'avatar-in', shards: 2, engine: 'Redis 7.2 Memory', latency: '0.7ms', status: 'Online' },
-  { name: 'Emma Watson', country: 'uk', flag: '🇬🇧', role: 'Manchester OLAP Architect', avatarClass: 'avatar-uk', shards: 2, engine: 'ClickHouse OLAP', latency: '2.8ms', status: 'Online' },
-  { name: 'Haruto Takahashi', country: 'japan', flag: '🇯🇵', role: 'Osaka Vector Search Lead', avatarClass: 'avatar-jp', shards: 1, engine: 'Qdrant Vector DB', latency: '3.2ms', status: 'Online' },
-  { name: 'Rohan Gupta', country: 'india', flag: '🇮🇳', role: 'Delhi Edge Reliability Lead', avatarClass: 'avatar-in', shards: 2, engine: 'MySQL 8.4', latency: '3.4ms', status: 'Online' },
-  { name: 'Ananya Iyer', country: 'india', flag: '🇮🇳', role: 'Hyderabad Systems Lead', avatarClass: 'avatar-in', shards: 1, engine: 'Qdrant Vector DB', latency: '4.6ms', status: 'Online' },
-  { name: 'Yui Tanaka', country: 'japan', flag: '🇯🇵', role: 'Kyoto Storage Lead', avatarClass: 'avatar-jp', shards: 1, engine: 'ScyllaDB NoSQL', latency: '1.9ms', status: 'Online' },
-  { name: 'Arthur Pendelton', country: 'uk', flag: '🇬🇧', role: 'Edinburgh Infrastructure DBA', avatarClass: 'avatar-uk', shards: 1, engine: 'PostgreSQL 16', latency: '2.4ms', status: 'Online' },
-  { name: 'Vikram Malhotra', country: 'india', flag: '🇮🇳', role: 'Pune Analytics Engineer', avatarClass: 'avatar-in', shards: 1, engine: 'ClickHouse OLAP', latency: '14.8ms', status: 'Online' }
+  { name: 'Tanmay', region: 'Americas', country: 'Global Lead', iso: 'ROOT', role: 'Principal Architect & System Owner', avatarClass: 'avatar-us', shards: 8, engine: 'PostgreSQL 16', latency: '0.9ms', status: 'Online' },
+  { name: 'Marcus Vance', region: 'Americas', country: 'United States', iso: 'US', role: 'VP Infrastructure & Mesh', avatarClass: 'avatar-us', shards: 4, engine: 'PostgreSQL 16', latency: '1.1ms', status: 'Online' },
+  { name: 'Lukas Weber', region: 'EMEA', country: 'Germany', iso: 'DE', role: 'ClickHouse Analytics Lead', avatarClass: 'avatar-de', shards: 3, engine: 'ClickHouse OLAP', latency: '1.8ms', status: 'Online' },
+  { name: 'Wei Zhang', region: 'APAC', country: 'Singapore', iso: 'SG', role: 'Cross-Region Replication Lead', avatarClass: 'avatar-sg', shards: 2, engine: 'Redis 7.2 Memory', latency: '0.6ms', status: 'Online' },
+  { name: 'Oliver Smith', region: 'EMEA', country: 'United Kingdom', iso: 'UK', role: 'London Distributed Lead', avatarClass: 'avatar-uk', shards: 3, engine: 'PostgreSQL 16', latency: '1.4ms', status: 'Online' },
+  { name: 'Kenji Sato', region: 'APAC', country: 'Japan', iso: 'JP', role: 'Tokyo High-Speed Cache DBA', avatarClass: 'avatar-jp', shards: 2, engine: 'Redis 7.2 Memory', latency: '0.4ms', status: 'Online' },
+  { name: 'Aarav Sharma', region: 'APAC', country: 'India', iso: 'IN', role: 'Mumbai Lead DBA', avatarClass: 'avatar-in', shards: 3, engine: 'PostgreSQL 16', latency: '2.1ms', status: 'Online' },
+  { name: 'Sarah Jenkins', region: 'Americas', country: 'United States', iso: 'US', role: 'Staff SRE (Oregon)', avatarClass: 'avatar-us', shards: 2, engine: 'PostgreSQL 16', latency: '1.2ms', status: 'Online' },
+  { name: 'Hanna Schmidt', region: 'EMEA', country: 'Germany', iso: 'DE', role: 'Distributed Storage Specialist', avatarClass: 'avatar-de', shards: 2, engine: 'ScyllaDB NoSQL', latency: '2.2ms', status: 'Online' },
+  { name: 'Priya Patel', region: 'APAC', country: 'India', iso: 'IN', role: 'Bengaluru Cache Specialist', avatarClass: 'avatar-in', shards: 2, engine: 'Redis 7.2 Memory', latency: '0.7ms', status: 'Online' },
+  { name: 'Haruto Takahashi', region: 'APAC', country: 'Japan', iso: 'JP', role: 'Osaka Vector Search Lead', avatarClass: 'avatar-jp', shards: 1, engine: 'Qdrant Vector DB', latency: '3.2ms', status: 'Online' },
+  { name: 'Emma Watson', region: 'EMEA', country: 'United Kingdom', iso: 'UK', role: 'Manchester OLAP Architect', avatarClass: 'avatar-uk', shards: 2, engine: 'ClickHouse OLAP', latency: '2.8ms', status: 'Online' }
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('%cfriday-framework%c Global Cloud Grid • India 🇮🇳 • UK 🇬🇧 • Japan 🇯🇵 • Admin: Tanmay', 
+  console.log('%cfriday-framework%c Enterprise Global Data Fabric • Lead Architect: Tanmay', 
     'background: #6366f1; color: #fff; font-weight: bold; padding: 3px 8px; border-radius: 4px;',
     'color: #10b981; font-weight: bold; padding-left: 4px;'
   );
 
-  // Initialize interactive components
   initTopLoader();
   initSidebar();
   initMetricCounters();
@@ -128,7 +187,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initTableFilters();
   initRegionTabs();
   initGlobalSearch();
-  initRandomCountryButtons();
+  initSpawnButtons();
+  initLatencyAudit();
   initDeployModal();
   initTeamRoster();
   initQuickScrollDock();
@@ -140,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ==============================================================================
-   1. TOP PROGRESS / LOADING BAR MODULE
+   1. TOP PROGRESS BAR MODULE
    ==============================================================================
 */
 const TopLoader = {
@@ -310,18 +370,11 @@ function initSidebar() {
       if (sidebar) sidebar.classList.remove('mobile-open');
       if (backdrop) backdrop.classList.remove('active');
 
-      // Smooth scroll target based on route
-      if (routeKey === 'database') {
-        smoothScrollTo('database-section');
-      } else if (routeKey === 'analytics') {
-        smoothScrollTo('metrics-section');
-      } else if (routeKey === 'users') {
-        smoothScrollTo('team-section');
-      } else if (routeKey === 'deployments') {
-        openModal();
-      } else {
-        smoothScrollTo('overview-section');
-      }
+      if (routeKey === 'database') smoothScrollTo('database-section');
+      else if (routeKey === 'analytics') smoothScrollTo('metrics-section');
+      else if (routeKey === 'users') smoothScrollTo('team-section');
+      else if (routeKey === 'deployments') openModal();
+      else smoothScrollTo('overview-section');
 
       Toast.show(`Navigated to ${routeName}`, 'info', 1600);
     });
@@ -330,7 +383,7 @@ function initSidebar() {
   const userMenuBtn = document.getElementById('user-menu-btn');
   if (userMenuBtn) {
     userMenuBtn.addEventListener('click', () => {
-      Toast.show('Lead Admin: Tanmay • Global Cloud Root Access', 'info', 2500);
+      Toast.show('Lead Architect: Tanmay • Global Cloud Root Access', 'info', 2500);
     });
   }
 }
@@ -360,11 +413,11 @@ function initSyncAction() {
         recordsEl.dataset.target = newRecords;
       }
       if (qpsEl) {
-        const newQps = 94000 + Math.floor(Math.random() * 2100);
+        const newQps = 95400 + Math.floor(Math.random() * 2600);
         qpsEl.dataset.target = newQps;
       }
       if (latencyEl) {
-        const newLat = (1.8 + Math.random() * 0.9).toFixed(1);
+        const newLat = (1.4 + Math.random() * 0.8).toFixed(1);
         latencyEl.dataset.target = newLat;
       }
 
@@ -373,13 +426,42 @@ function initSyncAction() {
       if (icon) icon.classList.remove('is-spinning');
       syncBtn.disabled = false;
 
-      Toast.show('Global telemetry synchronized across India, UK, and Japan!', 'success', 2800);
+      Toast.show('Telemetry synchronized across all Americas, EMEA, and APAC regions!', 'success', 2800);
     }, 600);
   });
 }
 
 /* ==============================================================================
-   6. TABLE FILTERING (Status: All, Primary, Replica, Syncing)
+   6. REAL-TIME LATENCY AUDIT BENCHMARK
+   ==============================================================================
+*/
+function initLatencyAudit() {
+  const auditBtn = document.getElementById('run-latency-audit-btn');
+  if (!auditBtn) return;
+
+  auditBtn.addEventListener('click', () => {
+    auditBtn.disabled = true;
+    TopLoader.start();
+    Toast.show('Running global RTT latency benchmark across 6 regions...', 'warning', 2000);
+
+    setTimeout(() => {
+      TopLoader.done();
+      auditBtn.disabled = false;
+
+      // Update rows with jittered fast latencies
+      const latencyCells = document.querySelectorAll('#table-body .mono-text');
+      latencyCells.forEach(cell => {
+        const fastLat = (0.4 + Math.random() * 2.2).toFixed(1) + 'ms';
+        cell.textContent = fastLat;
+      });
+
+      Toast.show('Latency Audit Complete: Average 1.2ms • 0.00% Packet Loss • 100% SLA', 'success', 3600);
+    }, 950);
+  });
+}
+
+/* ==============================================================================
+   7. TABLE STATUS FILTERING
    ==============================================================================
 */
 function initTableFilters() {
@@ -415,7 +497,7 @@ function initTableFilters() {
 }
 
 /* ==============================================================================
-   7. REGION SELECTOR TABS (India, UK, Japan, Mumbai, London, Tokyo, All)
+   8. ENTERPRISE REGION SELECTOR TABS (Americas, EMEA, APAC, Fast)
    ==============================================================================
 */
 function initRegionTabs() {
@@ -433,15 +515,18 @@ function initRegionTabs() {
 
       tableRows.forEach(row => {
         const rowText = row.textContent.toLowerCase();
-        const rowCountry = row.dataset.country || (rowText.includes('london') || rowText.includes('uk') ? 'uk' : (rowText.includes('tokyo') || rowText.includes('japan') || rowText.includes('osaka') ? 'japan' : 'india'));
+        const rowRegion = row.dataset.region || '';
         let matches = true;
 
-        if (regionKey === 'india') matches = rowCountry === 'india' || rowText.includes('mumbai') || rowText.includes('bengaluru') || rowText.includes('delhi') || rowText.includes('india');
-        else if (regionKey === 'uk') matches = rowCountry === 'uk' || rowText.includes('london') || rowText.includes('manchester') || rowText.includes('uk');
-        else if (regionKey === 'japan') matches = rowCountry === 'japan' || rowText.includes('tokyo') || rowText.includes('osaka') || rowText.includes('japan');
-        else if (regionKey === 'mumbai') matches = rowText.includes('mumbai');
-        else if (regionKey === 'london') matches = rowText.includes('london');
-        else if (regionKey === 'tokyo') matches = rowText.includes('tokyo');
+        if (regionKey === 'americas') matches = rowRegion === 'americas' || rowText.includes('us-') || rowText.includes('virginia') || rowText.includes('oregon');
+        else if (regionKey === 'emea') matches = rowRegion === 'emea' || rowText.includes('eu-') || rowText.includes('london') || rowText.includes('frankfurt') || rowText.includes('uk') || rowText.includes('germany');
+        else if (regionKey === 'apac') matches = rowRegion === 'apac' || rowText.includes('ap-') || rowText.includes('tokyo') || rowText.includes('mumbai') || rowText.includes('singapore') || rowText.includes('bengaluru');
+        else if (regionKey === 'primary') matches = row.dataset.status === 'primary';
+        else if (regionKey === 'fast') {
+          const latText = row.querySelector('.mono-text')?.textContent || '';
+          const latVal = parseFloat(latText);
+          matches = !isNaN(latVal) && latVal < 2.0;
+        }
 
         if (matches) {
           row.style.display = '';
@@ -455,13 +540,13 @@ function initRegionTabs() {
         emptyState.classList.toggle('hidden', count > 0);
       }
 
-      Toast.show(`Showing ${tab.textContent.trim()}: ${count} active shards`, 'info', 1800);
+      Toast.show(`Filtered: ${tab.textContent.trim()} (${count} nodes active)`, 'info', 1800);
     });
   });
 }
 
 /* ==============================================================================
-   8. REAL-TIME SEARCH (Indian, UK, Japan Names, Shards, Engines)
+   9. REAL-TIME SEARCH (Names, Shards, Engines, Datacenters)
    ==============================================================================
 */
 function initGlobalSearch() {
@@ -491,7 +576,6 @@ function initGlobalSearch() {
       emptyState.classList.toggle('hidden', visibleCount > 0);
     }
 
-    // Also filter team roster
     const teamCards = document.querySelectorAll('.engineer-card');
     teamCards.forEach(card => {
       const cardText = card.textContent.toLowerCase();
@@ -501,19 +585,18 @@ function initGlobalSearch() {
 }
 
 /* ==============================================================================
-   9. RANDOM USER GENERATOR BUTTONS (INDIAN, UK, JAPAN)
+   10. MULTI-REGION SPAWN CONTROLLER (US, DE, UK, IN, JP, SG)
    ==============================================================================
 */
-function initRandomCountryButtons() {
-  const btnIndian = document.getElementById('btn-random-indian');
-  const btnUk = document.getElementById('btn-random-uk');
-  const btnJapan = document.getElementById('btn-random-japan');
+function initSpawnButtons() {
+  const pillButtons = document.querySelectorAll('.btn-pill-region[data-spawn]');
+  pillButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const countryKey = btn.dataset.spawn;
+      spawnGlobalNode(countryKey);
+    });
+  });
 
-  if (btnIndian) btnIndian.addEventListener('click', () => spawnRandomUser('india'));
-  if (btnUk) btnUk.addEventListener('click', () => spawnRandomUser('uk'));
-  if (btnJapan) btnJapan.addEventListener('click', () => spawnRandomUser('japan'));
-
-  // Quick Add User buttons
   const addButtons = [
     document.getElementById('open-user-modal-btn'),
     document.getElementById('quick-add-user-btn'),
@@ -527,43 +610,35 @@ function initRandomCountryButtons() {
   });
 }
 
-function spawnRandomUser(countryKey) {
-  const pool = REGIONAL_POOLS[countryKey];
-  if (!pool) return;
-
+function spawnGlobalNode(countryKey) {
+  const pool = REGIONAL_POOLS[countryKey] || REGIONAL_POOLS.us;
   TopLoader.start();
 
-  // Pick random details
   const randomName = pool.names[Math.floor(Math.random() * pool.names.length)];
   const randomRole = pool.roles[Math.floor(Math.random() * pool.roles.length)];
   const randomDc = pool.datacenters[Math.floor(Math.random() * pool.datacenters.length)];
   const randomEngine = ENGINES[Math.floor(Math.random() * ENGINES.length)];
   const prefix = pool.shardPrefixes[Math.floor(Math.random() * pool.shardPrefixes.length)];
-  const shardId = `#${prefix}-${countryKey.slice(0, 2)}-${Math.floor(100 + Math.random() * 900)}`;
+  const shardId = `#${prefix}-${pool.iso.toLowerCase()}-${Math.floor(100 + Math.random() * 900)}`;
   const shardName = `${randomEngine.split(' ')[0].toLowerCase()}_cluster_${prefix}_${Math.floor(10 + Math.random() * 90)}`;
-  const latencyVal = (0.5 + Math.random() * 3.5).toFixed(1) + 'ms';
+  const latencyVal = (0.4 + Math.random() * 2.1).toFixed(1) + 'ms';
   const initials = randomName.split(' ').map(n => n[0]).join('').substring(0, 2);
 
   setTimeout(() => {
     TopLoader.done();
 
-    // 1. Prepend to table body
     const tableBody = document.getElementById('table-body');
     if (tableBody) {
       const newRow = document.createElement('tr');
       newRow.dataset.status = 'primary';
+      newRow.dataset.region = pool.region.toLowerCase();
       newRow.dataset.country = countryKey;
       newRow.className = 'db-row row-highlight-new';
-
-      let avatarClass = 'avatar-in';
-      let iconColor = 'icon-emerald';
-      if (countryKey === 'uk') { avatarClass = 'avatar-uk'; iconColor = 'icon-blue'; }
-      if (countryKey === 'japan') { avatarClass = 'avatar-jp'; iconColor = 'icon-red'; }
 
       newRow.innerHTML = `
         <td>
           <div class="resource-cell">
-            <div class="resource-icon ${iconColor}">
+            <div class="resource-icon icon-blue">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
             </div>
             <div>
@@ -575,16 +650,16 @@ function spawnRandomUser(countryKey) {
         <td><span class="engine-badge engine-postgres">${randomEngine}</span></td>
         <td>
           <div class="engineer-tag">
-            <span class="engineer-avatar ${avatarClass}">${initials}</span>
-            <span class="engineer-name">${randomName} <span class="country-flag">${pool.flag}</span></span>
+            <span class="engineer-avatar ${pool.avatarClass}">${initials}</span>
+            <span class="engineer-name">${randomName} <span class="iso-tag">${pool.iso}</span></span>
           </div>
         </td>
         <td><span class="region-pill">${randomDc}</span></td>
         <td><span class="status-pill status-success"><span class="dot animate-pulse"></span>Active Synced</span></td>
         <td>
           <div class="table-storage-bar">
-            <div class="storage-meta"><span>${Math.floor(200 + Math.random() * 800)} GB / 2 TB</span><span>35%</span></div>
-            <div class="progress-track"><div class="progress-fill fill-emerald" style="width: 35%;"></div></div>
+            <div class="storage-meta"><span>${Math.floor(300 + Math.random() * 700)} GB / 2 TB</span><span>40%</span></div>
+            <div class="progress-track"><div class="progress-fill fill-emerald" style="width: 40%;"></div></div>
           </div>
         </td>
         <td><span class="mono-text latency-fast">${latencyVal}</span></td>
@@ -596,33 +671,28 @@ function spawnRandomUser(countryKey) {
       tableBody.prepend(newRow);
     }
 
-    // 2. Add to team roster
     globalTeamMembers.unshift({
       name: randomName,
-      country: countryKey,
-      flag: pool.flag,
+      region: pool.region,
+      country: pool.country,
+      iso: pool.iso,
       role: randomRole,
-      avatarClass: countryKey === 'uk' ? 'avatar-uk' : (countryKey === 'japan' ? 'avatar-jp' : 'avatar-in'),
+      avatarClass: pool.avatarClass,
       shards: 1,
       engine: randomEngine,
       latency: latencyVal,
       status: 'Online'
     });
     renderTeamGrid('all');
-
-    // 3. Update counter & footer
     updateShardCounts();
 
-    // 4. Toast notification
-    Toast.show(`🎉 Added ${pool.flag} ${randomName} (${pool.country}) on shard ${shardName}!`, 'success', 3600);
-
-    // 5. Smooth scroll down to table
+    Toast.show(`Deployed [${pool.iso}] ${shardName} (${pool.country}) assigned to ${randomName}!`, 'success', 3500);
     smoothScrollTo('database-section');
-  }, 400);
+  }, 350);
 }
 
 /* ==============================================================================
-   10. TEAM ROSTER MODULE & GRID RENDERER
+   11. TEAM ROSTER MODULE & ENTERPRISE GRID
    ==============================================================================
 */
 function initTeamRoster() {
@@ -643,26 +713,27 @@ function renderTeamGrid(filter = 'all') {
   const countBadge = document.getElementById('team-count-badge');
   if (!grid) return;
 
-  const filtered = globalTeamMembers.filter(m => filter === 'all' || m.country === filter);
+  const filtered = globalTeamMembers.filter(m => {
+    if (filter === 'all') return true;
+    return m.region.toLowerCase() === filter.toLowerCase();
+  });
 
-  if (countBadge) {
-    countBadge.textContent = globalTeamMembers.length;
-  }
+  if (countBadge) countBadge.textContent = globalTeamMembers.length;
 
   grid.innerHTML = filtered.map(member => {
     const initials = member.name.split(' ').map(n => n[0]).join('').substring(0, 2);
     return `
-      <div class="engineer-card" data-country="${member.country}">
+      <div class="engineer-card" data-region="${member.region.toLowerCase()}">
         <div class="engineer-card-header">
           <div class="card-avatar ${member.avatarClass}">${initials}</div>
           <div class="engineer-card-title">
             <div class="card-name-row">
               <span class="card-name">${member.name}</span>
-              <span class="country-flag">${member.flag}</span>
+              <span class="iso-tag">${member.iso}</span>
             </div>
             <span class="card-role">${member.role}</span>
           </div>
-          <span class="country-badge-pill">${member.country.toUpperCase()}</span>
+          <span class="country-badge-pill">${member.region.toUpperCase()}</span>
         </div>
 
         <div class="engineer-card-body">
@@ -693,16 +764,16 @@ window.pingEngineer = function(name) {
   TopLoader.start();
   setTimeout(() => {
     TopLoader.done();
-    Toast.show(`Telemetry ping to ${name}: 0% packet loss • 200 OK`, 'success', 2400);
-  }, 300);
+    Toast.show(`Telemetry ping to ${name}: 0% packet loss • RTT 1.1ms • 200 OK`, 'success', 2400);
+  }, 250);
 };
 
 window.inspectEngineer = function(name) {
-  Toast.show(`Viewing engineer profile & IAM security credentials for ${name}`, 'info', 2200);
+  Toast.show(`Viewing IAM access token & node topology for ${name}`, 'info', 2200);
 };
 
 /* ==============================================================================
-   11. FLOATING QUICK-SCROLL DOCK & SMOOTH SCROLLING
+   12. MINIMALIST FLOATING QUICK DOCK & SMOOTH SCROLLING
    ==============================================================================
 */
 function smoothScrollTo(elementId) {
@@ -725,7 +796,6 @@ function initQuickScrollDock() {
 }
 
 function initScrollSpyAndReveal() {
-  // Intersection Observer for scroll reveal animations
   const revealElements = document.querySelectorAll('.reveal-on-scroll, .panel-card');
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -737,7 +807,6 @@ function initScrollSpyAndReveal() {
 
   revealElements.forEach(el => revealObserver.observe(el));
 
-  // Intersection Observer for Quick Dock active state
   const sections = [
     document.getElementById('overview-section'),
     document.getElementById('metrics-section'),
@@ -762,7 +831,7 @@ function initScrollSpyAndReveal() {
 }
 
 /* ==============================================================================
-   12. SPOTLIGHT MOUSE MOTION
+   13. SPOTLIGHT MOUSE MOTION
    ==============================================================================
 */
 function initSpotlightMotion() {
@@ -779,7 +848,7 @@ function initSpotlightMotion() {
 }
 
 /* ==============================================================================
-   13. DYNAMIC MODAL (<dialog>) & 1-CLICK PRESETS
+   14. DYNAMIC MODAL (<dialog>) & MULTI-REGION PRESETS
    ==============================================================================
 */
 function openModal() {
@@ -807,14 +876,16 @@ function initDeployModal() {
     if (e.target === modal) closeModal();
   });
 
-  // 1-Click preset buttons inside modal
-  const presetIn = document.getElementById('preset-indian-btn');
-  const presetUk = document.getElementById('preset-uk-btn');
-  const presetJp = document.getElementById('preset-japan-btn');
+  const presetButtons = document.querySelectorAll('.btn-random-preset[data-preset]');
+  presetButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const countryKey = btn.dataset.preset;
+      fillPreset(countryKey);
+    });
+  });
 
   function fillPreset(countryKey) {
-    const pool = REGIONAL_POOLS[countryKey];
-    if (!pool) return;
+    const pool = REGIONAL_POOLS[countryKey] || REGIONAL_POOLS.us;
     const name = pool.names[Math.floor(Math.random() * pool.names.length)];
     const role = pool.roles[Math.floor(Math.random() * pool.roles.length)];
     const dc = pool.datacenters[Math.floor(Math.random() * pool.datacenters.length)];
@@ -822,21 +893,23 @@ function initDeployModal() {
     const prefix = pool.shardPrefixes[Math.floor(Math.random() * pool.shardPrefixes.length)];
     const shard = `${engine.split(' ')[0].toLowerCase()}_${prefix}_${Math.floor(100 + Math.random() * 900)}`;
 
-    document.getElementById('deploy-engineer-name').value = name;
-    document.getElementById('deploy-country').value = countryKey;
-    document.getElementById('deploy-role').value = role;
-    document.getElementById('deploy-engine').value = engine;
-    document.getElementById('deploy-service').value = shard;
-    document.getElementById('deploy-env').value = dc;
+    const nameInput = document.getElementById('deploy-engineer-name');
+    const countrySelect = document.getElementById('deploy-country');
+    const roleSelect = document.getElementById('deploy-role');
+    const engineSelect = document.getElementById('deploy-engine');
+    const shardInput = document.getElementById('deploy-service');
+    const envSelect = document.getElementById('deploy-env');
+
+    if (nameInput) nameInput.value = name;
+    if (countrySelect) countrySelect.value = countryKey;
+    if (roleSelect) roleSelect.value = role;
+    if (engineSelect) engineSelect.value = engine;
+    if (shardInput) shardInput.value = shard;
+    if (envSelect) envSelect.value = dc;
 
     updateModalPreview();
   }
 
-  if (presetIn) presetIn.addEventListener('click', () => fillPreset('india'));
-  if (presetUk) presetUk.addEventListener('click', () => fillPreset('uk'));
-  if (presetJp) presetJp.addEventListener('click', () => fillPreset('japan'));
-
-  // Dynamic preview update on input
   ['deploy-engineer-name', 'deploy-country', 'deploy-role', 'deploy-engine', 'deploy-service'].forEach(id => {
     const el = document.getElementById(id);
     if (el) {
@@ -845,7 +918,6 @@ function initDeployModal() {
     }
   });
 
-  // Form submission
   if (form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -862,27 +934,22 @@ function initDeployModal() {
 
       setTimeout(() => {
         TopLoader.done();
-        const pool = REGIONAL_POOLS[countryKey] || REGIONAL_POOLS.india;
+        const pool = REGIONAL_POOLS[countryKey] || REGIONAL_POOLS.us;
         const initials = engineerName.split(' ').map(n => n[0]).join('').substring(0, 2);
         const prefix = pool.shardPrefixes[0];
-        const shardId = `#${prefix}-${countryKey.slice(0, 2)}-${Math.floor(100 + Math.random() * 900)}`;
+        const shardId = `#${prefix}-${pool.iso.toLowerCase()}-${Math.floor(100 + Math.random() * 900)}`;
 
-        let avatarClass = 'avatar-in';
-        let iconColor = 'icon-emerald';
-        if (countryKey === 'uk') { avatarClass = 'avatar-uk'; iconColor = 'icon-blue'; }
-        if (countryKey === 'japan') { avatarClass = 'avatar-jp'; iconColor = 'icon-red'; }
-
-        // Prepend to table
         const tableBody = document.getElementById('table-body');
         if (tableBody) {
           const newRow = document.createElement('tr');
           newRow.dataset.status = 'primary';
+          newRow.dataset.region = pool.region.toLowerCase();
           newRow.dataset.country = countryKey;
           newRow.className = 'db-row row-highlight-new';
           newRow.innerHTML = `
             <td>
               <div class="resource-cell">
-                <div class="resource-icon ${iconColor}">
+                <div class="resource-icon icon-blue">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
                 </div>
                 <div>
@@ -894,19 +961,19 @@ function initDeployModal() {
             <td><span class="engine-badge engine-postgres">${engine}</span></td>
             <td>
               <div class="engineer-tag">
-                <span class="engineer-avatar ${avatarClass}">${initials}</span>
-                <span class="engineer-name">${engineerName} <span class="country-flag">${pool.flag}</span></span>
+                <span class="engineer-avatar ${pool.avatarClass}">${initials}</span>
+                <span class="engineer-name">${engineerName} <span class="iso-tag">${pool.iso}</span></span>
               </div>
             </td>
             <td><span class="region-pill">${datacenter}</span></td>
             <td><span class="status-pill status-success"><span class="dot animate-pulse"></span>Active Provisioned</span></td>
             <td>
               <div class="table-storage-bar">
-                <div class="storage-meta"><span>12 GB / 2 TB</span><span>1%</span></div>
+                <div class="storage-meta"><span>15 GB / 2 TB</span><span>1%</span></div>
                 <div class="progress-track"><div class="progress-fill fill-emerald" style="width: 1%;"></div></div>
               </div>
             </td>
-            <td><span class="mono-text latency-fast">1.1ms</span></td>
+            <td><span class="mono-text latency-fast">1.0ms</span></td>
             <td class="text-right">
               <button class="table-action-btn btn-action-glow" onclick="queryNode('${shardName}')">Query</button>
             </td>
@@ -914,38 +981,38 @@ function initDeployModal() {
           tableBody.prepend(newRow);
         }
 
-        // Add to team
         globalTeamMembers.unshift({
           name: engineerName,
-          country: countryKey,
-          flag: pool.flag,
+          region: pool.region,
+          country: pool.country,
+          iso: pool.iso,
           role: role,
-          avatarClass: avatarClass,
+          avatarClass: pool.avatarClass,
           shards: 1,
           engine: engine,
-          latency: '1.1ms',
+          latency: '1.0ms',
           status: 'Online'
         });
         renderTeamGrid('all');
         updateShardCounts();
 
         form.reset();
-        Toast.show(`Successfully added ${engineerName} and provisioned ${shardName}!`, 'success', 3500);
+        Toast.show(`Successfully provisioned ${shardName} for ${engineerName} [${pool.iso}]!`, 'success', 3500);
         smoothScrollTo('database-section');
-      }, 500);
+      }, 450);
     });
   }
 }
 
 function updateModalPreview() {
-  const name = document.getElementById('deploy-engineer-name')?.value || 'Aarav Sharma';
-  const countryKey = document.getElementById('deploy-country')?.value || 'india';
-  const role = document.getElementById('deploy-role')?.value || 'Lead Database Administrator';
+  const name = document.getElementById('deploy-engineer-name')?.value || 'Marcus Vance';
+  const countryKey = document.getElementById('deploy-country')?.value || 'us';
+  const role = document.getElementById('deploy-role')?.value || 'VP Infrastructure & Mesh';
   const engine = document.getElementById('deploy-engine')?.value || 'PostgreSQL 16';
-  const shard = document.getElementById('deploy-service')?.value || 'pg_orders_mumbai_03';
+  const shard = document.getElementById('deploy-service')?.value || 'aurora_global_useast_01';
 
-  const pool = REGIONAL_POOLS[countryKey] || REGIONAL_POOLS.india;
-  const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2) || 'AS';
+  const pool = REGIONAL_POOLS[countryKey] || REGIONAL_POOLS.us;
+  const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2) || 'MV';
 
   const avatarEl = document.getElementById('preview-avatar');
   const nameEl = document.getElementById('preview-name');
@@ -956,10 +1023,10 @@ function updateModalPreview() {
 
   if (avatarEl) {
     avatarEl.textContent = initials;
-    avatarEl.className = `preview-avatar ${countryKey === 'uk' ? 'avatar-uk' : (countryKey === 'japan' ? 'avatar-jp' : 'avatar-in')}`;
+    avatarEl.className = `preview-avatar ${pool.avatarClass}`;
   }
   if (nameEl) nameEl.textContent = name;
-  if (badgeEl) badgeEl.textContent = `${pool.flag} ${pool.country}`;
+  if (badgeEl) badgeEl.innerHTML = `<span class="iso-tag">${pool.iso}</span> ${pool.country}`;
   if (roleEl) roleEl.textContent = role;
   if (shardEl) shardEl.textContent = shard;
   if (engineEl) engineEl.textContent = engine;
@@ -981,7 +1048,7 @@ function updateShardCounts() {
 }
 
 /* ==============================================================================
-   14. NOTIFICATIONS DROPDOWN
+   15. NOTIFICATIONS DROPDOWN
    ==============================================================================
 */
 function initNotificationDropdown() {
@@ -1009,13 +1076,13 @@ function initNotificationDropdown() {
         item.classList.remove('unread');
       });
       if (badge) badge.style.display = 'none';
-      Toast.show('All notifications cleared', 'info', 2000);
+      Toast.show('All notifications marked as read', 'info', 2000);
     });
   }
 }
 
 /* ==============================================================================
-   15. KEYBOARD SHORTCUTS
+   16. KEYBOARD SHORTCUTS
    ==============================================================================
 */
 function initKeyboardShortcuts() {
@@ -1035,20 +1102,20 @@ function initKeyboardShortcuts() {
 }
 
 /* ==============================================================================
-   16. GLOBAL TABLE ROW ACTIONS
+   17. GLOBAL TABLE ROW ACTIONS
    ==============================================================================
 */
 window.queryNode = function(nodeName) {
   TopLoader.start();
   setTimeout(() => {
     TopLoader.done();
-    Toast.show(`Connected SQL Console to ${nodeName} (Response: 200 OK)`, 'success', 2600);
-  }, 300);
+    Toast.show(`Connected Console to ${nodeName} • TLS 1.3 • Response: 200 OK`, 'success', 2600);
+  }, 250);
 };
 
 window.syncShard = function(nodeName) {
   TopLoader.start();
-  Toast.show(`Initiating WAL catchup for ${nodeName}...`, 'warning', 2200);
+  Toast.show(`Initiating fast replication sync for ${nodeName}...`, 'warning', 2000);
 
   setTimeout(() => {
     TopLoader.done();
@@ -1064,7 +1131,7 @@ window.syncShard = function(nodeName) {
         const latency = row.querySelector('.latency-warn');
         if (latency) {
           latency.className = 'mono-text latency-fast';
-          latency.textContent = '2.4ms';
+          latency.textContent = '1.2ms';
         }
         const actionBtn = row.querySelector('.btn-retry');
         if (actionBtn) {
@@ -1074,6 +1141,6 @@ window.syncShard = function(nodeName) {
         }
       }
     });
-    Toast.show(`Shard ${nodeName} fully synchronized!`, 'success', 3200);
-  }, 900);
+    Toast.show(`Shard ${nodeName} synchronized to 0 lag!`, 'success', 3000);
+  }, 750);
 };
