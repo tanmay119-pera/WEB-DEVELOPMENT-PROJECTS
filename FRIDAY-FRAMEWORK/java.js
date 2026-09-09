@@ -175,7 +175,7 @@ let globalTeamMembers = [
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('%cfriday-framework%c Enterprise Global Data Fabric • Lead Architect: Tanmay', 
+  console.log('%cfriday-framework%c Enterprise Global Data Fabric • Developed by Tanmay (Adesh Srivastava) with love', 
     'background: #6366f1; color: #fff; font-weight: bold; padding: 3px 8px; border-radius: 4px;',
     'color: #10b981; font-weight: bold; padding-left: 4px;'
   );
@@ -392,7 +392,7 @@ function initSidebar() {
   const userMenuBtn = document.getElementById('user-menu-btn');
   if (userMenuBtn) {
     userMenuBtn.addEventListener('click', () => {
-      Toast.show('Lead Architect: Tanmay • Global Cloud Root Access', 'info', 2500);
+      Toast.show('Developed by Tanmay (Adesh Srivastava) with love • Global Cloud Root Access', 'info', 2500);
     });
   }
 }
@@ -1935,7 +1935,7 @@ function initLogStreamer() {
       const entries = logsContainer.querySelectorAll('.log-entry');
       let text = '=== FRIDAY FRAMEWORK DISTRIBUTED CLUSTER AUDIT LEDGER ===\n';
       text += `Exported: ${new Date().toISOString()}\n`;
-      text += `Lead Architect: Tanmay\n\n`;
+      text += `Developed by Tanmay (Adesh Srivastava) with love\n\n`;
 
       entries.forEach(e => {
         const time = e.querySelector('.log-time')?.textContent || '';
