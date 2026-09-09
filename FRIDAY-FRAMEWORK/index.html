@@ -691,7 +691,6 @@
               </div>
             </div>
           </div>
-          </div>
 
           <!-- High-performance scrollable database wrapper with custom styling -->
           <div class="database-scroll-container">
@@ -1418,7 +1417,404 @@
           </div>
 
           <!-- Interactive Grid of Engineer Cards (Rendered dynamically) -->
-          <div class="team-grid" id="team-grid"></div>
+          <div class="team-grid" id="team-grid">
+            <div class="engineer-card" data-region="americas">
+              <div class="engineer-card-header">
+                <div class="card-avatar avatar-us">T</div>
+                <div class="engineer-card-title">
+                  <div class="card-name-row">
+                    <span class="card-name">Tanmay</span>
+                    <span class="iso-tag">ROOT</span>
+                  </div>
+                  <span class="card-role">Principal Architect & System Owner</span>
+                </div>
+                <span class="country-badge-pill">AMERICAS</span>
+              </div>
+
+              <div class="engineer-card-body">
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Managed Engine:</span>
+                  <span class="card-metric-val">PostgreSQL 16</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Assigned Shards:</span>
+                  <span class="card-metric-val">8 active node(s)</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Network Latency:</span>
+                  <span class="card-metric-val mono-text latency-fast">0.9ms</span>
+                </div>
+              </div>
+
+              <div class="engineer-card-footer">
+                <button class="card-action-btn btn-ping" onclick="pingEngineer('Tanmay')">⚡ Ping Node</button>
+                <button class="card-action-btn" onclick="inspectEngineer('Tanmay')">Inspect</button>
+              </div>
+            </div>
+            <div class="engineer-card" data-region="americas">
+              <div class="engineer-card-header">
+                <div class="card-avatar avatar-us">MV</div>
+                <div class="engineer-card-title">
+                  <div class="card-name-row">
+                    <span class="card-name">Marcus Vance</span>
+                    <span class="iso-tag">US</span>
+                  </div>
+                  <span class="card-role">VP Infrastructure & Mesh</span>
+                </div>
+                <span class="country-badge-pill">AMERICAS</span>
+              </div>
+
+              <div class="engineer-card-body">
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Managed Engine:</span>
+                  <span class="card-metric-val">PostgreSQL 16</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Assigned Shards:</span>
+                  <span class="card-metric-val">4 active node(s)</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Network Latency:</span>
+                  <span class="card-metric-val mono-text latency-fast">1.1ms</span>
+                </div>
+              </div>
+
+              <div class="engineer-card-footer">
+                <button class="card-action-btn btn-ping" onclick="pingEngineer('Marcus Vance')">⚡ Ping Node</button>
+                <button class="card-action-btn" onclick="inspectEngineer('Marcus Vance')">Inspect</button>
+              </div>
+            </div>
+            <div class="engineer-card" data-region="emea">
+              <div class="engineer-card-header">
+                <div class="card-avatar avatar-de">LW</div>
+                <div class="engineer-card-title">
+                  <div class="card-name-row">
+                    <span class="card-name">Lukas Weber</span>
+                    <span class="iso-tag">DE</span>
+                  </div>
+                  <span class="card-role">ClickHouse Analytics Lead</span>
+                </div>
+                <span class="country-badge-pill">EMEA</span>
+              </div>
+
+              <div class="engineer-card-body">
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Managed Engine:</span>
+                  <span class="card-metric-val">ClickHouse OLAP</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Assigned Shards:</span>
+                  <span class="card-metric-val">3 active node(s)</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Network Latency:</span>
+                  <span class="card-metric-val mono-text latency-fast">1.8ms</span>
+                </div>
+              </div>
+
+              <div class="engineer-card-footer">
+                <button class="card-action-btn btn-ping" onclick="pingEngineer('Lukas Weber')">⚡ Ping Node</button>
+                <button class="card-action-btn" onclick="inspectEngineer('Lukas Weber')">Inspect</button>
+              </div>
+            </div>
+            <div class="engineer-card" data-region="apac">
+              <div class="engineer-card-header">
+                <div class="card-avatar avatar-sg">WZ</div>
+                <div class="engineer-card-title">
+                  <div class="card-name-row">
+                    <span class="card-name">Wei Zhang</span>
+                    <span class="iso-tag">SG</span>
+                  </div>
+                  <span class="card-role">Cross-Region Replication Lead</span>
+                </div>
+                <span class="country-badge-pill">APAC</span>
+              </div>
+
+              <div class="engineer-card-body">
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Managed Engine:</span>
+                  <span class="card-metric-val">Redis 7.2 Memory</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Assigned Shards:</span>
+                  <span class="card-metric-val">2 active node(s)</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Network Latency:</span>
+                  <span class="card-metric-val mono-text latency-fast">0.6ms</span>
+                </div>
+              </div>
+
+              <div class="engineer-card-footer">
+                <button class="card-action-btn btn-ping" onclick="pingEngineer('Wei Zhang')">⚡ Ping Node</button>
+                <button class="card-action-btn" onclick="inspectEngineer('Wei Zhang')">Inspect</button>
+              </div>
+            </div>
+            <div class="engineer-card" data-region="emea">
+              <div class="engineer-card-header">
+                <div class="card-avatar avatar-uk">OS</div>
+                <div class="engineer-card-title">
+                  <div class="card-name-row">
+                    <span class="card-name">Oliver Smith</span>
+                    <span class="iso-tag">UK</span>
+                  </div>
+                  <span class="card-role">London Distributed Lead</span>
+                </div>
+                <span class="country-badge-pill">EMEA</span>
+              </div>
+
+              <div class="engineer-card-body">
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Managed Engine:</span>
+                  <span class="card-metric-val">PostgreSQL 16</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Assigned Shards:</span>
+                  <span class="card-metric-val">3 active node(s)</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Network Latency:</span>
+                  <span class="card-metric-val mono-text latency-fast">1.4ms</span>
+                </div>
+              </div>
+
+              <div class="engineer-card-footer">
+                <button class="card-action-btn btn-ping" onclick="pingEngineer('Oliver Smith')">⚡ Ping Node</button>
+                <button class="card-action-btn" onclick="inspectEngineer('Oliver Smith')">Inspect</button>
+              </div>
+            </div>
+            <div class="engineer-card" data-region="apac">
+              <div class="engineer-card-header">
+                <div class="card-avatar avatar-jp">KS</div>
+                <div class="engineer-card-title">
+                  <div class="card-name-row">
+                    <span class="card-name">Kenji Sato</span>
+                    <span class="iso-tag">JP</span>
+                  </div>
+                  <span class="card-role">Tokyo High-Speed Cache DBA</span>
+                </div>
+                <span class="country-badge-pill">APAC</span>
+              </div>
+
+              <div class="engineer-card-body">
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Managed Engine:</span>
+                  <span class="card-metric-val">Redis 7.2 Memory</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Assigned Shards:</span>
+                  <span class="card-metric-val">2 active node(s)</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Network Latency:</span>
+                  <span class="card-metric-val mono-text latency-fast">0.4ms</span>
+                </div>
+              </div>
+
+              <div class="engineer-card-footer">
+                <button class="card-action-btn btn-ping" onclick="pingEngineer('Kenji Sato')">⚡ Ping Node</button>
+                <button class="card-action-btn" onclick="inspectEngineer('Kenji Sato')">Inspect</button>
+              </div>
+            </div>
+            <div class="engineer-card" data-region="apac">
+              <div class="engineer-card-header">
+                <div class="card-avatar avatar-in">AS</div>
+                <div class="engineer-card-title">
+                  <div class="card-name-row">
+                    <span class="card-name">Aarav Sharma</span>
+                    <span class="iso-tag">IN</span>
+                  </div>
+                  <span class="card-role">Mumbai Lead DBA</span>
+                </div>
+                <span class="country-badge-pill">APAC</span>
+              </div>
+
+              <div class="engineer-card-body">
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Managed Engine:</span>
+                  <span class="card-metric-val">PostgreSQL 16</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Assigned Shards:</span>
+                  <span class="card-metric-val">3 active node(s)</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Network Latency:</span>
+                  <span class="card-metric-val mono-text latency-fast">2.1ms</span>
+                </div>
+              </div>
+
+              <div class="engineer-card-footer">
+                <button class="card-action-btn btn-ping" onclick="pingEngineer('Aarav Sharma')">⚡ Ping Node</button>
+                <button class="card-action-btn" onclick="inspectEngineer('Aarav Sharma')">Inspect</button>
+              </div>
+            </div>
+            <div class="engineer-card" data-region="americas">
+              <div class="engineer-card-header">
+                <div class="card-avatar avatar-us">SJ</div>
+                <div class="engineer-card-title">
+                  <div class="card-name-row">
+                    <span class="card-name">Sarah Jenkins</span>
+                    <span class="iso-tag">US</span>
+                  </div>
+                  <span class="card-role">Staff SRE (Oregon)</span>
+                </div>
+                <span class="country-badge-pill">AMERICAS</span>
+              </div>
+
+              <div class="engineer-card-body">
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Managed Engine:</span>
+                  <span class="card-metric-val">PostgreSQL 16</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Assigned Shards:</span>
+                  <span class="card-metric-val">2 active node(s)</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Network Latency:</span>
+                  <span class="card-metric-val mono-text latency-fast">1.2ms</span>
+                </div>
+              </div>
+
+              <div class="engineer-card-footer">
+                <button class="card-action-btn btn-ping" onclick="pingEngineer('Sarah Jenkins')">⚡ Ping Node</button>
+                <button class="card-action-btn" onclick="inspectEngineer('Sarah Jenkins')">Inspect</button>
+              </div>
+            </div>
+            <div class="engineer-card" data-region="emea">
+              <div class="engineer-card-header">
+                <div class="card-avatar avatar-de">HS</div>
+                <div class="engineer-card-title">
+                  <div class="card-name-row">
+                    <span class="card-name">Hanna Schmidt</span>
+                    <span class="iso-tag">DE</span>
+                  </div>
+                  <span class="card-role">Distributed Storage Specialist</span>
+                </div>
+                <span class="country-badge-pill">EMEA</span>
+              </div>
+
+              <div class="engineer-card-body">
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Managed Engine:</span>
+                  <span class="card-metric-val">ScyllaDB NoSQL</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Assigned Shards:</span>
+                  <span class="card-metric-val">2 active node(s)</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Network Latency:</span>
+                  <span class="card-metric-val mono-text latency-fast">2.2ms</span>
+                </div>
+              </div>
+
+              <div class="engineer-card-footer">
+                <button class="card-action-btn btn-ping" onclick="pingEngineer('Hanna Schmidt')">⚡ Ping Node</button>
+                <button class="card-action-btn" onclick="inspectEngineer('Hanna Schmidt')">Inspect</button>
+              </div>
+            </div>
+            <div class="engineer-card" data-region="apac">
+              <div class="engineer-card-header">
+                <div class="card-avatar avatar-in">PP</div>
+                <div class="engineer-card-title">
+                  <div class="card-name-row">
+                    <span class="card-name">Priya Patel</span>
+                    <span class="iso-tag">IN</span>
+                  </div>
+                  <span class="card-role">Bengaluru Cache Specialist</span>
+                </div>
+                <span class="country-badge-pill">APAC</span>
+              </div>
+
+              <div class="engineer-card-body">
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Managed Engine:</span>
+                  <span class="card-metric-val">Redis 7.2 Memory</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Assigned Shards:</span>
+                  <span class="card-metric-val">2 active node(s)</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Network Latency:</span>
+                  <span class="card-metric-val mono-text latency-fast">0.7ms</span>
+                </div>
+              </div>
+
+              <div class="engineer-card-footer">
+                <button class="card-action-btn btn-ping" onclick="pingEngineer('Priya Patel')">⚡ Ping Node</button>
+                <button class="card-action-btn" onclick="inspectEngineer('Priya Patel')">Inspect</button>
+              </div>
+            </div>
+            <div class="engineer-card" data-region="apac">
+              <div class="engineer-card-header">
+                <div class="card-avatar avatar-jp">HT</div>
+                <div class="engineer-card-title">
+                  <div class="card-name-row">
+                    <span class="card-name">Haruto Takahashi</span>
+                    <span class="iso-tag">JP</span>
+                  </div>
+                  <span class="card-role">Osaka Vector Search Lead</span>
+                </div>
+                <span class="country-badge-pill">APAC</span>
+              </div>
+
+              <div class="engineer-card-body">
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Managed Engine:</span>
+                  <span class="card-metric-val">Qdrant Vector DB</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Assigned Shards:</span>
+                  <span class="card-metric-val">1 active node(s)</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Network Latency:</span>
+                  <span class="card-metric-val mono-text latency-fast">3.2ms</span>
+                </div>
+              </div>
+
+              <div class="engineer-card-footer">
+                <button class="card-action-btn btn-ping" onclick="pingEngineer('Haruto Takahashi')">⚡ Ping Node</button>
+                <button class="card-action-btn" onclick="inspectEngineer('Haruto Takahashi')">Inspect</button>
+              </div>
+            </div>
+            <div class="engineer-card" data-region="emea">
+              <div class="engineer-card-header">
+                <div class="card-avatar avatar-uk">EW</div>
+                <div class="engineer-card-title">
+                  <div class="card-name-row">
+                    <span class="card-name">Emma Watson</span>
+                    <span class="iso-tag">UK</span>
+                  </div>
+                  <span class="card-role">Manchester OLAP Architect</span>
+                </div>
+                <span class="country-badge-pill">EMEA</span>
+              </div>
+
+              <div class="engineer-card-body">
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Managed Engine:</span>
+                  <span class="card-metric-val">ClickHouse OLAP</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Assigned Shards:</span>
+                  <span class="card-metric-val">2 active node(s)</span>
+                </div>
+                <div class="card-metric-row">
+                  <span class="card-metric-label">Network Latency:</span>
+                  <span class="card-metric-val mono-text latency-fast">2.8ms</span>
+                </div>
+              </div>
+
+              <div class="engineer-card-footer">
+                <button class="card-action-btn btn-ping" onclick="pingEngineer('Emma Watson')">⚡ Ping Node</button>
+                <button class="card-action-btn" onclick="inspectEngineer('Emma Watson')">Inspect</button>
+              </div>
+            </div>
+          </div>
         </section>
 
       </main>
