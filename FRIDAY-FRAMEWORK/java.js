@@ -196,6 +196,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initSpotlightMotion();
   initNotificationDropdown();
   initKeyboardShortcuts();
+  initAudioToggle();
+  initSqlConsole();
+  initCommandPalette();
+  initMeshTopology();
+  initTableSorting();
   updateShardCounts();
 });
 
@@ -1144,3 +1149,352 @@ window.syncShard = function(nodeName) {
     Toast.show(`Shard ${nodeName} synchronized to 0 lag!`, 'success', 3000);
   }, 750);
 };
+
+/* ==============================================================================
+   18. WEB AUDIO API SYNTHESIZER (MICRO-SOUND EFFECTS)
+   ==============================================================================
+*/
+let audioCtx = null;
+let soundEnabled = true;
+
+function playTone(freq = 600, type = 'sine', duration = 0.08) {
+  if (!soundEnabled) return;
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    osc.start();
+    osc.stop(audioCtx.currentTime + duration);
+  } catch (e) {}
+}
+
+function initAudioToggle() {
+  const audioBtn = document.getElementById('audio-toggle-btn');
+  const label = document.getElementById('audio-status-label');
+  if (!audioBtn) return;
+
+  audioBtn.addEventListener('click', () => {
+    soundEnabled = !soundEnabled;
+    if (label) label.textContent = soundEnabled ? 'SFX: ON' : 'SFX: OFF';
+    playTone(soundEnabled ? 800 : 300, 'sine', 0.1);
+    Toast.show(`Synthesized audio feedback ${soundEnabled ? 'enabled' : 'muted'}`, 'info', 1600);
+  });
+}
+
+/* ==============================================================================
+   19. INTERACTIVE SQL TERMINAL CONTROLLER
+   ==============================================================================
+*/
+function initSqlConsole() {
+  const modal = document.getElementById('sql-console-modal');
+  const closeBtn = document.getElementById('close-console-btn');
+  const runBtn = document.getElementById('btn-run-sql');
+  const textarea = document.getElementById('sql-query-input');
+  const resultsBody = document.getElementById('sql-results-body');
+  const execTimeEl = document.getElementById('query-exec-time');
+  const rowCountEl = document.getElementById('query-row-count');
+  const presetChips = document.querySelectorAll('.preset-chip');
+
+  if (!modal) return;
+
+  if (closeBtn) closeBtn.addEventListener('click', () => modal.close());
+  modal.addEventListener('click', (e) => { if (e.target === modal) modal.close(); });
+
+  window.openSqlConsole = function(nodeName) {
+    const titleEl = document.getElementById('console-node-title');
+    const connEl = document.getElementById('console-conn-str');
+    if (titleEl) titleEl.textContent = `SQL Terminal: ${nodeName}`;
+    if (connEl) connEl.textContent = `Connection: postgres://tanmay@${nodeName.replace(/_/g, '-')}.mesh:5432/production (TLS 1.3 Active)`;
+    playTone(520, 'sine', 0.05);
+    modal.showModal();
+  };
+
+  presetChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const sql = chip.dataset.sql;
+      if (textarea) textarea.value = sql;
+      executeQuery();
+    });
+  });
+
+  function executeQuery() {
+    playTone(700, 'triangle', 0.06);
+    TopLoader.start();
+
+    setTimeout(() => {
+      TopLoader.done();
+      const execMs = (0.35 + Math.random() * 0.9).toFixed(2);
+      if (execTimeEl) execTimeEl.textContent = `Execution: ${execMs}ms`;
+
+      const rows = document.querySelectorAll('#table-body tr');
+      const sample = Array.from(rows).slice(0, 5);
+
+      if (resultsBody) {
+        resultsBody.innerHTML = sample.map(row => {
+          const shardName = row.querySelector('.resource-name')?.textContent || 'node';
+          const shardId = row.querySelector('.resource-id')?.textContent.replace('shard-id: ', '') || '#db-101';
+          const region = row.querySelector('.region-pill')?.textContent || 'global';
+          const latency = row.querySelector('.mono-text')?.textContent || '1.2ms';
+          return `
+            <tr>
+              <td><code>${shardId}</code></td>
+              <td>${region}</td>
+              <td><span class="text-emerald">${latency}</span></td>
+              <td><span class="status-pill status-success">ACTIVE</span></td>
+              <td>Zero-Loss Quorum</td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      if (rowCountEl) rowCountEl.textContent = `Rows: ${sample.length} returned`;
+      Toast.show(`Query executed successfully in ${execMs}ms!`, 'success', 2200);
+    }, 280);
+  }
+
+  if (runBtn) runBtn.addEventListener('click', executeQuery);
+
+  if (textarea) {
+    textarea.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        executeQuery();
+      }
+    });
+  }
+}
+
+// Override queryNode global function to open the SQL console
+window.queryNode = function(nodeName) {
+  openSqlConsole(nodeName);
+};
+
+/* ==============================================================================
+   20. SPOTLIGHT COMMAND PALETTE (⌘K / CTRL+K)
+   ==============================================================================
+*/
+function initCommandPalette() {
+  const paletteDialog = document.getElementById('command-palette-dialog');
+  const paletteInput = document.getElementById('palette-search-input');
+  const paletteItems = document.querySelectorAll('.palette-item');
+  const searchBarTrigger = document.querySelector('.search-box');
+
+  if (!paletteDialog || !paletteInput) return;
+
+  function openPalette() {
+    playTone(650, 'sine', 0.05);
+    paletteDialog.showModal();
+    paletteInput.value = '';
+    filterPalette('');
+    paletteInput.focus();
+  }
+
+  function closePalette() {
+    paletteDialog.close();
+  }
+
+  if (searchBarTrigger) {
+    searchBarTrigger.addEventListener('click', openPalette);
+  }
+
+  paletteDialog.addEventListener('click', (e) => {
+    if (e.target === paletteDialog) closePalette();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      if (paletteDialog.open) closePalette();
+      else openPalette();
+    }
+  });
+
+  function filterPalette(q) {
+    const query = q.toLowerCase().trim();
+    paletteItems.forEach(item => {
+      const text = item.textContent.toLowerCase();
+      item.style.display = text.includes(query) ? 'flex' : 'none';
+    });
+  }
+
+  paletteInput.addEventListener('input', (e) => {
+    filterPalette(e.target.value);
+  });
+
+  paletteItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const action = item.dataset.action;
+      closePalette();
+
+      if (action === 'new-user') openModal();
+      else if (action === 'latency-audit') document.getElementById('run-latency-audit-btn')?.click();
+      else if (action === 'chaos-failover') document.getElementById('btn-chaos-test')?.click();
+      else if (action === 'export-csv') exportTableAsCSV();
+      else if (action.startsWith('spawn-')) spawnGlobalNode(action.replace('spawn-', ''));
+    });
+  });
+}
+
+/* ==============================================================================
+   21. GLOBAL MESH TOPOLOGY RADAR & CHAOS SIMULATOR
+   ==============================================================================
+*/
+function initMeshTopology() {
+  const pingBtn = document.getElementById('btn-mesh-ping');
+  const chaosBtn = document.getElementById('btn-chaos-test');
+  const rttEl = document.getElementById('global-rtt-val');
+
+  if (pingBtn) {
+    pingBtn.addEventListener('click', () => {
+      playTone(850, 'sine', 0.08);
+      TopLoader.start();
+      Toast.show('Transmitting photon ping packets across all 6 dark fiber cross-links...', 'info', 1800);
+
+      setTimeout(() => {
+        TopLoader.done();
+        const newRtt = (0.7 + Math.random() * 0.5).toFixed(1) + 'ms';
+        if (rttEl) rttEl.textContent = newRtt;
+        Toast.show(`Mesh Ping Verified: Round-trip ${newRtt} • 0% Packet Drop across 100Gbps links`, 'success', 3000);
+      }, 550);
+    });
+  }
+
+  if (chaosBtn) {
+    chaosBtn.addEventListener('click', () => {
+      playTone(320, 'sawtooth', 0.15);
+      TopLoader.start();
+      Toast.show('🔥 INITIATING CHAOS INJECTION: Simulating partition outage on eu-central-1...', 'warning', 2500);
+
+      setTimeout(() => {
+        Toast.show('⚡ Raft Consensus Triggered: Promoting hot replica in eu-west-2 to Primary Master...', 'info', 2200);
+
+        setTimeout(() => {
+          TopLoader.done();
+          playTone(900, 'triangle', 0.12);
+          Toast.show('✓ Chaos Resilience Verified: 0 dropped queries • Auto-failover completed in 420ms!', 'success', 3600);
+        }, 800);
+      }, 900);
+    });
+  }
+}
+
+/* ==============================================================================
+   22. TABLE COLUMN SORTING & CSV/JSON EXPORTERS
+   ==============================================================================
+*/
+function initTableSorting() {
+  const headers = document.querySelectorAll('.sortable-th');
+  let currentSort = { col: null, asc: true };
+
+  headers.forEach(th => {
+    th.addEventListener('click', () => {
+      const col = th.dataset.sort;
+      currentSort.asc = currentSort.col === col ? !currentSort.asc : true;
+      currentSort.col = col;
+
+      playTone(550, 'sine', 0.04);
+      sortTableByColumn(col, currentSort.asc);
+    });
+  });
+
+  const exportCsvBtn = document.getElementById('btn-export-csv');
+  const exportJsonBtn = document.getElementById('btn-export-json');
+
+  if (exportCsvBtn) exportCsvBtn.addEventListener('click', exportTableAsCSV);
+  if (exportJsonBtn) exportJsonBtn.addEventListener('click', exportTableAsJSON);
+}
+
+function sortTableByColumn(columnKey, ascending) {
+  const tableBody = document.getElementById('table-body');
+  const rows = Array.from(tableBody.querySelectorAll('tr'));
+
+  rows.sort((a, b) => {
+    let aVal = '', bVal = '';
+
+    if (columnKey === 'name') {
+      aVal = a.querySelector('.resource-name')?.textContent || '';
+      bVal = b.querySelector('.resource-name')?.textContent || '';
+    } else if (columnKey === 'engine') {
+      aVal = a.querySelector('.engine-badge')?.textContent || '';
+      bVal = b.querySelector('.engine-badge')?.textContent || '';
+    } else if (columnKey === 'engineer') {
+      aVal = a.querySelector('.engineer-name')?.textContent || '';
+      bVal = b.querySelector('.engineer-name')?.textContent || '';
+    } else if (columnKey === 'region') {
+      aVal = a.querySelector('.region-pill')?.textContent || '';
+      bVal = b.querySelector('.region-pill')?.textContent || '';
+    } else if (columnKey === 'latency') {
+      aVal = parseFloat(a.querySelector('.mono-text')?.textContent) || 0;
+      bVal = parseFloat(b.querySelector('.mono-text')?.textContent) || 0;
+      return ascending ? aVal - bVal : bVal - aVal;
+    }
+
+    return ascending ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+  });
+
+  rows.forEach(r => tableBody.appendChild(r));
+}
+
+function exportTableAsCSV() {
+  playTone(720, 'sine', 0.06);
+  const rows = document.querySelectorAll('#table-body tr');
+  let csv = 'Shard Name,Shard ID,Engine,Engineer,Datacenter,Status,Latency\n';
+
+  rows.forEach(row => {
+    const name = row.querySelector('.resource-name')?.textContent.trim() || '';
+    const id = row.querySelector('.resource-id')?.textContent.replace('shard-id: ', '').trim() || '';
+    const engine = row.querySelector('.engine-badge')?.textContent.trim() || '';
+    const engineer = row.querySelector('.engineer-name')?.textContent.trim() || '';
+    const region = row.querySelector('.region-pill')?.textContent.trim() || '';
+    const status = row.querySelector('.status-pill')?.textContent.trim() || '';
+    const latency = row.querySelector('.mono-text')?.textContent.trim() || '';
+    csv += `"${name}","${id}","${engine}","${engineer}","${region}","${status}","${latency}"\n`;
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `friday_cluster_shards_${Date.now()}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  Toast.show('Production cluster CSV export downloaded!', 'success', 2500);
+}
+
+function exportTableAsJSON() {
+  playTone(720, 'sine', 0.06);
+  const rows = document.querySelectorAll('#table-body tr');
+  const data = [];
+
+  rows.forEach(row => {
+    data.push({
+      shard_name: row.querySelector('.resource-name')?.textContent.trim() || '',
+      shard_id: row.querySelector('.resource-id')?.textContent.replace('shard-id: ', '').trim() || '',
+      engine: row.querySelector('.engine-badge')?.textContent.trim() || '',
+      engineer: row.querySelector('.engineer-name')?.textContent.trim() || '',
+      datacenter: row.querySelector('.region-pill')?.textContent.trim() || '',
+      status: row.querySelector('.status-pill')?.textContent.trim() || '',
+      latency: row.querySelector('.mono-text')?.textContent.trim() || ''
+    });
+  });
+
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `friday_cluster_shards_${Date.now()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  Toast.show('Production cluster JSON export downloaded!', 'success', 2500);
+}

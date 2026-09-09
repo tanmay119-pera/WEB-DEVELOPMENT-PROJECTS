@@ -201,8 +201,14 @@
 
         <!-- Top Right Actions -->
         <div class="top-nav-right">
-          
-          <!-- Sync / Refresh Metrics Button (Working micro-interaction) -->
+
+          <!-- Audio Synthesizer Toggle Button -->
+          <button id="audio-toggle-btn" class="btn btn-secondary btn-icon-text" title="Toggle Futuristic Audio FX">
+            <svg class="audio-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+            <span id="audio-status-label">SFX: ON</span>
+          </button>
+
+          <!-- Sync / Refresh Metrics Button -->
           <button id="refresh-metrics-btn" class="btn btn-secondary btn-icon-text" title="Sync live database telemetry">
             <svg class="spin-target" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
@@ -482,6 +488,127 @@
              Featuring realistic Indian engineers, sticky glass headers, smooth
              overflow scrolling, glowing states, and action triggers.
              ==================================================================== -->
+        
+        <!-- ====================================================================
+             GLOBAL MULTI-CLOUD TOPOLOGY & INTERCONNECT RADAR
+             Visualizing live cross-datacenter laser packet hops, replication lag,
+             and automated chaos failover resilience.
+             ==================================================================== -->
+        <section class="panel-card topology-panel reveal-on-scroll" id="topology-section">
+          <div class="table-header-bar">
+            <div>
+              <div class="database-title-badge">
+                <span class="pulse-indicator pulse-emerald"></span>
+                <h2 class="panel-title">Global Mesh Interconnect & Topology Radar</h2>
+              </div>
+              <span class="panel-subtitle">Multi-cloud low-latency fabric • 6 Datacenter Clusters interconnected via zero-loss cross-links</span>
+            </div>
+
+            <div class="topology-actions">
+              <button class="btn btn-secondary btn-sm btn-icon-text ripple-effect" id="btn-mesh-ping">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                <span>Mesh Ping Test</span>
+              </button>
+              <button class="btn btn-danger btn-sm btn-icon-text ripple-effect" id="btn-chaos-test" title="Simulate edge node outage & test auto-failover">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                <span>Simulate Chaos Failover</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Futuristic Topology Visualizer -->
+          <div class="topology-viewport">
+            <svg class="topology-svg" id="topology-svg" viewBox="0 0 1000 360" preserveAspectRatio="xMidYMid meet">
+              <defs>
+                <!-- Glowing Node Gradients -->
+                <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#6366f1" stop-opacity="0.8"/>
+                  <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+                </radialGradient>
+                <linearGradient id="lineGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#6366f1" stop-opacity="0.6"/>
+                  <stop offset="50%" stop-color="#10b981" stop-opacity="0.8"/>
+                  <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.6"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Connection Arcs between global hubs -->
+              <path class="mesh-arc" d="M 180,180 Q 340,90 500,160" />
+              <path class="mesh-arc" d="M 500,160 Q 650,80 820,150" />
+              <path class="mesh-arc" d="M 180,180 Q 500,320 820,150" />
+              <path class="mesh-arc" d="M 320,240 Q 500,210 680,240" />
+              <path class="mesh-arc" d="M 180,180 Q 250,220 320,240" />
+              <path class="mesh-arc" d="M 680,240 Q 750,200 820,150" />
+
+              <!-- Animated Photons / Laser packets -->
+              <circle class="mesh-photon photon-1" r="3"><animateMotion path="M 180,180 Q 340,90 500,160" dur="2.4s" repeatCount="indefinite" /></circle>
+              <circle class="mesh-photon photon-2" r="3"><animateMotion path="M 500,160 Q 650,80 820,150" dur="2.8s" repeatCount="indefinite" /></circle>
+              <circle class="mesh-photon photon-3" r="3"><animateMotion path="M 180,180 Q 500,320 820,150" dur="3.5s" repeatCount="indefinite" /></circle>
+              <circle class="mesh-photon photon-4" r="3"><animateMotion path="M 320,240 Q 500,210 680,240" dur="2.2s" repeatCount="indefinite" /></circle>
+
+              <!-- Hub 1: US-East (Virginia) -->
+              <g class="mesh-hub-group" data-hub="us-east">
+                <circle cx="180" cy="180" r="28" class="hub-radar-ring"></circle>
+                <circle cx="180" cy="180" r="10" class="hub-center"></circle>
+                <text x="180" y="215" class="hub-label">US-East (N. Virginia)</text>
+                <text x="180" y="229" class="hub-sub mono-text">0.9ms • 8 Shards</text>
+              </g>
+
+              <!-- Hub 2: EU-West (London) -->
+              <g class="mesh-hub-group" data-hub="eu-west">
+                <circle cx="320" cy="240" r="24" class="hub-radar-ring"></circle>
+                <circle cx="320" cy="240" r="9" class="hub-center"></circle>
+                <text x="320" y="272" class="hub-label">EU-West (London)</text>
+                <text x="320" y="286" class="hub-sub mono-text">1.4ms • 5 Shards</text>
+              </g>
+
+              <!-- Hub 3: EU-Central (Frankfurt) -->
+              <g class="mesh-hub-group" data-hub="eu-central">
+                <circle cx="500" cy="160" r="26" class="hub-radar-ring"></circle>
+                <circle cx="500" cy="160" r="9" class="hub-center"></circle>
+                <text x="500" y="194" class="hub-label">EU-Central (Frankfurt)</text>
+                <text x="500" y="208" class="hub-sub mono-text">1.8ms • 6 Shards</text>
+              </g>
+
+              <!-- Hub 4: AP-South (Mumbai) -->
+              <g class="mesh-hub-group" data-hub="ap-south">
+                <circle cx="680" cy="240" r="26" class="hub-radar-ring"></circle>
+                <circle cx="680" cy="240" r="9" class="hub-center"></circle>
+                <text x="680" y="272" class="hub-label">AP-South (Mumbai)</text>
+                <text x="680" y="286" class="hub-sub mono-text">2.1ms • 7 Shards</text>
+              </g>
+
+              <!-- Hub 5: AP-Northeast (Tokyo) -->
+              <g class="mesh-hub-group" data-hub="ap-northeast">
+                <circle cx="820" cy="150" r="28" class="hub-radar-ring"></circle>
+                <circle cx="820" cy="150" r="10" class="hub-center"></circle>
+                <text x="820" y="185" class="hub-label">AP-Northeast (Tokyo)</text>
+                <text x="820" y="199" class="hub-sub mono-text">0.4ms • 6 Shards</text>
+              </g>
+            </svg>
+          </div>
+
+          <!-- Mesh Live Readout Bar -->
+          <div class="mesh-readout-bar">
+            <div class="readout-item">
+              <span class="readout-label">Cross-Region Link:</span>
+              <span class="readout-val"><span class="dot-online"></span> 100 Gbps Dark Fiber Mesh</span>
+            </div>
+            <div class="readout-item">
+              <span class="readout-label">Global P99 RTT:</span>
+              <span class="readout-val mono-text latency-fast" id="global-rtt-val">1.2ms</span>
+            </div>
+            <div class="readout-item">
+              <span class="readout-label">Replication Consensus:</span>
+              <span class="readout-val"><span class="status-badge-mini">Raft Quorum (5/5)</span></span>
+            </div>
+            <div class="readout-item">
+              <span class="readout-label">Failover Automation:</span>
+              <span class="readout-val text-emerald">Active (Zero-Data-Loss)</span>
+            </div>
+          </div>
+        </section>
+
         <section class="panel-card database-panel" id="database-section">
           <div class="table-header-bar">
             <div>
@@ -495,12 +622,21 @@
             <!-- Filter Controls -->
             <div class="table-filter-group">
               <div class="filter-pills" role="tablist">
-                <button class="filter-pill active" data-filter="all">All Shards (<span id="shards-count-pill">16</span>)</button>
-                <button class="filter-pill" data-filter="primary">Primary</button>
-                <button class="filter-pill" data-filter="replica">Replica</button>
-                <button class="filter-pill" data-filter="syncing">Syncing</button>
+                <button class="filter-pill active" data-filter="all">All Shards (<span id="shards-count-pill">18</span>)</button>
+                <button class="filter-pill" data-filter="primary">Primary Masters</button>
+                <button class="filter-pill" data-filter="replica">Read Replicas</button>
+                <button class="filter-pill" data-filter="syncing">WAL Syncing</button>
+              </div>
+              <div class="table-export-group">
+                <button class="btn btn-secondary btn-sm" id="btn-export-csv" title="Export database nodes as CSV">
+                  <span>Export CSV</span>
+                </button>
+                <button class="btn btn-secondary btn-sm" id="btn-export-json" title="Export database nodes as JSON">
+                  <span>JSON</span>
+                </button>
               </div>
             </div>
+          </div>
           </div>
 
           <!-- High-performance scrollable database wrapper with custom styling -->
@@ -508,14 +644,14 @@
             <table class="data-table database-table" id="activity-table">
               <thead>
                 <tr>
-                  <th>Database Shard / Identifier</th>
-                  <th>Engine / Type</th>
-                  <th>Assigned Engineer</th>
-                  <th>Region & Datacenter</th>
-                  <th>Status</th>
-                  <th>Storage Used</th>
-                  <th>Latency</th>
-                  <th class="text-right">Quick Action</th>
+                  <th class="sortable-th" data-sort="name">Database Shard <span class="sort-icon">⇅</span></th>
+                  <th class="sortable-th" data-sort="engine">Engine / Type <span class="sort-icon">⇅</span></th>
+                  <th class="sortable-th" data-sort="engineer">Engineer <span class="sort-icon">⇅</span></th>
+                  <th class="sortable-th" data-sort="region">Datacenter Zone <span class="sort-icon">⇅</span></th>
+                  <th class="sortable-th" data-sort="status">Cluster Status <span class="sort-icon">⇅</span></th>
+                  <th class="sortable-th" data-sort="storage">Storage <span class="sort-icon">⇅</span></th>
+                  <th class="sortable-th" data-sort="latency">Latency <span class="sort-icon">⇅</span></th>
+                  <th class="text-right">Action</th>
                 </tr>
               </thead>
               <tbody id="table-body">
@@ -1208,6 +1344,10 @@
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
         <span class="dock-label">Metrics</span>
       </button>
+      <button class="dock-btn" data-scroll-to="topology-section" title="Scroll to Global Mesh Topology">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
+        <span class="dock-label">Mesh</span>
+      </button>
       <button class="dock-btn" data-scroll-to="database-section" title="Scroll to Shards Matrix">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
         <span class="dock-label">Shards</span>
@@ -1343,6 +1483,149 @@
           </button>
         </div>
       </form>
+    </div>
+  </dialog>
+
+  
+  <!-- ==========================================================================
+       INTERACTIVE SQL QUERY CONSOLE DIALOG (SLIDE-OVER / MODAL)
+       High-performance in-browser SQL terminal for testing queries on any shard.
+       ========================================================================== -->
+  <dialog id="sql-console-modal" class="modal-dialog sql-console-dialog">
+    <div class="modal-card console-card">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="console-title-row">
+            <span class="terminal-dot green"></span>
+            <h3 class="modal-title" id="console-node-title">SQL Terminal: aurora_global_useast_01</h3>
+          </div>
+          <p class="modal-subtitle" id="console-conn-str">Connection: postgres://tanmay@iad-pg-101.friday.mesh:5432/production (TLS 1.3 Active)</p>
+        </div>
+        <button id="close-console-btn" class="modal-close-btn" aria-label="Close console">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="console-body">
+        <!-- Quick Presets -->
+        <div class="query-presets">
+          <span class="preset-title">Quick Queries:</span>
+          <button class="preset-chip" data-sql="SELECT shard_id, region, latency_ms, status FROM cluster_shards ORDER BY latency_ms ASC;">Top Low-Latency Shards</button>
+          <button class="preset-chip" data-sql="SELECT current_timestamp, pg_database_size('production') / 1024 / 1024 AS size_mb;">Database Storage Size</button>
+          <button class="preset-chip" data-sql="EXPLAIN ANALYZE SELECT * FROM users_replicated WHERE active = true LIMIT 500;">Explain Analyze</button>
+        </div>
+
+        <!-- Interactive SQL Code Area -->
+        <div class="sql-input-wrapper">
+          <div class="terminal-line-numbers">
+            <span>1</span><span>2</span><span>3</span>
+          </div>
+          <textarea id="sql-query-input" class="sql-textarea" rows="3" spellcheck="false">SELECT shard_id, region, latency_ms, status FROM cluster_shards ORDER BY latency_ms ASC;</textarea>
+        </div>
+
+        <div class="console-toolbar">
+          <div class="console-stats">
+            <span id="query-exec-time">Execution: 0.84ms</span>
+            <span class="divider">|</span>
+            <span id="query-row-count">Rows: 6 returned</span>
+            <span class="divider">|</span>
+            <span class="status-pill status-success"><span class="dot"></span>200 OK</span>
+          </div>
+          <button id="btn-run-sql" class="btn btn-emerald btn-sm ripple-effect">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            <span>Execute (Ctrl+Enter)</span>
+          </button>
+        </div>
+
+        <!-- Results Table Output -->
+        <div class="console-results" id="console-results">
+          <table class="data-table terminal-table">
+            <thead>
+              <tr>
+                <th>shard_id</th>
+                <th>region</th>
+                <th>latency_ms</th>
+                <th>status</th>
+                <th>replication_mode</th>
+              </tr>
+            </thead>
+            <tbody id="sql-results-body">
+              <tr>
+                <td><code>#iad-pg-101</code></td>
+                <td>us-east-1 (Americas)</td>
+                <td><span class="text-emerald">0.9ms</span></td>
+                <td><span class="status-pill status-success">ACTIVE</span></td>
+                <td>Synchronous Multicast</td>
+              </tr>
+              <tr>
+                <td><code>#fra-ch-440</code></td>
+                <td>eu-central-1 (Europe)</td>
+                <td><span class="text-emerald">1.8ms</span></td>
+                <td><span class="status-pill status-success">ACTIVE</span></td>
+                <td>Zero-Lag WAL</td>
+              </tr>
+              <tr>
+                <td><code>#sin-rd-901</code></td>
+                <td>ap-southeast-1 (APAC)</td>
+                <td><span class="text-emerald">0.6ms</span></td>
+                <td><span class="status-pill status-success">ACTIVE</span></td>
+                <td>In-Memory Cache</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ==========================================================================
+       SPOTLIGHT COMMAND PALETTE (⌘K / CTRL+K)
+       Raycast-grade command palette for rapid search & automated infrastructure tasks.
+       ========================================================================== -->
+  <dialog id="command-palette-dialog" class="modal-dialog palette-dialog">
+    <div class="modal-card palette-card">
+      <div class="palette-input-wrap">
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="palette-search-input" placeholder="Type a command or search nodes (e.g. 'Deploy', 'Audit', 'US', 'Chaos')..." autocomplete="off">
+        <kbd class="shortcut-key">ESC</kbd>
+      </div>
+      <div class="palette-list" id="palette-list">
+        <div class="palette-category">ACTIONS & COMMANDS</div>
+        <div class="palette-item active" data-action="new-user">
+          <div class="palette-item-icon">➕</div>
+          <div class="palette-item-text">
+            <span class="item-title">Provision New Shard / Add Engineer</span>
+            <span class="item-desc">Open the multi-region provisioning wizard</span>
+          </div>
+          <kbd class="item-shortcut">Enter</kbd>
+        </div>
+        <div class="palette-item" data-action="latency-audit">
+          <div class="palette-item-icon">⚡</div>
+          <div class="palette-item-text">
+            <span class="item-title">Run Global Latency Audit</span>
+            <span class="item-desc">Benchmark round-trip ping times across all 6 regions</span>
+          </div>
+        </div>
+        <div class="palette-item" data-action="chaos-failover">
+          <div class="palette-item-icon">🔥</div>
+          <div class="palette-item-text">
+            <span class="item-title">Simulate Chaos Auto-Failover</span>
+            <span class="item-desc">Test automated zero-downtime replica promotion</span>
+          </div>
+        </div>
+        <div class="palette-item" data-action="export-csv">
+          <div class="palette-item-icon">📥</div>
+          <div class="palette-item-text">
+            <span class="item-title">Export All Shards to CSV</span>
+            <span class="item-desc">Download production cluster metadata</span>
+          </div>
+        </div>
+
+        <div class="palette-category">QUICK REGION SPAWN</div>
+        <div class="palette-item" data-action="spawn-us"><div class="palette-item-icon">🇺🇸</div><div class="palette-item-text"><span class="item-title">Deploy United States Shard</span><span class="item-desc">us-east-1 (N. Virginia Equinix)</span></div></div>
+        <div class="palette-item" data-action="spawn-de"><div class="palette-item-icon">🇩🇪</div><div class="palette-item-text"><span class="item-title">Deploy Germany Shard</span><span class="item-desc">eu-central-1 (Frankfurt Equinix)</span></div></div>
+        <div class="palette-item" data-action="spawn-sg"><div class="palette-item-icon">🇸🇬</div><div class="palette-item-text"><span class="item-title">Deploy Singapore Shard</span><span class="item-desc">ap-southeast-1 (Jurong Gateway)</span></div></div>
+      </div>
     </div>
   </dialog>
 
