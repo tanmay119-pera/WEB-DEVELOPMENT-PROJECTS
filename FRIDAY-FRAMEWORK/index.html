@@ -203,6 +203,15 @@
         <div class="top-nav-right">
 
           <!-- Audio Synthesizer Toggle Button -->
+          <!-- Theme Switcher -->
+          <div class="theme-switcher-wrapper">
+            <button id="theme-toggle-btn" class="btn btn-secondary btn-icon-text" title="Switch Theme Matrix">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+              <span id="theme-label">Obsidian</span>
+            </button>
+          </div>
+
+          <!-- Audio Synthesizer Toggle Button -->
           <button id="audio-toggle-btn" class="btn btn-secondary btn-icon-text" title="Toggle Futuristic Audio FX">
             <svg class="audio-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
             <span id="audio-status-label">SFX: ON</span>
@@ -350,6 +359,51 @@
              CSS: grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))
              Automatically distributes 4 cards across available viewport width.
              ==================================================================== -->
+        
+        <!-- ====================================================================
+             AUTONOMOUS AI CLUSTER OPTIMIZER & REAL-TIME STREAMING CANVAS
+             60FPS real-time canvas throughput graph with autonomous heuristic tuning.
+             ==================================================================== -->
+        <section class="panel-card live-chart-panel reveal-on-scroll" id="live-telemetry-section">
+          <div class="table-header-bar">
+            <div>
+              <div class="database-title-badge">
+                <span class="pulse-indicator pulse-emerald"></span>
+                <h2 class="panel-title">Real-Time Global Throughput & Latency Engine (60 FPS)</h2>
+              </div>
+              <span class="panel-subtitle">Streaming low-overhead canvas telemetry • High-frequency sampling across all active clusters</span>
+            </div>
+
+            <div class="chart-controls-group">
+              <div class="chart-stream-status">
+                <span class="stream-dot"></span>
+                <span id="stream-fps-label">60 FPS Streaming</span>
+              </div>
+              <button class="btn btn-secondary btn-sm" id="btn-toggle-stream">Pause Stream</button>
+              <button class="btn btn-emerald btn-sm btn-icon-text ripple-effect" id="btn-run-ai-optimizer" title="Run Autonomous Cluster Tuning">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                <span>AI Auto-Optimize</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Real-Time Interactive Canvas -->
+          <div class="canvas-container">
+            <canvas id="telemetry-canvas" class="telemetry-canvas" width="960" height="240"></canvas>
+            <div class="canvas-crosshair-tooltip" id="canvas-tooltip">
+              <span class="tooltip-time" id="tooltip-time">20:41:00</span>
+              <span class="tooltip-metric" id="tooltip-qps">95,420 QPS</span>
+              <span class="tooltip-sub" id="tooltip-lat">0.8ms P99</span>
+            </div>
+          </div>
+
+          <div class="canvas-footer-legend">
+            <div class="legend-item"><span class="legend-color legend-primary"></span><span>Global QPS Throughput</span></div>
+            <div class="legend-item"><span class="legend-color legend-secondary"></span><span>P99 Replicated Latency</span></div>
+            <div class="legend-item"><span class="legend-color legend-emerald"></span><span>Partition Balance (100%)</span></div>
+          </div>
+        </section>
+
         <section class="metrics-grid" id="metrics-section" aria-label="Database Telemetry">
           
           <!-- Card 1: Total Records -->
@@ -686,6 +740,7 @@
                   </td>
                   <td><span class="mono-text latency-fast">1.1ms</span></td>
                   <td class="text-right">
+                    <button class="table-action-btn btn-action-metrics" onclick="openNodeDrawer('aurora_global_useast_01', '#iad-pg-101')">Metrics</button>
                     <button class="table-action-btn btn-action-glow" onclick="queryNode('aurora_global_useast_01')">Query</button>
                   </td>
                 </tr>
@@ -720,6 +775,7 @@
                   </td>
                   <td><span class="mono-text latency-fast">1.8ms</span></td>
                   <td class="text-right">
+                    <button class="table-action-btn btn-action-metrics" onclick="openNodeDrawer('clickhouse_frankfurt_telemetry', '#fra-ch-440')">Metrics</button>
                     <button class="table-action-btn btn-action-glow" onclick="queryNode('clickhouse_frankfurt_telemetry')">Metrics</button>
                   </td>
                 </tr>
@@ -754,6 +810,7 @@
                   </td>
                   <td><span class="mono-text latency-fast">0.6ms</span></td>
                   <td class="text-right">
+                    <button class="table-action-btn btn-action-metrics" onclick="openNodeDrawer('redis_cache_singapore_hub', '#sin-rd-901')">Metrics</button>
                     <button class="table-action-btn btn-action-glow" onclick="queryNode('redis_cache_singapore_hub')">Flush/Sync</button>
                   </td>
                 </tr>
@@ -788,6 +845,7 @@
                   </td>
                   <td><span class="mono-text latency-fast">1.4ms</span></td>
                   <td class="text-right">
+                    <button class="table-action-btn btn-action-metrics" onclick="openNodeDrawer('pg_eu_london_01', '#lon-pg-302')">Metrics</button>
                     <button class="table-action-btn btn-action-glow" onclick="queryNode('pg_eu_london_01')">Query</button>
                   </td>
                 </tr>
@@ -822,6 +880,7 @@
                   </td>
                   <td><span class="mono-text latency-fast">0.4ms</span></td>
                   <td class="text-right">
+                    <button class="table-action-btn btn-action-metrics" onclick="openNodeDrawer('redis_tokyo_edge_01', '#tyo-rd-550')">Metrics</button>
                     <button class="table-action-btn btn-action-glow" onclick="queryNode('redis_tokyo_edge_01')">Flush/Sync</button>
                   </td>
                 </tr>
@@ -856,6 +915,7 @@
                   </td>
                   <td><span class="mono-text latency-fast">2.1ms</span></td>
                   <td class="text-right">
+                    <button class="table-action-btn btn-action-metrics" onclick="openNodeDrawer('pg_cluster_mumbai_01', '#bom-pg-881')">Metrics</button>
                     <button class="table-action-btn btn-action-glow" onclick="queryNode('pg_cluster_mumbai_01')">Query</button>
                   </td>
                 </tr>
@@ -889,6 +949,7 @@
                   </td>
                   <td><span class="mono-text latency-fast">2.1ms</span></td>
                   <td class="text-right">
+                    <button class="table-action-btn btn-action-metrics" onclick="openNodeDrawer('pg_cluster_mumbai_01', '#bom-pg-881')">Metrics</button>
                     <button class="table-action-btn btn-action-glow" onclick="queryNode('pg_cluster_mumbai_01')">Query</button>
                   </td>
                 </tr>
@@ -923,6 +984,7 @@
                   </td>
                   <td><span class="mono-text latency-fast">0.7ms</span></td>
                   <td class="text-right">
+                    <button class="table-action-btn btn-action-metrics" onclick="openNodeDrawer('redis_cache_blr_cluster', '#blr-rd-410')">Metrics</button>
                     <button class="table-action-btn btn-action-glow" onclick="queryNode('redis_cache_blr_cluster')">Flush/Sync</button>
                   </td>
                 </tr>
@@ -957,6 +1019,7 @@
                   </td>
                   <td><span class="mono-text latency-fast">3.4ms</span></td>
                   <td class="text-right">
+                    <button class="table-action-btn btn-action-metrics" onclick="openNodeDrawer('aurora_read_delhi_01', '#del-au-109')">Metrics</button>
                     <button class="table-action-btn" onclick="queryNode('aurora_read_delhi_01')">Metrics</button>
                   </td>
                 </tr>
@@ -991,6 +1054,7 @@
                   </td>
                   <td><span class="mono-text latency-fast">4.6ms</span></td>
                   <td class="text-right">
+                    <button class="table-action-btn btn-action-metrics" onclick="openNodeDrawer('qdrant_vector_hyd', '#hyd-qd-902')">Metrics</button>
                     <button class="table-action-btn btn-action-glow" onclick="queryNode('qdrant_vector_hyd')">Search Test</button>
                   </td>
                 </tr>
@@ -1025,6 +1089,7 @@
                   </td>
                   <td><span class="mono-text latency-warn">14.8ms</span></td>
                   <td class="text-right">
+                    <button class="table-action-btn btn-action-metrics" onclick="openNodeDrawer('clickhouse_analytics_pune', '#pnq-ch-331')">Metrics</button>
                     <button class="table-action-btn btn-retry" onclick="syncShard('clickhouse_analytics_pune')">Force Sync</button>
                   </td>
                 </tr>
@@ -1059,6 +1124,7 @@
                   </td>
                   <td><span class="mono-text latency-fast">3.1ms</span></td>
                   <td class="text-right">
+                    <button class="table-action-btn btn-action-metrics" onclick="openNodeDrawer('timescale_telemetry_maa', '#maa-ts-552')">Metrics</button>
                     <button class="table-action-btn" onclick="queryNode('timescale_telemetry_maa')">Metrics</button>
                   </td>
                 </tr>
@@ -1093,6 +1159,7 @@
                   </td>
                   <td><span class="mono-text latency-fast">1.4ms</span></td>
                   <td class="text-right">
+                    <button class="table-action-btn btn-action-metrics" onclick="openNodeDrawer('kafka_event_stream_ccu', '#ccu-kf-771')">Metrics</button>
                     <button class="table-action-btn btn-action-glow" onclick="queryNode('kafka_event_stream_ccu')">Partitions</button>
                   </td>
                 </tr>
@@ -1127,6 +1194,7 @@
                   </td>
                   <td><span class="mono-text latency-fast">2.9ms</span></td>
                   <td class="text-right">
+                    <button class="table-action-btn btn-action-metrics" onclick="openNodeDrawer('pg_ro_ahmedabad_02', '#amd-pg-129')">Metrics</button>
                     <button class="table-action-btn" onclick="queryNode('pg_ro_ahmedabad_02')">Metrics</button>
                   </td>
                 </tr>
@@ -1161,6 +1229,7 @@
                   </td>
                   <td><span class="mono-text latency-warn">22.4ms</span></td>
                   <td class="text-right">
+                    <button class="table-action-btn btn-action-metrics" onclick="openNodeDrawer('cold_archive_jaipur_01', '#jpr-s3-990')">Metrics</button>
                     <button class="table-action-btn" onclick="queryNode('cold_archive_jaipur_01')">Inspect</button>
                   </td>
                 </tr>
@@ -1195,6 +1264,7 @@
                   </td>
                   <td><span class="mono-text latency-fast">4.0ms</span></td>
                   <td class="text-right">
+                    <button class="table-action-btn btn-action-metrics" onclick="openNodeDrawer('elastic_search_bom_02', '#bom-es-401')">Metrics</button>
                     <button class="table-action-btn btn-action-glow" onclick="queryNode('elastic_search_bom_02')">Indices</button>
                   </td>
                 </tr>
@@ -1229,6 +1299,7 @@
                   </td>
                   <td><span class="mono-text latency-fast">1.8ms</span></td>
                   <td class="text-right">
+                    <button class="table-action-btn btn-action-metrics" onclick="openNodeDrawer('dr_standby_blr_vault', '#blr-dr-119')">Metrics</button>
                     <button class="table-action-btn" onclick="queryNode('dr_standby_blr_vault')">Verify Checksum</button>
                   </td>
                 </tr>
@@ -1263,6 +1334,7 @@
                   </td>
                   <td><span class="mono-text latency-warn">9.2ms</span></td>
                   <td class="text-right">
+                    <button class="table-action-btn btn-action-metrics" onclick="openNodeDrawer('scylla_distributed_noida', '#noi-sc-801')">Metrics</button>
                     <button class="table-action-btn btn-retry" onclick="syncShard('scylla_distributed_noida')">Rebalance</button>
                   </td>
                 </tr>
@@ -1286,6 +1358,40 @@
              Interactive cards for Indian, UK, and Japan engineers with live telemetry,
              direct node assignment, and dynamic user management.
              ==================================================================== -->
+        
+        <!-- ====================================================================
+             DISTRIBUTED LIVE EVENT & AUDIT LOG STREAMER
+             Real-time streaming consensus logs, Raft heartbeats, and replication events.
+             ==================================================================== -->
+        <section class="panel-card logs-panel reveal-on-scroll" id="logs-section">
+          <div class="table-header-bar">
+            <div>
+              <div class="database-title-badge">
+                <span class="pulse-indicator"></span>
+                <h2 class="panel-title">Distributed Cluster Event & Consensus Stream</h2>
+              </div>
+              <span class="panel-subtitle">Real-time immutable audit ledger • Cross-region Raft commits and TLS handshakes</span>
+            </div>
+
+            <div class="logs-controls">
+              <div class="filter-pills" role="tablist">
+                <button class="filter-pill log-pill active" data-log-filter="all">All Events</button>
+                <button class="filter-pill log-pill" data-log-filter="consensus">Raft</button>
+                <button class="filter-pill log-pill" data-log-filter="wal">WAL</button>
+                <button class="filter-pill log-pill" data-log-filter="security">Security</button>
+              </div>
+              <button class="btn btn-secondary btn-sm" id="btn-clear-logs">Clear</button>
+              <button class="btn btn-secondary btn-sm" id="btn-download-logs">Download Logs</button>
+            </div>
+          </div>
+
+          <div class="terminal-logs-window" id="terminal-logs-window">
+            <div class="terminal-logs-content" id="terminal-logs-content">
+              <!-- Dynamically streamed events -->
+            </div>
+          </div>
+        </section>
+
         <section class="panel-card team-panel reveal-on-scroll" id="team-section">
           <div class="table-header-bar">
             <div>
@@ -1622,12 +1728,109 @@
         </div>
 
         <div class="palette-category">QUICK REGION SPAWN</div>
-        <div class="palette-item" data-action="spawn-us"><div class="palette-item-icon">🇺🇸</div><div class="palette-item-text"><span class="item-title">Deploy United States Shard</span><span class="item-desc">us-east-1 (N. Virginia Equinix)</span></div></div>
-        <div class="palette-item" data-action="spawn-de"><div class="palette-item-icon">🇩🇪</div><div class="palette-item-text"><span class="item-title">Deploy Germany Shard</span><span class="item-desc">eu-central-1 (Frankfurt Equinix)</span></div></div>
-        <div class="palette-item" data-action="spawn-sg"><div class="palette-item-icon">🇸🇬</div><div class="palette-item-text"><span class="item-title">Deploy Singapore Shard</span><span class="item-desc">ap-southeast-1 (Jurong Gateway)</span></div></div>
+        <div class="palette-item" data-action="spawn-us"><div class="palette-item-icon"><span class="iso-tag">US</span></div><div class="palette-item-text"><span class="item-title">Deploy United States Shard</span><span class="item-desc">us-east-1 (N. Virginia Equinix)</span></div></div>
+        <div class="palette-item" data-action="spawn-de"><div class="palette-item-icon"><span class="iso-tag">DE</span></div><div class="palette-item-text"><span class="item-title">Deploy Germany Shard</span><span class="item-desc">eu-central-1 (Frankfurt Equinix)</span></div></div>
+        <div class="palette-item" data-action="spawn-sg"><div class="palette-item-icon"><span class="iso-tag">SG</span></div><div class="palette-item-text"><span class="item-title">Deploy Singapore Shard</span><span class="item-desc">ap-southeast-1 (Jurong Gateway)</span></div></div>
+        <div class="palette-item" data-action="spawn-in">
+          <div class="palette-item-icon"><span class="iso-tag">IN</span></div>
+          <div class="palette-item-text">
+            <span class="item-title">Deploy AP-South Shard (Mumbai/Bangalore)</span>
+            <span class="item-desc">Low-latency Indian regional node</span>
+          </div>
+          <span class="item-shortcut">Alt+4</span>
+        </div>
+        <div class="palette-item" data-action="spawn-jp">
+          <div class="palette-item-icon"><span class="iso-tag">JP</span></div>
+          <div class="palette-item-text">
+            <span class="item-title">Deploy AP-Northeast Shard (Tokyo)</span>
+            <span class="item-desc">Ultra low-jitter Japanese edge node</span>
+          </div>
+          <span class="item-shortcut">Alt+5</span>
+        </div>
+        <div class="palette-item" data-action="spawn-uk">
+          <div class="palette-item-icon"><span class="iso-tag">UK</span></div>
+          <div class="palette-item-text">
+            <span class="item-title">Deploy Europe-West Shard (London)</span>
+            <span class="item-desc">High-availability British cluster node</span>
+          </div>
+          <span class="item-shortcut">Alt+6</span>
+        </div>
       </div>
     </div>
   </dialog>
+
+  
+  <!-- ==========================================================================
+       SLIDING NODE INSPECTOR DRAWER (DEEP REAL-TIME TELEMETRY)
+       Right-hand sliding panel with circular gauges, WAL checkpoints, and key actions.
+       ========================================================================== -->
+  <div class="drawer-backdrop" id="drawer-backdrop"></div>
+  <aside class="node-drawer" id="node-drawer" aria-label="Node Deep Inspector">
+    <div class="drawer-header">
+      <div class="drawer-title-group">
+        <span class="status-pill status-success"><span class="dot animate-pulse"></span>Primary Active</span>
+        <h3 class="drawer-title" id="drawer-node-name">aurora_global_useast_01</h3>
+        <span class="drawer-subtitle mono-text" id="drawer-shard-id">shard-id: #iad-pg-101 • us-east-1</span>
+      </div>
+      <button class="drawer-close-btn" id="drawer-close-btn" aria-label="Close drawer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+
+    <div class="drawer-body">
+      <!-- Real-Time Hardware Gauges -->
+      <div class="drawer-section-label">HARDWARE TELEMETRY</div>
+      <div class="gauges-grid">
+        <!-- Gauge 1: CPU -->
+        <div class="gauge-card">
+          <svg class="gauge-svg" viewBox="0 0 36 36">
+            <path class="gauge-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            <path class="gauge-fill fill-indigo" id="gauge-cpu" stroke-dasharray="42, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            <text x="18" y="20.35" class="gauge-pct" id="gauge-cpu-txt">42%</text>
+          </svg>
+          <span class="gauge-name">CPU Load</span>
+        </div>
+
+        <!-- Gauge 2: RAM -->
+        <div class="gauge-card">
+          <svg class="gauge-svg" viewBox="0 0 36 36">
+            <path class="gauge-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            <path class="gauge-fill fill-emerald" id="gauge-ram" stroke-dasharray="68, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            <text x="18" y="20.35" class="gauge-pct" id="gauge-ram-txt">68%</text>
+          </svg>
+          <span class="gauge-name">RAM Buffer</span>
+        </div>
+
+        <!-- Gauge 3: IOPS -->
+        <div class="gauge-card">
+          <svg class="gauge-svg" viewBox="0 0 36 36">
+            <path class="gauge-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            <path class="gauge-fill fill-cyan" id="gauge-iops" stroke-dasharray="84, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            <text x="18" y="20.35" class="gauge-pct" id="gauge-iops-txt">84%</text>
+          </svg>
+          <span class="gauge-name">NVMe IOPS</span>
+        </div>
+      </div>
+
+      <!-- Live Replication Metadata -->
+      <div class="drawer-section-label">REPLICATION TOPOLOGY</div>
+      <div class="drawer-meta-list">
+        <div class="meta-row"><span class="meta-k">Consensus Mode:</span><span class="meta-v">Synchronous Multi-AZ</span></div>
+        <div class="meta-row"><span class="meta-k">WAL Flush Position:</span><span class="meta-v mono-text" id="drawer-wal-pos">0/1A94B20</span></div>
+        <div class="meta-row"><span class="meta-k">Active Client Conns:</span><span class="meta-v mono-text">148 / 500 pools</span></div>
+        <div class="meta-row"><span class="meta-k">Replication Lag:</span><span class="meta-v mono-text text-emerald">0.0ms (Zero Lag)</span></div>
+      </div>
+
+      <!-- Action Commands -->
+      <div class="drawer-section-label">CLUSTER ACTIONS</div>
+      <div class="drawer-actions-grid">
+        <button class="btn btn-secondary btn-sm" id="btn-wal-checkpoint">⚡ Force Checkpoint</button>
+        <button class="btn btn-secondary btn-sm" id="btn-rotate-key">🔐 Rotate TLS Key</button>
+        <button class="btn btn-secondary btn-sm" id="btn-snapshot-node">📦 Take Snapshot</button>
+        <button class="btn btn-secondary btn-sm btn-danger" id="btn-drain-traffic">🛑 Drain Traffic</button>
+      </div>
+    </div>
+  </aside>
 
   <!-- Load JavaScript Controller -->
   <script src="app.js"></script>

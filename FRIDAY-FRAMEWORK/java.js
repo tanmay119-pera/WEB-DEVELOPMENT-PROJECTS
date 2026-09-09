@@ -202,6 +202,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initMeshTopology();
   initTableSorting();
   updateShardCounts();
+  initThemeSwitcher();
+  initTelemetryCanvas();
+  initLogStreamer();
+  initNodeDrawer();
 });
 
 /* ==============================================================================
@@ -669,6 +673,7 @@ function spawnGlobalNode(countryKey) {
         </td>
         <td><span class="mono-text latency-fast">${latencyVal}</span></td>
         <td class="text-right">
+          <button class="table-action-btn btn-action-metrics" onclick="openNodeDrawer('${shardName}', '${shardId}')">Metrics</button>
           <button class="table-action-btn btn-action-glow" onclick="queryNode('${shardName}')">Query</button>
         </td>
       `;
@@ -1498,3 +1503,583 @@ function exportTableAsJSON() {
   URL.revokeObjectURL(url);
   Toast.show('Production cluster JSON export downloaded!', 'success', 2500);
 }
+
+/* ==============================================================================
+   28. THEME MATRIX SYSTEM (OBSIDIAN, EMERALD, CYAN)
+   ==============================================================================
+*/
+function initThemeSwitcher() {
+  const toggleBtn = document.getElementById('theme-toggle-btn');
+  const themeLabel = document.getElementById('theme-label');
+  if (!toggleBtn) return;
+
+  const themes = ['obsidian', 'emerald', 'cyan'];
+  const themeDisplayNames = {
+    obsidian: 'Obsidian',
+    emerald: 'Emerald',
+    cyan: 'Cyan'
+  };
+
+  let currentTheme = localStorage.getItem('friday_theme') || 'obsidian';
+  
+  function applyTheme(theme) {
+    currentTheme = theme;
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('friday_theme', theme);
+    if (themeLabel) {
+      themeLabel.textContent = themeDisplayNames[theme] || 'Obsidian';
+    }
+  }
+
+  applyTheme(currentTheme);
+
+  toggleBtn.addEventListener('click', () => {
+    playTone(650, 'sine', 0.05);
+    const currentIndex = themes.indexOf(currentTheme);
+    const nextTheme = themes[(currentIndex + 1) % themes.length];
+    applyTheme(nextTheme);
+    Toast.show(`Theme Matrix Active: ${themeDisplayNames[nextTheme]}`, 'info', 2200);
+  });
+}
+
+/* ==============================================================================
+   29. 60FPS REAL-TIME TELEMETRY CANVAS ENGINE
+   ==============================================================================
+*/
+let isCanvasStreaming = true;
+let telemetryAnimId = null;
+
+function initTelemetryCanvas() {
+  const canvas = document.getElementById('telemetry-canvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  const container = canvas.parentElement;
+  const toggleBtn = document.getElementById('btn-toggle-stream');
+  const fpsLabel = document.getElementById('stream-fps-label');
+  const tooltip = document.getElementById('canvas-tooltip');
+  const tooltipTime = document.getElementById('tooltip-time');
+  const tooltipQps = document.getElementById('tooltip-qps');
+  const tooltipLat = document.getElementById('tooltip-lat');
+  const btnAiOptimizer = document.getElementById('btn-run-ai-optimizer');
+
+  function resizeCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+    const rect = container.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+  }
+
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  const maxPoints = 85;
+  const dataQps = [];
+  const dataLatency = [];
+  let baseQps = 96400;
+  let baseLat = 1.15;
+
+  for (let i = 0; i < maxPoints; i++) {
+    baseQps += (Math.random() - 0.49) * 1200;
+    baseQps = Math.max(82000, Math.min(115000, baseQps));
+    baseLat += (Math.random() - 0.49) * 0.12;
+    baseLat = Math.max(0.45, Math.min(2.1, baseLat));
+    dataQps.push(Math.round(baseQps));
+    dataLatency.push(parseFloat(baseLat.toFixed(2)));
+  }
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      isCanvasStreaming = !isCanvasStreaming;
+      playTone(isCanvasStreaming ? 600 : 400, 'sine', 0.05);
+      toggleBtn.textContent = isCanvasStreaming ? 'Pause Stream' : 'Resume Stream';
+      if (fpsLabel) {
+        fpsLabel.textContent = isCanvasStreaming ? '60 FPS Streaming' : 'Stream Paused';
+      }
+      Toast.show(isCanvasStreaming ? 'Telemetry Stream Resumed' : 'Telemetry Stream Paused', 'info', 1800);
+    });
+  }
+
+  if (btnAiOptimizer) {
+    btnAiOptimizer.addEventListener('click', () => {
+      runAiOptimizer();
+    });
+  }
+
+  let mouseX = -1;
+  let mouseY = -1;
+
+  container.addEventListener('mousemove', (e) => {
+    const rect = container.getBoundingClientRect();
+    mouseX = e.clientX - rect.left;
+    mouseY = e.clientY - rect.top;
+
+    if (tooltip) {
+      const idx = Math.min(dataQps.length - 1, Math.max(0, Math.floor((mouseX / rect.width) * dataQps.length)));
+      tooltip.style.display = 'flex';
+      tooltip.style.left = `${mouseX}px`;
+      tooltip.style.top = `${Math.max(30, mouseY)}px`;
+
+      const now = new Date();
+      now.setSeconds(now.getSeconds() - (dataQps.length - idx));
+      if (tooltipTime) tooltipTime.textContent = now.toTimeString().split(' ')[0];
+      if (tooltipQps) tooltipQps.textContent = `${dataQps[idx].toLocaleString()} QPS`;
+      if (tooltipLat) tooltipLat.textContent = `${dataLatency[idx]}ms P99 Lag`;
+    }
+  });
+
+  container.addEventListener('mouseleave', () => {
+    mouseX = -1;
+    mouseY = -1;
+    if (tooltip) tooltip.style.display = 'none';
+  });
+
+  let lastSampleTime = 0;
+  function updateData(now) {
+    if (!isCanvasStreaming) return;
+    if (now - lastSampleTime > 65) {
+      lastSampleTime = now;
+      baseQps += (Math.random() - 0.49) * 1400;
+      baseQps = Math.max(82000, Math.min(118000, baseQps));
+      baseLat += (Math.random() - 0.49) * 0.14;
+      baseLat = Math.max(0.42, Math.min(2.1, baseLat));
+
+      dataQps.push(Math.round(baseQps));
+      dataLatency.push(parseFloat(baseLat.toFixed(2)));
+
+      if (dataQps.length > maxPoints) {
+        dataQps.shift();
+        dataLatency.shift();
+      }
+    }
+  }
+
+  function draw(now) {
+    updateData(now);
+
+    const rect = container.getBoundingClientRect();
+    const w = rect.width;
+    const h = rect.height;
+
+    ctx.clearRect(0, 0, w, h);
+
+    // Subtle Tech Gridlines
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+
+    for (let y = 40; y < h; y += 45) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(w, y);
+      ctx.stroke();
+    }
+
+    for (let x = 60; x < w; x += 100) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, h);
+      ctx.stroke();
+    }
+
+    ctx.setLineDash([]);
+
+    if (dataQps.length < 2) {
+      telemetryAnimId = requestAnimationFrame(draw);
+      return;
+    }
+
+    const stepX = w / (dataQps.length - 1);
+    const minQps = 75000;
+    const maxQps = 125000;
+    const qpsRange = maxQps - minQps;
+
+    // 1. QPS Area Gradient
+    const qpsGradient = ctx.createLinearGradient(0, 0, 0, h);
+    qpsGradient.addColorStop(0, 'rgba(99, 102, 241, 0.35)');
+    qpsGradient.addColorStop(1, 'rgba(99, 102, 241, 0.0)');
+
+    ctx.beginPath();
+    ctx.moveTo(0, h);
+    for (let i = 0; i < dataQps.length; i++) {
+      const px = i * stepX;
+      const normalized = (dataQps[i] - minQps) / qpsRange;
+      const py = h - (normalized * (h - 40) + 20);
+      if (i === 0) ctx.lineTo(px, py);
+      else {
+        const prevX = (i - 1) * stepX;
+        const prevNorm = (dataQps[i - 1] - minQps) / qpsRange;
+        const prevY = h - (prevNorm * (h - 40) + 20);
+        const cpX = (prevX + px) / 2;
+        ctx.bezierCurveTo(cpX, prevY, cpX, py, px, py);
+      }
+    }
+    ctx.lineTo(w, h);
+    ctx.closePath();
+    ctx.fillStyle = qpsGradient;
+    ctx.fill();
+
+    // 2. QPS Glowing Stroke
+    ctx.beginPath();
+    for (let i = 0; i < dataQps.length; i++) {
+      const px = i * stepX;
+      const normalized = (dataQps[i] - minQps) / qpsRange;
+      const py = h - (normalized * (h - 40) + 20);
+      if (i === 0) ctx.moveTo(px, py);
+      else {
+        const prevX = (i - 1) * stepX;
+        const prevNorm = (dataQps[i - 1] - minQps) / qpsRange;
+        const prevY = h - (prevNorm * (h - 40) + 20);
+        const cpX = (prevX + px) / 2;
+        ctx.bezierCurveTo(cpX, prevY, cpX, py, px, py);
+      }
+    }
+    ctx.strokeStyle = '#6366f1';
+    ctx.lineWidth = 2.5;
+    ctx.shadowColor = '#6366f1';
+    ctx.shadowBlur = 8;
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    // 3. Latency Line
+    const minLat = 0.2;
+    const maxLat = 2.5;
+    const latRange = maxLat - minLat;
+
+    ctx.beginPath();
+    for (let i = 0; i < dataLatency.length; i++) {
+      const px = i * stepX;
+      const normalized = (dataLatency[i] - minLat) / latRange;
+      const py = h - (normalized * (h - 60) + 15);
+      if (i === 0) ctx.moveTo(px, py);
+      else {
+        const prevX = (i - 1) * stepX;
+        const prevNorm = (dataLatency[i - 1] - minLat) / latRange;
+        const prevY = h - (prevNorm * (h - 60) + 15);
+        const cpX = (prevX + px) / 2;
+        ctx.bezierCurveTo(cpX, prevY, cpX, py, px, py);
+      }
+    }
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 1.8;
+    ctx.shadowColor = '#38bdf8';
+    ctx.shadowBlur = 6;
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    // 4. Pulsing Leading Dot
+    const lastIdx = dataQps.length - 1;
+    const lastX = lastIdx * stepX;
+    const lastQpsY = h - (((dataQps[lastIdx] - minQps) / qpsRange) * (h - 40) + 20);
+    const lastLatY = h - (((dataLatency[lastIdx] - minLat) / latRange) * (h - 60) + 15);
+
+    ctx.fillStyle = '#a5b4fc';
+    ctx.beginPath();
+    ctx.arc(lastX, lastQpsY, 4, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.beginPath();
+    ctx.arc(lastX, lastLatY, 3.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // 5. Crosshair vertical bar
+    if (mouseX >= 0 && mouseX <= w) {
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(mouseX, 0);
+      ctx.lineTo(mouseX, h);
+      ctx.stroke();
+    }
+
+    telemetryAnimId = requestAnimationFrame(draw);
+  }
+
+  telemetryAnimId = requestAnimationFrame(draw);
+}
+
+/* ==============================================================================
+   30. AUTONOMOUS AI MESH OPTIMIZER
+   ==============================================================================
+*/
+function runAiOptimizer() {
+  const btn = document.getElementById('btn-run-ai-optimizer');
+  if (!btn || btn.disabled) return;
+
+  btn.disabled = true;
+  playTone(880, 'triangle', 0.1);
+  TopLoader.start();
+
+  Toast.show('🤖 AI Optimizer: Analyzing partition distribution across US, DE, UK, IN, JP, SG...', 'info', 2000);
+
+  setTimeout(() => {
+    playTone(1100, 'sine', 0.08);
+    Toast.show('⚡ Re-weighting Raft consensus quorum & flushing warm NVMe buffers...', 'info', 2000);
+  }, 1200);
+
+  setTimeout(() => {
+    TopLoader.done();
+    btn.disabled = false;
+    playTone(1320, 'sine', 0.15);
+
+    if (window.appendLogEntry) {
+      window.appendLogEntry('consensus', 'AI Auto-Optimizer rebalanced 6 geo-partitions. Consensus RTT cut by 38.4%.');
+      window.appendLogEntry('wal', 'Cross-region zero-lag snapshot committed to all replicas.');
+    }
+
+    Toast.show('✨ Mesh Optimized: Global latency reduced by 38.4%! (P99: 0.38ms)', 'success', 3500);
+  }, 2600);
+}
+
+/* ==============================================================================
+   31. DISTRIBUTED CLUSTER EVENT & AUDIT LOG STREAMER
+   ==============================================================================
+*/
+const clusterLogTemplates = [
+  { cat: 'consensus', msg: 'Raft leader election verified for us-east-1 shard #iad-pg-101. Term: 8842.' },
+  { cat: 'wal', msg: 'WAL segment fsync successful on nvme-vol-08 (4.2 MB written in 0.28ms).' },
+  { cat: 'security', msg: 'Mutual TLS 1.3 certificate rotation verified between frankfurt and london hubs.' },
+  { cat: 'consensus', msg: 'Quorum ACK received (5/5 replicas) across Mumbai, Singapore, and Tokyo.' },
+  { cat: 'info', msg: 'Autonomous health probe passed for clickhouse_analytics_pune. IOPS headroom: 88%.' },
+  { cat: 'wal', msg: 'Checkpoint completed. Active LSN moved to 0/1F84090 with zero transaction lock.' },
+  { cat: 'security', msg: 'Zero-trust token authorized for operator session Tanmay • Scopes: [cluster:admin].' },
+  { cat: 'consensus', msg: 'Cross-region vector index synchronization completed for qdrant_vector_hyd.' },
+  { cat: 'info', msg: 'BGP Anycast route converged: Average client hop latency reduced to 1.05ms.' }
+];
+
+let logStreamInterval = null;
+let currentLogFilter = 'all';
+
+function initLogStreamer() {
+  const logsContainer = document.getElementById('terminal-logs-content');
+  if (!logsContainer) return;
+
+  const filterPills = document.querySelectorAll('.log-pill');
+  const btnClear = document.getElementById('btn-clear-logs');
+  const btnDownload = document.getElementById('btn-download-logs');
+
+  function getFormattedTime() {
+    const now = new Date();
+    return now.toTimeString().split(' ')[0] + '.' + String(now.getMilliseconds()).padStart(3, '0');
+  }
+
+  window.appendLogEntry = function(category, message) {
+    const entry = document.createElement('div');
+    entry.className = 'log-entry';
+    entry.dataset.category = category;
+    if (currentLogFilter !== 'all' && currentLogFilter !== category) {
+      entry.style.display = 'none';
+    }
+
+    entry.innerHTML = `
+      <span class="log-time">${getFormattedTime()}</span>
+      <span class="log-badge log-badge-${category}">${category.toUpperCase()}</span>
+      <span class="log-msg">${message}</span>
+    `;
+
+    logsContainer.appendChild(entry);
+
+    if (logsContainer.children.length > 100) {
+      logsContainer.removeChild(logsContainer.firstElementChild);
+    }
+
+    const windowEl = document.getElementById('terminal-logs-window');
+    if (windowEl) {
+      windowEl.scrollTop = windowEl.scrollHeight;
+    }
+  };
+
+  logsContainer.innerHTML = '';
+  clusterLogTemplates.slice(0, 6).forEach(tmpl => {
+    window.appendLogEntry(tmpl.cat, tmpl.msg);
+  });
+
+  if (logStreamInterval) clearInterval(logStreamInterval);
+  logStreamInterval = setInterval(() => {
+    const tmpl = clusterLogTemplates[Math.floor(Math.random() * clusterLogTemplates.length)];
+    window.appendLogEntry(tmpl.cat, tmpl.msg);
+  }, 3400);
+
+  filterPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      playTone(550, 'sine', 0.04);
+      filterPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      currentLogFilter = pill.dataset.logFilter;
+
+      const entries = logsContainer.querySelectorAll('.log-entry');
+      entries.forEach(entry => {
+        if (currentLogFilter === 'all' || entry.dataset.category === currentLogFilter) {
+          entry.style.display = 'flex';
+        } else {
+          entry.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  if (btnClear) {
+    btnClear.addEventListener('click', () => {
+      playTone(420, 'sine', 0.05);
+      logsContainer.innerHTML = '';
+      window.appendLogEntry('info', 'Audit stream cleared by operator.');
+      Toast.show('Cluster event logs cleared', 'info', 1800);
+    });
+  }
+
+  if (btnDownload) {
+    btnDownload.addEventListener('click', () => {
+      playTone(740, 'sine', 0.06);
+      const entries = logsContainer.querySelectorAll('.log-entry');
+      let text = '=== FRIDAY FRAMEWORK DISTRIBUTED CLUSTER AUDIT LEDGER ===\n';
+      text += `Exported: ${new Date().toISOString()}\n`;
+      text += `Lead Architect: Tanmay\n\n`;
+
+      entries.forEach(e => {
+        const time = e.querySelector('.log-time')?.textContent || '';
+        const badge = e.querySelector('.log-badge')?.textContent || '';
+        const msg = e.querySelector('.log-msg')?.textContent || '';
+        text += `[${time}] [${badge}] ${msg}\n`;
+      });
+
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `friday_cluster_audit_${Date.now()}.log`;
+      a.click();
+      URL.revokeObjectURL(url);
+      Toast.show('Audit ledger log exported successfully!', 'success', 2200);
+    });
+  }
+}
+
+/* ==============================================================================
+   32. SLIDING NODE DEEP INSPECTOR DRAWER
+   ==============================================================================
+*/
+function initNodeDrawer() {
+  const drawer = document.getElementById('node-drawer');
+  const backdrop = document.getElementById('drawer-backdrop');
+  const closeBtn = document.getElementById('drawer-close-btn');
+
+  if (!drawer || !backdrop) return;
+
+  function closeDrawer() {
+    drawer.classList.remove('active');
+    backdrop.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  window.closeNodeDrawer = closeDrawer;
+
+  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+  backdrop.addEventListener('click', closeDrawer);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer.classList.contains('active')) {
+      closeDrawer();
+    }
+  });
+
+  const btnCheckpoint = document.getElementById('btn-wal-checkpoint');
+  const btnRotateKey = document.getElementById('btn-rotate-key');
+  const btnSnapshot = document.getElementById('btn-snapshot-node');
+  const btnDrain = document.getElementById('btn-drain-traffic');
+
+  if (btnCheckpoint) {
+    btnCheckpoint.addEventListener('click', () => {
+      playTone(850, 'sine', 0.08);
+      TopLoader.start();
+      setTimeout(() => {
+        TopLoader.done();
+        const hex = '0/' + Math.floor(0x1000000 + Math.random() * 0x8FFFFFF).toString(16).toUpperCase();
+        const walEl = document.getElementById('drawer-wal-pos');
+        if (walEl) walEl.textContent = hex;
+        if (window.appendLogEntry) window.appendLogEntry('wal', `Forced checkpoint executed. WAL flushed to ${hex}.`);
+        Toast.show('⚡ WAL Checkpoint flushed to persistent NVMe tier!', 'success', 2500);
+      }, 500);
+    });
+  }
+
+  if (btnRotateKey) {
+    btnRotateKey.addEventListener('click', () => {
+      playTone(950, 'sine', 0.08);
+      if (window.appendLogEntry) window.appendLogEntry('security', 'Mutual TLS 1.3 ephemeral keys rotated for node.');
+      Toast.show('🔐 TLS 1.3 encryption keys rotated successfully!', 'success', 2500);
+    });
+  }
+
+  if (btnSnapshot) {
+    btnSnapshot.addEventListener('click', () => {
+      playTone(680, 'sine', 0.08);
+      const snapId = 'snap-' + Math.random().toString(36).substring(2, 9);
+      if (window.appendLogEntry) window.appendLogEntry('wal', `Zero-copy snapshot created: ${snapId}`);
+      Toast.show(`📦 Point-in-time snapshot created: ${snapId}`, 'success', 2800);
+    });
+  }
+
+  if (btnDrain) {
+    btnDrain.addEventListener('click', () => {
+      playTone(380, 'sine', 0.12);
+      if (window.appendLogEntry) window.appendLogEntry('consensus', 'Traffic drained from node. Shifted traffic to healthy quorum replicas.');
+      Toast.show('🛑 Shard traffic drained. Ready for isolated maintenance.', 'warning', 3000);
+    });
+  }
+
+  const tableBody = document.getElementById('table-body');
+  if (tableBody) {
+    tableBody.addEventListener('click', (e) => {
+      if (e.target.closest('button')) return;
+      const row = e.target.closest('tr.db-row');
+      if (row) {
+        const name = row.querySelector('.resource-name')?.textContent.trim() || 'cluster_node';
+        const shard = row.querySelector('.resource-id')?.textContent.replace('shard-id: ', '').trim() || '#shard-01';
+        window.openNodeDrawer(name, shard);
+      }
+    });
+  }
+}
+
+window.openNodeDrawer = function(nodeName, shardId) {
+  playTone(780, 'sine', 0.06);
+
+  const drawer = document.getElementById('node-drawer');
+  const backdrop = document.getElementById('drawer-backdrop');
+  if (!drawer || !backdrop) return;
+
+  const nameEl = document.getElementById('drawer-node-name');
+  const shardEl = document.getElementById('drawer-shard-id');
+  const walEl = document.getElementById('drawer-wal-pos');
+
+  if (nameEl) nameEl.textContent = nodeName || 'aurora_global_useast_01';
+  if (shardEl) shardEl.textContent = `shard-id: ${shardId || '#iad-pg-101'}`;
+
+  const cpuPct = Math.floor(32 + Math.random() * 45);
+  const ramPct = Math.floor(55 + Math.random() * 32);
+  const iopsPct = Math.floor(68 + Math.random() * 26);
+
+  const gaugeCpu = document.getElementById('gauge-cpu');
+  const gaugeCpuTxt = document.getElementById('gauge-cpu-txt');
+  const gaugeRam = document.getElementById('gauge-ram');
+  const gaugeRamTxt = document.getElementById('gauge-ram-txt');
+  const gaugeIops = document.getElementById('gauge-iops');
+  const gaugeIopsTxt = document.getElementById('gauge-iops-txt');
+
+  if (gaugeCpu) gaugeCpu.setAttribute('stroke-dasharray', `${cpuPct}, 100`);
+  if (gaugeCpuTxt) gaugeCpuTxt.textContent = `${cpuPct}%`;
+  if (gaugeRam) gaugeRam.setAttribute('stroke-dasharray', `${ramPct}, 100`);
+  if (gaugeRamTxt) gaugeRamTxt.textContent = `${ramPct}%`;
+  if (gaugeIops) gaugeIops.setAttribute('stroke-dasharray', `${iopsPct}, 100`);
+  if (gaugeIopsTxt) gaugeIopsTxt.textContent = `${iopsPct}%`;
+
+  if (walEl) {
+    walEl.textContent = '0/' + Math.floor(0x1000000 + Math.random() * 0x8FFFFFF).toString(16).toUpperCase();
+  }
+
+  drawer.classList.add('active');
+  backdrop.classList.add('active');
+  document.body.style.overflow = 'hidden';
+};
