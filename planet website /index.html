@@ -963,6 +963,50 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
   portalVideo.addEventListener('canplay', function () { tryPlay(portalVideo); });
   portalVideo.addEventListener('canplaythrough', function () { tryPlay(portalVideo); });
 
+  // ── RENDER ──
+  function render() {
+    const s = states[current];
+    experience.dataset.planet = current;
+    planetTitle.textContent = s.name.toUpperCase();
+    nextName.textContent = s.next;
+    nextNumber.textContent = s.number;
+    portalBtn.setAttribute('aria-label', 'Travel to ' + s.next);
+    factsEl.innerHTML = '';
+    for (const [key, val] of s.facts) {
+      const div = document.createElement('div');
+      div.className = 'fact';
+      div.innerHTML = '<dt>' + key + '</dt><dd>' + val + '</dd>';
+      factsEl.appendChild(div);
+    }
+    planetList.innerHTML = '';
+    for (const p of allPlanets) {
+      const span = document.createElement('span');
+      span.className = 'planet-item' + (p.toLowerCase() === s.name.toLowerCase() ? ' active' : '');
+      span.textContent = p;
+      planetList.appendChild(span);
+    }
+    if (!firstRender) {
+      planetList.classList.remove('is-switching');
+      void planetList.offsetWidth;
+      planetList.classList.add('is-switching');
+    }
+    firstRender = false;
+    document.querySelectorAll('.background').forEach(function (bg) {
+      const shouldShow = bg.id === s.background;
+      bg.classList.toggle('is-visible', shouldShow);
+      if (shouldShow) { bg.currentTime = 0; tryPlay(bg); }
+    });
+    if (s.image) {
+      portalImage.style.visibility = 'visible';
+      portalVideo.style.visibility = 'hidden';
+    } else {
+      portalImage.style.visibility = 'hidden';
+      portalVideo.style.visibility = 'visible';
+      if (portalVideo.src !== s.portal) { portalVideo.src = s.portal; portalVideo.load(); }
+      tryPlay(portalVideo);
+    }
+  }
+
 })();
 </script>
 </body>
