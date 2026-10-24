@@ -1022,6 +1022,67 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
     experience.classList.add('content-revealing');
   }
 
+  // ── START EXPERIENCE ──
+  async function startExperience() {
+    const s = states[current];
+    const media = s.image ? portalImage : portalVideo;
+    await new Promise(function (resolve) {
+      if (s.image) {
+        if (media.complete && media.naturalWidth) resolve();
+        else { media.onload = resolve; media.onerror = resolve; setTimeout(resolve, 4000); }
+      } else {
+        if (portalVideo.readyState >= 2) resolve();
+        else {
+          portalVideo.addEventListener('canplaythrough', resolve, { once: true });
+          portalVideo.addEventListener('canplay', resolve, { once: true });
+          portalVideo.addEventListener('error', resolve, { once: true });
+          setTimeout(resolve, 4000);
+        }
+      }
+    });
+    const bgVid = document.getElementById(s.background);
+    if (bgVid) { bgVid.currentTime = 0; try { await bgVid.play(); } catch (e) {} }
+    if (!s.image) { try { portalVideo.currentTime = 0; portalVideo.play(); } catch (e) {} }
+    await revealMask();
+    document.body.classList.add('intro-ready');
+    setTimeout(revealPlanetContent, 850);
+  }
+
+  // ── PRELOADER ──
+  function runPreloader() {
+    let finished = false;
+    function finish() {
+      if (finished) return;
+      finished = true;
+      preloaderVal.textContent = '100';
+      preloaderCnt.classList.add('is-leaving');
+      floatingLogo.classList.add('is-docked');
+      preloaderEl.classList.add('is-background');
+      document.body.classList.add('preload-complete');
+      startExperience();
+      setTimeout(function () { if (preloaderCnt.parentNode) preloaderCnt.parentNode.removeChild(preloaderCnt); }, 750);
+      setTimeout(function () { floatingLogo.classList.add('is-settled'); }, 2000);
+    }
+    function trackProgress() {
+      if (finished) return;
+      if (preloaderVid.duration && preloaderVid.duration > 0) {
+        const pct = Math.round((preloaderVid.currentTime / preloaderVid.duration) * 100);
+        preloaderVal.textContent = String(Math.min(pct, 100));
+      }
+      if (!preloaderVid.ended) requestAnimationFrame(trackProgress);
+    }
+    preloaderVid.addEventListener('ended', finish, { once: true });
+    function startPreloader() {
+      preloaderVid.playbackRate = Math.max(0.25, preloaderVid.duration / 3);
+      preloaderVid.play().then(function () { requestAnimationFrame(trackProgress); }).catch(function () { finish(); });
+    }
+    if (preloaderVid.readyState >= 1) startPreloader();
+    else {
+      preloaderVid.addEventListener('loadedmetadata', startPreloader, { once: true });
+      setTimeout(function () { if (!finished && preloaderVid.readyState < 1) finish(); }, 5000);
+    }
+  }
+
 })();
 </script>
 </body>
