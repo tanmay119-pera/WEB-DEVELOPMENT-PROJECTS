@@ -1155,6 +1155,18 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
     }
   }
 
+  // ── BOOT ──
+  document.querySelectorAll('.background').forEach(function (v) {
+    v.pause();
+    v.currentTime = 0;
+  });
+
+  resizeCanvas();
+  render();
+  requestAnimationFrame(draw);
+  requestAnimationFrame(cursorLoop);
+  runPreloader();
+
 })();
 </script>
 </body>
