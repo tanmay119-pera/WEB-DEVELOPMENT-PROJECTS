@@ -1007,6 +1007,21 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
     }
   }
 
+  // ── REVEAL ANIMATIONS ──
+  function revealMask() {
+    experience.classList.remove('mask-revealing');
+    void experience.offsetWidth;
+    experience.classList.add('mask-revealing');
+    maskScale = 0;
+    return animateValue(function (v) { maskScale = v; }, 1050);
+  }
+
+  function revealPlanetContent() {
+    experience.classList.remove('content-revealing');
+    void experience.offsetWidth;
+    experience.classList.add('content-revealing');
+  }
+
 })();
 </script>
 </body>
