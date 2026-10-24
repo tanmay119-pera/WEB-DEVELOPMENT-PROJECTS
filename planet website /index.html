@@ -412,6 +412,25 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
     </button>
   </section>
 
+
+  <section class="planet-content chrome" aria-live="polite">
+    <h1 id="planet-title">MARS</h1>
+    <dl id="facts"></dl>
+  </section>
+
+  <div class="transition-layer" aria-hidden="true">
+    <video id="transition-video" muted playsinline preload="auto"></video>
+  </div>
+
+  <div class="loading" aria-hidden="true">Preparing orbit…</div>
+
+  <div class="custom-cursor" aria-hidden="true">
+    <span class="cursor-orbit"></span>
+    <span class="cursor-dot"></span>
+    <span class="cursor-label">Enter</span>
+  </div>
+</main>
+
 <script>
 </script>
 </body>
