@@ -477,6 +477,70 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
     }
   };
 
+  // ── PLANET VISUALS (3D sphere data) ──
+  const planetVisuals = {
+    mercury: { radius: 0.38, color: [169,169,169], accent: [120,120,110], atmosphere: null,
+               craterSeed: 7, rings: false },
+    venus:   { radius: 0.95, color: [218,165,80], accent: [200,140,50], atmosphere: [255,200,100,0.3],
+               craterSeed: 0, rings: false },
+    earth:   { radius: 1.0,  color: [30,80,170], accent: [40,140,80], atmosphere: [100,180,255,0.25],
+               craterSeed: 0, rings: false },
+    mars:    { radius: 0.53, color: [193,68,14], accent: [160,50,10], atmosphere: [255,140,80,0.12],
+               craterSeed: 5, rings: false },
+    jupiter: { radius: 2.5,  color: [180,140,100], accent: [200,160,120], atmosphere: [200,170,130,0.2],
+               craterSeed: 0, rings: false },
+    saturn:  { radius: 2.2,  color: [210,180,120], accent: [190,160,100], atmosphere: [220,200,150,0.2],
+               craterSeed: 0, rings: true },
+    uranus:  { radius: 1.6,  color: [130,200,220], accent: [100,180,200], atmosphere: [150,220,240,0.25],
+               craterSeed: 0, rings: false },
+    neptune: { radius: 1.5,  color: [50,80,200], accent: [30,60,180], atmosphere: [70,100,255,0.3],
+               craterSeed: 0, rings: false }
+  };
+
+  // ── ELEMENTS ──
+  const experience    = document.querySelector('.experience');
+  const preloaderEl   = document.getElementById('preloader');
+  const preloaderVid  = document.getElementById('preloader-video');
+  const preloaderCnt  = document.getElementById('preloader-count');
+  const preloaderVal  = document.getElementById('preloader-value');
+  const floatingLogo  = document.getElementById('floating-logo');
+  const portalCanvas  = document.getElementById('portal-canvas');
+  const sceneCanvas   = document.getElementById('scene-canvas');
+  const starfieldCanvas = document.getElementById('starfield-canvas');
+  const portalBtn     = document.getElementById('portal');
+  const portalVideo   = document.getElementById('portal-video');
+  const portalImage   = document.getElementById('portal-image');
+  const planetTitle   = document.getElementById('planet-title');
+  const factsEl       = document.getElementById('facts');
+  const nextName      = document.getElementById('next-name');
+  const nextNumber    = document.getElementById('next-number');
+  const planetList    = document.querySelector('.planet-list');
+  const transitionVid = document.getElementById('transition-video');
+  const cursorEl      = document.querySelector('.custom-cursor');
+  const cursorOrbit   = document.querySelector('.cursor-orbit');
+  const cursorDot     = document.querySelector('.cursor-dot');
+
+  const ctx  = portalCanvas.getContext('2d');
+  const sctx = sceneCanvas.getContext('2d');
+  const sfCtx = starfieldCanvas.getContext('2d');
+
+  // ── STATE ──
+  let current = 'mars';
+  let busy = false;
+  let firstRender = true;
+  let transitionActive = false;
+  let frozenScene = false;
+
+  let expansion = 0;
+  let maskScale = 1;
+  let canvasOpacity = 1;
+
+  let targetX = 0, targetY = 0;
+  let rotX = 0, rotY = 0;
+
+  let mouseX = 0, mouseY = 0;
+  let orbitX = 0, orbitY = 0;
+
 })();
 </script>
 </body>
