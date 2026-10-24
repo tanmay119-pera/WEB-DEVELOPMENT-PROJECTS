@@ -541,6 +541,88 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
   let mouseX = 0, mouseY = 0;
   let orbitX = 0, orbitY = 0;
 
+  // ── EASING ──
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  function animateValue(setter, duration) {
+    return new Promise(function (resolve) {
+      const start = performance.now();
+      function tick(now) {
+        let t = Math.min(1, (now - start) / duration);
+        setter(easeInOutCubic(t));
+        if (t < 1) requestAnimationFrame(tick);
+        else resolve();
+      }
+      requestAnimationFrame(tick);
+    });
+  }
+
+  // ── RESIZE ──
+  function resizeCanvas() {
+    const d = Math.min(devicePixelRatio || 1, 2);
+
+    portalCanvas.width = innerWidth * d;
+    portalCanvas.height = innerHeight * d;
+    portalCanvas.style.width = innerWidth + 'px';
+    portalCanvas.style.height = innerHeight + 'px';
+    ctx.setTransform(d, 0, 0, d, 0, 0);
+
+    starfieldCanvas.width = innerWidth * d;
+    starfieldCanvas.height = innerHeight * d;
+    starfieldCanvas.style.width = innerWidth + 'px';
+    starfieldCanvas.style.height = innerHeight + 'px';
+    sfCtx.setTransform(d, 0, 0, d, 0, 0);
+
+    if (!frozenScene) {
+      sceneCanvas.width = innerWidth * d;
+      sceneCanvas.height = innerHeight * d;
+      sceneCanvas.style.width = innerWidth + 'px';
+      sceneCanvas.style.height = innerHeight + 'px';
+      sctx.setTransform(d, 0, 0, d, 0, 0);
+    }
+  }
+  window.addEventListener('resize', resizeCanvas);
+
+  // ── DRAW HELPERS ──
+  function isMediaReady(el) {
+    if (el.tagName === 'VIDEO') {
+      return el.readyState >= 2 && el.videoWidth > 0;
+    }
+    return el.complete && el.naturalWidth > 0;
+  }
+
+  function drawCover(target, context) {
+    if (!context) context = ctx;
+    if (!isMediaReady(target)) return false;
+    const mw = target.videoWidth || target.naturalWidth || 1;
+    const mh = target.videoHeight || target.naturalHeight || 1;
+    const scale = Math.max(innerWidth / mw, innerHeight / mh);
+    const w = mw * scale;
+    const h = mh * scale;
+    try {
+      context.drawImage(target, (innerWidth - w) / 2, (innerHeight - h) / 2, w, h);
+      return true;
+    } catch (e) { return false; }
+  }
+
+  function drawShade(context) {
+    if (!context) context = ctx;
+    const y0 = innerHeight * 0.52;
+    const grad = context.createLinearGradient(0, y0, 0, innerHeight);
+    grad.addColorStop(0, 'rgba(0,0,0,0)');
+    grad.addColorStop(1, 'rgba(0,0,0,0.88)');
+    context.fillStyle = grad;
+    context.fillRect(0, y0, innerWidth, innerHeight - y0);
+  }
+
+  function tryPlay(video) {
+    if (video && video.paused && video.readyState >= 2) {
+      video.play().catch(function () {});
+    }
+  }
+
 })();
 </script>
 </body>
