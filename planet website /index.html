@@ -826,6 +826,41 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
     drawPlanet3D(context, cx, cy + h * 0.05, planetRadius, nextPlanetName, time);
   }
 
+  // ── ROUNDED RECT & PROJECTION ──
+  function roundedRectPoints(w, h, r) {
+    r = Math.min(r, w / 2, h / 2);
+    const pts = [];
+    const corners = [
+      [w / 2 - r, -h / 2 + r, -Math.PI / 2, 0],
+      [w / 2 - r,  h / 2 - r,  0, Math.PI / 2],
+      [-w / 2 + r, h / 2 - r,  Math.PI / 2, Math.PI],
+      [-w / 2 + r, -h / 2 + r, Math.PI, Math.PI * 1.5]
+    ];
+    for (const [cx, cy, a0, a1] of corners) {
+      for (let i = 0; i <= 10; i++) {
+        const a = a0 + (a1 - a0) * (i / 10);
+        pts.push([cx + r * Math.cos(a), cy + r * Math.sin(a)]);
+      }
+    }
+    return pts;
+  }
+
+  function project(x, y, rx, ry, cx, cy) {
+    const ax = rx * Math.PI / 180;
+    const ay = ry * Math.PI / 180;
+    const xx = x * Math.cos(ay);
+    const yy = y * Math.cos(ax);
+    const z  = x * Math.sin(ay) - y * Math.sin(ax);
+    const p  = 850 / (850 + z);
+    return [cx + xx * p, cy + yy * p];
+  }
+
+  function getPortalMedia() {
+    const s = states[current];
+    if (s.image) return portalImage;
+    return portalVideo;
+  }
+
 })();
 </script>
 </body>
