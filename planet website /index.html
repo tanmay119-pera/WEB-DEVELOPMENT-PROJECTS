@@ -920,6 +920,49 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
     }
   }
 
+  // ── POINTER TILT ──
+  document.addEventListener('pointermove', function (ev) {
+    mouseX = ev.clientX;
+    mouseY = ev.clientY;
+    if (!busy) {
+      targetY = (ev.clientX / innerWidth - 0.5) * 37.4;
+      targetX = (ev.clientY / innerHeight - 0.5) * -33;
+    }
+    if (!cursorEl.classList.contains('is-visible')) {
+      cursorEl.classList.add('is-visible');
+    }
+  });
+  document.addEventListener('pointerleave', function () {
+    targetX = 0; targetY = 0;
+    cursorEl.classList.remove('is-visible');
+  });
+
+  // ── CURSOR LOOP ──
+  function cursorLoop() {
+    requestAnimationFrame(cursorLoop);
+    orbitX += (mouseX - orbitX) * 0.2;
+    orbitY += (mouseY - orbitY) * 0.2;
+    cursorDot.style.transform = 'translate3d(' + mouseX + 'px,' + mouseY + 'px,0) translate(-50%,-50%)';
+    cursorOrbit.style.transform =
+      'translate3d(' + orbitX + 'px,' + orbitY + 'px,0) translate(-50%,-50%)' +
+      (cursorEl.classList.contains('is-enter') ? ' scale(1.16)' : '');
+  }
+
+  portalBtn.addEventListener('pointerenter', function () { cursorEl.classList.add('is-enter'); });
+  portalBtn.addEventListener('pointerleave', function () { cursorEl.classList.remove('is-enter'); });
+
+  // ── VIDEO EVENT HELPERS ──
+  document.querySelectorAll('.background').forEach(function (v) {
+    v.addEventListener('canplaythrough', function () {
+      if (v.classList.contains('is-visible')) tryPlay(v);
+    });
+    v.addEventListener('canplay', function () {
+      if (v.classList.contains('is-visible')) tryPlay(v);
+    });
+  });
+  portalVideo.addEventListener('canplay', function () { tryPlay(portalVideo); });
+  portalVideo.addEventListener('canplaythrough', function () { tryPlay(portalVideo); });
+
 })();
 </script>
 </body>
