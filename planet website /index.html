@@ -694,6 +694,138 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
     }
   }
 
+  // ── 3D PLANET SPHERE RENDERER ──
+  function hash(x, y, seed) {
+    let h = seed + x * 374761393 + y * 668265263;
+    h = (h ^ (h >> 13)) * 1274126177;
+    h = h ^ (h >> 16);
+    return (h & 0x7fffffff) / 0x7fffffff;
+  }
+
+  function drawPlanet3D(context, cx, cy, radius, planetKey, time) {
+    const pv = planetVisuals[planetKey] || planetVisuals.mars;
+    const [r, g, b] = pv.color;
+    const [ar, ag, ab] = pv.accent;
+    const d = radius * 2;
+    if (d < 2) return;
+    const lightX = cx - radius * 0.35;
+    const lightY = cy - radius * 0.35;
+    const sphereGrad = context.createRadialGradient(lightX, lightY, radius * 0.05, cx, cy, radius);
+    sphereGrad.addColorStop(0, 'rgb(' + Math.min(255, r + 80) + ',' + Math.min(255, g + 80) + ',' + Math.min(255, b + 60) + ')');
+    sphereGrad.addColorStop(0.4, 'rgb(' + r + ',' + g + ',' + b + ')');
+    sphereGrad.addColorStop(0.75, 'rgb(' + Math.max(0, r - 60) + ',' + Math.max(0, g - 60) + ',' + Math.max(0, b - 50) + ')');
+    sphereGrad.addColorStop(1, 'rgb(' + Math.max(0, r - 120) + ',' + Math.max(0, g - 120) + ',' + Math.max(0, b - 100) + ')');
+    context.save();
+    context.beginPath();
+    context.arc(cx, cy, radius, 0, Math.PI * 2);
+    context.fillStyle = sphereGrad;
+    context.fill();
+    // Surface bands
+    context.globalCompositeOperation = 'overlay';
+    context.globalAlpha = 0.3;
+    const bandCount = planetKey === 'jupiter' || planetKey === 'saturn' ? 12 : 5;
+    for (let i = 0; i < bandCount; i++) {
+      const bandY = cy - radius + (2 * radius * (i + 0.5) / bandCount);
+      const bandH = radius * 2 / bandCount;
+      const distFromCenter = Math.abs(bandY - cy) / radius;
+      const bandWidth = Math.sqrt(1 - distFromCenter * distFromCenter) * radius * 2;
+      if (bandWidth <= 0) continue;
+      const alpha = hash(i, 0, pv.craterSeed || 3) * 0.25;
+      const shade = hash(i, 1, pv.craterSeed || 3) > 0.5 ? 1 : 0;
+      context.fillStyle = shade
+        ? 'rgba(' + Math.min(255, ar + 40) + ',' + Math.min(255, ag + 40) + ',' + Math.min(255, ab + 30) + ',' + alpha + ')'
+        : 'rgba(' + Math.max(0, ar - 40) + ',' + Math.max(0, ag - 40) + ',' + Math.max(0, ab - 30) + ',' + alpha + ')';
+      context.fillRect(cx - bandWidth / 2, bandY - bandH / 2, bandWidth, bandH);
+    }
+    // Craters for rocky planets
+    if (pv.craterSeed > 0) {
+      context.globalCompositeOperation = 'multiply';
+      context.globalAlpha = 0.15;
+      for (let i = 0; i < pv.craterSeed * 3; i++) {
+        const angle = hash(i, 10, pv.craterSeed) * Math.PI * 2;
+        const dist = hash(i, 20, pv.craterSeed) * 0.75;
+        const px = cx + Math.cos(angle) * dist * radius;
+        const py = cy + Math.sin(angle) * dist * radius;
+        const cr = hash(i, 30, pv.craterSeed) * radius * 0.12 + radius * 0.03;
+        context.beginPath();
+        context.arc(px, py, cr, 0, Math.PI * 2);
+        context.fillStyle = 'rgba(0,0,0,0.3)';
+        context.fill();
+      }
+    }
+    context.globalCompositeOperation = 'source-over';
+    context.globalAlpha = 1;
+    // Atmosphere
+    if (pv.atmosphere) {
+      const [aR, aG, aB, aA] = pv.atmosphere;
+      const atmoGrad = context.createRadialGradient(cx, cy, radius * 0.92, cx, cy, radius * 1.25);
+      atmoGrad.addColorStop(0, 'rgba(' + aR + ',' + aG + ',' + aB + ',0)');
+      atmoGrad.addColorStop(0.5, 'rgba(' + aR + ',' + aG + ',' + aB + ',' + aA + ')');
+      atmoGrad.addColorStop(1, 'rgba(' + aR + ',' + aG + ',' + aB + ',0)');
+      context.beginPath();
+      context.arc(cx, cy, radius * 1.25, 0, Math.PI * 2);
+      context.fillStyle = atmoGrad;
+      context.fill();
+    }
+    // Terminator shadow
+    const shadowGrad = context.createLinearGradient(cx - radius, cy, cx + radius, cy);
+    shadowGrad.addColorStop(0, 'rgba(0,0,0,0)');
+    shadowGrad.addColorStop(0.6, 'rgba(0,0,0,0)');
+    shadowGrad.addColorStop(0.85, 'rgba(0,0,0,0.4)');
+    shadowGrad.addColorStop(1, 'rgba(0,0,0,0.7)');
+    context.beginPath();
+    context.arc(cx, cy, radius, 0, Math.PI * 2);
+    context.fillStyle = shadowGrad;
+    context.fill();
+    // Specular
+    const specGrad = context.createRadialGradient(lightX, lightY, 0, lightX, lightY, radius * 0.6);
+    specGrad.addColorStop(0, 'rgba(255,255,255,0.2)');
+    specGrad.addColorStop(0.3, 'rgba(255,255,255,0.05)');
+    specGrad.addColorStop(1, 'rgba(255,255,255,0)');
+    context.beginPath();
+    context.arc(cx, cy, radius, 0, Math.PI * 2);
+    context.fillStyle = specGrad;
+    context.fill();
+    // Saturn rings
+    if (pv.rings) {
+      context.save();
+      context.beginPath();
+      context.ellipse(cx, cy, radius * 2, radius * 0.5, -0.15, 0, Math.PI * 2);
+      context.strokeStyle = 'rgba(' + (r + 20) + ',' + (g + 20) + ',' + (b + 10) + ',0.5)';
+      context.lineWidth = radius * 0.15;
+      context.stroke();
+      context.beginPath();
+      context.ellipse(cx, cy, radius * 1.7, radius * 0.42, -0.15, 0, Math.PI * 2);
+      context.strokeStyle = 'rgba(' + (r + 40) + ',' + (g + 40) + ',' + (b + 20) + ',0.35)';
+      context.lineWidth = radius * 0.08;
+      context.stroke();
+      context.restore();
+    }
+    context.restore();
+  }
+
+  function drawPortalPlanet(context, cx, cy, w, h, time) {
+    const s = states[current];
+    const nextPlanetName = s.next.toLowerCase();
+    const planetRadius = Math.min(w, h) * 0.35;
+    const bgGrad = context.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h) * 0.7);
+    bgGrad.addColorStop(0, '#0e0c14');
+    bgGrad.addColorStop(1, '#040308');
+    context.fillStyle = bgGrad;
+    context.fillRect(0, 0, innerWidth, innerHeight);
+    for (let i = 0; i < 40; i++) {
+      const sx = cx + (hash(i, 100, 42) - 0.5) * w;
+      const sy = cy + (hash(i, 200, 42) - 0.5) * h;
+      const sr = hash(i, 300, 42) * 1.2 + 0.3;
+      const sa = 0.3 + 0.3 * Math.sin(time * 0.002 * (hash(i, 400, 42) + 0.5));
+      context.beginPath();
+      context.arc(sx, sy, sr, 0, Math.PI * 2);
+      context.fillStyle = 'rgba(255,255,255,' + sa + ')';
+      context.fill();
+    }
+    drawPlanet3D(context, cx, cy + h * 0.05, planetRadius, nextPlanetName, time);
+  }
+
 })();
 </script>
 </body>
