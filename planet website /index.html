@@ -348,6 +348,36 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
 </style>
 </head>
 <body>
+
+<main class="experience" data-planet="mars">
+  <canvas class="starfield-canvas" id="starfield-canvas" aria-hidden="true"></canvas>
+
+  <div class="backgrounds" aria-hidden="true">
+    <video id="mars-background" class="background is-visible"
+      src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/3c83091e-4046-4fd6-adbb-2edb728be79a.mp4"
+      muted playsinline preload="auto" loop></video>
+    <video id="earth-background" class="background"
+      src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/fc3ded42-e845-41f3-a830-5cab512d79cd.mp4"
+      muted playsinline preload="auto" loop></video>
+    <video id="venus-background" class="background"
+      src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/b30f64d9-1637-477a-83df-d0fc6461a422.mp4"
+      muted playsinline preload="auto" loop></video>
+  </div>
+
+  <div class="preloader" id="preloader" aria-label="Loading Mars">
+    <video id="preloader-video"
+      src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/5fc5651c-3b5d-4171-b507-87f7e635d1b4.mp4"
+      muted playsinline preload="auto"></video>
+    <div class="preloader-shade"></div>
+  </div>
+
+  <img class="floating-logo" id="floating-logo"
+    src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/eb7e0f53-50cd-4af5-abc4-8b9a52cdc01b.svg"
+    alt="Ubernatural">
+
+  <div class="preloader-count" id="preloader-count" aria-live="polite">
+    <span id="preloader-value">0</span><span class="percent">%</span>
+  </div>
 <script>
 </script>
 </body>
