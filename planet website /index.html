@@ -623,6 +623,77 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
     }
   }
 
+  // ── STARFIELD ──
+  const stars = [];
+  const NUM_STARS = 600;
+  function initStars() {
+    for (let i = 0; i < NUM_STARS; i++) {
+      stars.push({
+        x: Math.random(), y: Math.random(),
+        r: Math.random() * 1.8 + 0.3,
+        brightness: Math.random() * 0.7 + 0.3,
+        twinkleSpeed: Math.random() * 2 + 0.5,
+        twinkleOffset: Math.random() * Math.PI * 2
+      });
+    }
+  }
+  initStars();
+
+  let nebulaCacheCanvas = null;
+  let nebulaCacheW = 0, nebulaCacheH = 0;
+
+  function buildNebulaCache(w, h) {
+    nebulaCacheCanvas = document.createElement('canvas');
+    nebulaCacheCanvas.width = w;
+    nebulaCacheCanvas.height = h;
+    nebulaCacheW = w; nebulaCacheH = h;
+    const nc = nebulaCacheCanvas.getContext('2d');
+    const bg = nc.createRadialGradient(w * 0.3, h * 0.4, 0, w * 0.5, h * 0.5, w * 0.8);
+    bg.addColorStop(0, '#0d0b12');
+    bg.addColorStop(0.5, '#0a0908');
+    bg.addColorStop(1, '#060508');
+    nc.fillStyle = bg;
+    nc.fillRect(0, 0, w, h);
+    const nebulae = [
+      { x: 0.2, y: 0.3, rx: 0.25, ry: 0.2, color: [180, 60, 40] },
+      { x: 0.75, y: 0.6, rx: 0.3, ry: 0.18, color: [40, 50, 120] },
+      { x: 0.5, y: 0.15, rx: 0.2, ry: 0.12, color: [60, 30, 90] },
+    ];
+    for (const n of nebulae) {
+      const grad = nc.createRadialGradient(n.x * w, n.y * h, 0, n.x * w, n.y * h, Math.max(n.rx * w, n.ry * h));
+      grad.addColorStop(0, 'rgba(' + n.color[0] + ',' + n.color[1] + ',' + n.color[2] + ',0.08)');
+      grad.addColorStop(0.5, 'rgba(' + n.color[0] + ',' + n.color[1] + ',' + n.color[2] + ',0.03)');
+      grad.addColorStop(1, 'rgba(0,0,0,0)');
+      nc.fillStyle = grad;
+      nc.fillRect(0, 0, w, h);
+    }
+  }
+
+  function drawStarfield(time) {
+    const w = innerWidth, h = innerHeight;
+    if (!nebulaCacheCanvas || nebulaCacheW !== w || nebulaCacheH !== h) buildNebulaCache(w, h);
+    sfCtx.drawImage(nebulaCacheCanvas, 0, 0);
+    for (const s of stars) {
+      const twinkle = 0.5 + 0.5 * Math.sin(time * 0.001 * s.twinkleSpeed + s.twinkleOffset);
+      const alpha = s.brightness * (0.5 + 0.5 * twinkle);
+      sfCtx.beginPath();
+      sfCtx.arc(s.x * w, s.y * h, s.r, 0, Math.PI * 2);
+      sfCtx.fillStyle = 'rgba(255,255,255,' + alpha + ')';
+      sfCtx.fill();
+    }
+    const st = states[current];
+    if (st) {
+      const pv = planetVisuals[current] || planetVisuals.mars;
+      const c = pv.color;
+      const glowGrad = sfCtx.createRadialGradient(w * 0.55, h * 0.45, 0, w * 0.55, h * 0.45, w * 0.5);
+      glowGrad.addColorStop(0, 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',0.12)');
+      glowGrad.addColorStop(0.3, 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',0.04)');
+      glowGrad.addColorStop(1, 'rgba(0,0,0,0)');
+      sfCtx.fillStyle = glowGrad;
+      sfCtx.fillRect(0, 0, w, h);
+    }
+  }
+
 })();
 </script>
 </body>
