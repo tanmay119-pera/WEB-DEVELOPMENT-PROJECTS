@@ -861,6 +861,65 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
     return portalVideo;
   }
 
+  // ── MAIN DRAW LOOP ──
+  let lastTime = 0;
+  function draw(now) {
+    requestAnimationFrame(draw);
+    const dt = Math.min(now - (lastTime || now), 40);
+    lastTime = now;
+    drawStarfield(now);
+    if (!busy) {
+      rotX += (targetX - rotX) * Math.min(1, dt * 0.009);
+      rotY += (targetY - rotY) * Math.min(1, dt * 0.009);
+    }
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    if (frozenScene) {
+      ctx.drawImage(sceneCanvas, 0, 0, innerWidth, innerHeight);
+      drawShade(ctx);
+    }
+    const rect = portalBtn.getBoundingClientRect();
+    const rectCx = rect.left + rect.width / 2;
+    const rectCy = rect.top + rect.height / 2;
+    const e = expansion;
+    const cx = rectCx + (innerWidth / 2 - rectCx) * e;
+    const cy = rectCy + (innerHeight / 2 - rectCy) * e;
+    const baseW = rect.width + (innerWidth - rect.width) * e;
+    const baseH = rect.height + (innerHeight - rect.height) * e;
+    const scale = e ? 1 : maskScale;
+    const w = baseW * scale;
+    const h = baseH * scale;
+    const r = 90 * (1 - e) * scale;
+    const rx = rotX * (1 - e);
+    const ry = rotY * (1 - e);
+    if (w > 1 && h > 1) {
+      const pts = roundedRectPoints(w, h, r);
+      const projected = pts.map(function (p) { return project(p[0], p[1], rx, ry, cx, cy); });
+      ctx.save();
+      ctx.globalAlpha = canvasOpacity;
+      ctx.beginPath();
+      ctx.moveTo(projected[0][0], projected[0][1]);
+      for (let i = 1; i < projected.length; i++) {
+        ctx.lineTo(projected[i][0], projected[i][1]);
+      }
+      ctx.closePath();
+      ctx.clip();
+      ctx.fillStyle = '#030303';
+      ctx.fillRect(0, 0, innerWidth, innerHeight);
+      if (transitionActive) {
+        if (!drawCover(transitionVid, ctx)) {
+          drawPortalPlanet(ctx, cx, cy, w, h, now);
+        }
+        drawShade(ctx);
+      } else {
+        const media = getPortalMedia();
+        if (!drawCover(media, ctx)) {
+          drawPortalPlanet(ctx, cx, cy, w, h, now);
+        }
+      }
+      ctx.restore();
+    }
+  }
+
 })();
 </script>
 </body>
