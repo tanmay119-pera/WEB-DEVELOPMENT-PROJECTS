@@ -1083,6 +1083,78 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
     }
   }
 
+  // ── TRAVEL ──
+  portalBtn.addEventListener('click', travel);
+
+  async function travel() {
+    if (busy || current === 'venus') return;
+    busy = true;
+    targetX = 0; targetY = 0;
+    const next = current === 'mars' ? 'earth' : 'venus';
+    try {
+      transitionVid.src = states[current].portal;
+      transitionVid.load();
+      experience.classList.add('is-loading');
+      await new Promise(function (resolve) {
+        let resolved = false;
+        function done() { if (!resolved) { resolved = true; resolve(); } }
+        transitionVid.addEventListener('canplaythrough', done, { once: true });
+        transitionVid.addEventListener('error', done, { once: true });
+        setTimeout(done, 1600);
+      });
+      experience.classList.remove('is-loading');
+      experience.classList.remove('content-revealing');
+      experience.classList.remove('mask-revealing');
+      experience.classList.add('is-transitioning');
+      transitionVid.currentTime = 0;
+      transitionVid.playbackRate = 1.3;
+      canvasOpacity = 1;
+      transitionActive = true;
+      try { await transitionVid.play(); } catch (e) {}
+      await animateValue(function (v) { expansion = v; }, 1100);
+      await new Promise(function (resolve) {
+        if (transitionVid.ended) { resolve(); return; }
+        transitionVid.addEventListener('ended', resolve, { once: true });
+        setTimeout(resolve, 8000);
+      });
+      frozenScene = true;
+      const d = Math.min(devicePixelRatio || 1, 2);
+      sceneCanvas.width = innerWidth * d;
+      sceneCanvas.height = innerHeight * d;
+      sceneCanvas.style.width = innerWidth + 'px';
+      sceneCanvas.style.height = innerHeight + 'px';
+      sctx.setTransform(d, 0, 0, d, 0, 0);
+      sctx.clearRect(0, 0, innerWidth, innerHeight);
+      drawCover(transitionVid, sctx);
+      current = next;
+      experience.classList.add('is-committing');
+      render();
+      await new Promise(function (r) { requestAnimationFrame(function () { requestAnimationFrame(r); }); });
+      transitionActive = false;
+      expansion = 0;
+      maskScale = 0;
+      canvasOpacity = 1;
+      experience.classList.remove('is-transitioning');
+      experience.classList.remove('is-committing');
+      const bgVid = document.getElementById(states[current].background);
+      if (bgVid) { bgVid.currentTime = 0; try { await bgVid.play(); } catch (e) {} }
+      if (!states[current].image) { try { portalVideo.currentTime = 0; portalVideo.play(); } catch (e) {} }
+      const maskRevealP = revealMask();
+      setTimeout(revealPlanetContent, 100);
+      await maskRevealP;
+      frozenScene = false;
+      setTimeout(function () { transitionVid.removeAttribute('src'); transitionVid.load(); busy = false; }, 450);
+    } catch (err) {
+      console.warn('Travel error:', err);
+      transitionActive = false; expansion = 0; maskScale = 1; canvasOpacity = 1;
+      frozenScene = false;
+      experience.classList.remove('is-transitioning');
+      experience.classList.remove('is-committing');
+      experience.classList.remove('is-loading');
+      busy = false;
+    }
+  }
+
 })();
 </script>
 </body>
