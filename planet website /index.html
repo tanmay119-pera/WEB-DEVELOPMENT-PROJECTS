@@ -154,6 +154,60 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; }
 .fact:last-child { border-bottom: 0; }
 .fact dt { font-weight: 700; }
 .fact dd { margin: 0; }
+
+/* PRELOADER */
+.preloader {
+  position: absolute; inset: 0; z-index: 20;
+  background: #000; overflow: hidden;
+}
+.preloader video {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+}
+.preloader-shade {
+  position: absolute; inset: auto 0 0; height: 35%;
+  background: linear-gradient(to bottom, transparent, #000);
+}
+.preloader.is-background { z-index: 0; }
+.preloader.is-background .preloader-shade { opacity: 0; }
+
+.floating-logo {
+  position: fixed; z-index: 22;
+  left: 50%; top: 50%; width: 59px; height: 58px;
+  transform: translate(-50%, -50%);
+  will-change: left, top, width, height, transform;
+  transition:
+    left 2s cubic-bezier(.16,1,.3,1),
+    top 2s cubic-bezier(.16,1,.3,1),
+    width 2s cubic-bezier(.16,1,.3,1),
+    height 2s cubic-bezier(.16,1,.3,1),
+    transform 2s cubic-bezier(.16,1,.3,1);
+}
+.floating-logo.is-docked {
+  left: clamp(18px, 1.95vw, 28px); top: clamp(18px, 3.1vh, 28px);
+  width: 37px; height: 36px; transform: none;
+}
+.floating-logo.is-settled { z-index: 5; }
+
+.preloader-count {
+  position: fixed; z-index: 22; left: 50%;
+  bottom: clamp(22px, 3.1vh, 28px);
+  display: flex; align-items: flex-end; gap: 4px;
+  transform: translateX(-50%);
+  font-family: 'SF Pro', Arial, sans-serif; line-height: 1;
+}
+.preloader-count > span:first-child {
+  font-family: 'SF Pro Thin', 'SF Pro', Arial, sans-serif;
+  font-size: 64px; font-weight: 100;
+}
+.preloader-count .percent { font-size: 24px; padding-bottom: 4px; }
+.preloader-count.is-leaving {
+  animation: preload-count-out .75s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes preload-count-out {
+  to { opacity: 0; filter: blur(7px); transform: translate(-50%, -34px); }
+}
+body:not(.preload-complete) .custom-cursor { opacity: 0 !important; }
+
 </style>
 </head>
 <body>
