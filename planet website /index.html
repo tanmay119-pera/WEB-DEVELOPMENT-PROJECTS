@@ -394,6 +394,24 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
 
   <aside class="planet-list chrome" aria-label="Planets"></aside>
 
+
+  <canvas id="portal-canvas" class="portal-canvas" aria-hidden="true"></canvas>
+
+  <section class="portal-wrap chrome" aria-label="Next destination">
+    <div class="portal-heading">
+      <span>Next:</span>
+      <span><span id="next-number">[03]</span> <strong id="next-name">Earth</strong></span>
+    </div>
+    <button class="portal" id="portal" type="button" aria-label="Travel to Earth">
+      <video id="portal-video"
+        src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/fc3ded42-e845-41f3-a830-5cab512d79cd.mp4"
+        muted playsinline preload="auto" loop></video>
+      <img id="portal-image"
+        src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/d6fb8b6b-c15e-4aaa-9cf7-45bbb5e33372.jpg"
+        alt="Mercury">
+    </button>
+  </section>
+
 <script>
 </script>
 </body>
