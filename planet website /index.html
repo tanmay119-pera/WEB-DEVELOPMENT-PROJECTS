@@ -749,16 +749,28 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
       sfCtx.fillStyle = 'rgba(255,255,255,' + alpha + ')';
       sfCtx.fill();
     }
+    // MAJESTIC 3D ORBITAL PLANET IN SPACE BACKGROUND
     const st = states[current];
     if (st) {
       const pv = planetVisuals[current] || planetVisuals.mars;
       const c = pv.color;
-      const glowGrad = sfCtx.createRadialGradient(w * 0.55, h * 0.45, 0, w * 0.55, h * 0.45, w * 0.5);
-      glowGrad.addColorStop(0, 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',0.12)');
-      glowGrad.addColorStop(0.3, 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',0.04)');
+      const glowGrad = sfCtx.createRadialGradient(w * 0.65, h * 0.50, 0, w * 0.65, h * 0.50, w * 0.65);
+      glowGrad.addColorStop(0, 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',0.18)');
+      glowGrad.addColorStop(0.4, 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',0.06)');
       glowGrad.addColorStop(1, 'rgba(0,0,0,0)');
       sfCtx.fillStyle = glowGrad;
       sfCtx.fillRect(0, 0, w, h);
+
+      const bgRadius = Math.min(w, h) * 0.38;
+      const bgCenterX = w * 0.68;
+      const bgCenterY = h * 0.50;
+      const rotAngle = time * 0.00035 * (pv.rotationSpeed > 0 ? 1 : -1);
+
+      // Render the current planet as a magnificent 3D globe in space
+      drawPlanet3DGlobe(sfCtx, bgCenterX, bgCenterY, bgRadius, current, rotAngle, {
+        showAtmosphere: true,
+        showRings: true
+      });
     }
   }
 
