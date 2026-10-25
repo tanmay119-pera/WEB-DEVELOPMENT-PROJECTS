@@ -727,6 +727,39 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
     return total / maxAmp;
   }
 
+  // ── PROCEDURAL PLANETARY TEXTURE GENERATORS ──
+  function generateMercuryTexture(w, h) {
+    const cvs = document.createElement('canvas');
+    cvs.width = w; cvs.height = h;
+    const c = cvs.getContext('2d');
+    const idata = c.createImageData(w, h);
+    const data = idata.data;
+    for (let y = 0; y < h; y++) {
+      const ny = y / h;
+      for (let x = 0; x < w; x++) {
+        const nx = x / w;
+        const n1 = fbm2D(nx * 12, ny * 6, 4, 0.5);
+        const n2 = fbm2D(nx * 32, ny * 16, 2, 0.5);
+        let val = Math.floor(130 + n1 * 60 + n2 * 25);
+        // Add impact craters
+        const cr1 = hash2D(Math.floor(nx * 18), Math.floor(ny * 9));
+        if (cr1 > 0.85) {
+          const cdx = (nx * 18) % 1 - 0.5;
+          const cdy = (ny * 9) % 1 - 0.5;
+          const dist = Math.sqrt(cdx*cdx + cdy*cdy);
+          if (dist < 0.4) val = Math.max(70, val - Math.floor((1 - dist*2.5) * 50));
+        }
+        const idx = (y * w + x) * 4;
+        data[idx] = val;
+        data[idx + 1] = Math.floor(val * 0.96);
+        data[idx + 2] = Math.floor(val * 0.92);
+        data[idx + 3] = 255;
+      }
+    }
+    c.putImageData(idata, 0, 0);
+    return cvs;
+  }
+
   // ── 3D PLANET SPHERE RENDERER ──
   function hash(x, y, seed) {
     let h = seed + x * 374761393 + y * 668265263;
