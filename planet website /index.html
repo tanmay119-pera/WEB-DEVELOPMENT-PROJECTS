@@ -1069,6 +1069,56 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
   // ── ATMOSPHERIC SCATTERING & FRESNEL LIMB ──
   // Multi-stop Rayleigh scattering corona and edge Fresnel brightening
 
+  // ── PLANETARY RING RENDERER ──
+  function drawPlanetRings(context, cx, cy, radius, pv, isBack) {
+    context.save();
+    context.translate(cx, cy);
+    const tilt = pv.ringTilt || -0.22;
+    context.rotate(tilt);
+
+    // Clip to back or front half
+    context.beginPath();
+    if (isBack) {
+      context.rect(-radius * 3.5, -radius * 3.5, radius * 7.0, radius * 3.5);
+    } else {
+      context.rect(-radius * 3.5, 0, radius * 7.0, radius * 3.5);
+    }
+    context.clip();
+
+    const [r, g, b] = pv.color;
+    const ringInner = radius * 1.25;
+    const ringOuter = radius * 2.30;
+    const ringSteps = 16;
+    const stepW = (ringOuter - ringInner) / ringSteps;
+
+    for (let i = 0; i < ringSteps; i++) {
+      const curR = ringInner + i * stepW;
+      const relPos = i / ringSteps;
+      // Cassini division gap at ~65%
+      let alpha = 0.45;
+      if (relPos > 0.60 && relPos < 0.70) {
+        alpha = 0.05; // Cassini division
+      } else if (relPos < 0.25) {
+        alpha = 0.20; // C ring transparency
+      }
+      context.beginPath();
+      context.ellipse(0, 0, curR, curR * 0.26, 0, 0, Math.PI * 2);
+      context.strokeStyle = 'rgba(' + (r + 20) + ',' + (g + 18) + ',' + (b + 12) + ',' + alpha + ')';
+      context.lineWidth = stepW + 0.5;
+      context.stroke();
+    }
+
+    // Shadow cast by planet onto rear ring
+    if (isBack) {
+      context.beginPath();
+      context.ellipse(radius * 0.25, -radius * 0.15, radius * 0.95, radius * 0.40, 0, 0, Math.PI * 2);
+      context.fillStyle = 'rgba(0,0,0,0.85)';
+      context.fill();
+    }
+
+    context.restore();
+  }
+
   function drawPlanet3DGlobe(context, cx, cy, radius, planetKey, rotationAngle, options) {
     options = options || {};
     const pv = planetVisuals[planetKey] || planetVisuals.mars;
