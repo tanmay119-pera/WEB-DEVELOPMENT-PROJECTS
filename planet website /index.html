@@ -728,6 +728,74 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
   }
 
   // ── PROCEDURAL PLANETARY TEXTURE GENERATORS ──
+  function generateEarthTexture(w, h) {
+    const cvs = document.createElement('canvas');
+    cvs.width = w; cvs.height = h;
+    const c = cvs.getContext('2d');
+    const idata = c.createImageData(w, h);
+    const data = idata.data;
+    for (let y = 0; y < h; y++) {
+      const ny = y / h;
+      for (let x = 0; x < w; x++) {
+        const nx = x / w;
+        const cont = fbm2D(nx * 5.5, ny * 3.5, 5, 0.55);
+        let r, g, b;
+        if (cont > 0.48) {
+          // Landmass
+          const veg = fbm2D(nx * 14, ny * 10, 3, 0.5);
+          if (ny < 0.15 || ny > 0.85) {
+            // Ice sheets
+            r = 240; g = 245; b = 255;
+          } else if (cont > 0.62) {
+            // Mountains / highlands
+            r = Math.floor(130 + veg * 50);
+            g = Math.floor(115 + veg * 40);
+            b = Math.floor(80 + veg * 30);
+          } else {
+            // Green biomes & plains
+            r = Math.floor(40 + veg * 40);
+            g = Math.floor(125 + veg * 65);
+            b = Math.floor(55 + veg * 35);
+          }
+        } else {
+          // Oceans & coastal shelves
+          const depth = cont / 0.48;
+          r = Math.floor(15 + depth * 25);
+          g = Math.floor(45 + depth * 65);
+          b = Math.floor(125 + depth * 115);
+        }
+        // Polar ice caps
+        if (ny < 0.08 || ny > 0.92) {
+          r = 245; g = 250; b = 255;
+        }
+        const idx = (y * w + x) * 4;
+        data[idx] = r; data[idx + 1] = g; data[idx + 2] = b; data[idx + 3] = 255;
+      }
+    }
+    c.putImageData(idata, 0, 0);
+    return cvs;
+  }
+
+  function generateEarthCloudsTexture(w, h) {
+    const cvs = document.createElement('canvas');
+    cvs.width = w; cvs.height = h;
+    const c = cvs.getContext('2d');
+    const idata = c.createImageData(w, h);
+    const data = idata.data;
+    for (let y = 0; y < h; y++) {
+      const ny = y / h;
+      for (let x = 0; x < w; x++) {
+        const nx = x / w;
+        const cloud = fbm2D(nx * 8 + 0.3, ny * 4 + 0.2, 4, 0.6);
+        const alpha = cloud > 0.52 ? Math.min(255, Math.floor((cloud - 0.52) * 550)) : 0;
+        const idx = (y * w + x) * 4;
+        data[idx] = 255; data[idx + 1] = 255; data[idx + 2] = 255; data[idx + 3] = alpha;
+      }
+    }
+    c.putImageData(idata, 0, 0);
+    return cvs;
+  }
+
   function generateMarsTexture(w, h) {
     const cvs = document.createElement('canvas');
     cvs.width = w; cvs.height = h;
