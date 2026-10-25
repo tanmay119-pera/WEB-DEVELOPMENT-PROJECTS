@@ -728,6 +728,66 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
   }
 
   // ── PROCEDURAL PLANETARY TEXTURE GENERATORS ──
+  function generateUranusTexture(w, h) {
+    const cvs = document.createElement('canvas');
+    cvs.width = w; cvs.height = h;
+    const c = cvs.getContext('2d');
+    const idata = c.createImageData(w, h);
+    const data = idata.data;
+    for (let y = 0; y < h; y++) {
+      const ny = y / h;
+      const band = Math.sin(ny * Math.PI * 6);
+      for (let x = 0; x < w; x++) {
+        const nx = x / w;
+        const n = fbm2D(nx * 8, ny * 8, 2, 0.5);
+        const r = Math.floor(135 + band * 12 + n * 10);
+        const g = Math.floor(215 + band * 14 + n * 10);
+        const b = Math.floor(230 + band * 12 + n * 10);
+        const idx = (y * w + x) * 4;
+        data[idx] = r; data[idx + 1] = g; data[idx + 2] = b; data[idx + 3] = 255;
+      }
+    }
+    c.putImageData(idata, 0, 0);
+    return cvs;
+  }
+
+  function generateNeptuneTexture(w, h) {
+    const cvs = document.createElement('canvas');
+    cvs.width = w; cvs.height = h;
+    const c = cvs.getContext('2d');
+    const idata = c.createImageData(w, h);
+    const data = idata.data;
+    for (let y = 0; y < h; y++) {
+      const ny = y / h;
+      const band = Math.sin(ny * Math.PI * 10);
+      for (let x = 0; x < w; x++) {
+        const nx = x / w;
+        const n = fbm2D(nx * 12, ny * 14, 3, 0.5);
+        let r = Math.floor(50 + band * 15 + n * 15);
+        let g = Math.floor(90 + band * 20 + n * 20);
+        let b = Math.floor(220 + band * 25 + n * 15);
+        // White methane cirrus streaks ("Scooter")
+        if (Math.abs(ny - 0.45) < 0.03 && Math.sin(nx * Math.PI * 8) > 0.6) {
+          r = Math.min(255, r + 160);
+          g = Math.min(255, g + 150);
+          b = Math.min(255, b + 120);
+        }
+        // Great Dark Spot
+        const dx = (nx - 0.38) * 8.0;
+        const dy = (ny - 0.58) * 14.0;
+        if (dx*dx + dy*dy < 0.5) {
+          r = Math.floor(r * 0.5);
+          g = Math.floor(g * 0.55);
+          b = Math.floor(b * 0.7);
+        }
+        const idx = (y * w + x) * 4;
+        data[idx] = r; data[idx + 1] = g; data[idx + 2] = b; data[idx + 3] = 255;
+      }
+    }
+    c.putImageData(idata, 0, 0);
+    return cvs;
+  }
+
   function generateSaturnTexture(w, h) {
     const cvs = document.createElement('canvas');
     cvs.width = w; cvs.height = h;
