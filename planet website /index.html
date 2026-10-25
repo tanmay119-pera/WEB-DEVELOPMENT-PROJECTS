@@ -1572,10 +1572,10 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
   portalBtn.addEventListener('click', travel);
 
   async function travel() {
-    if (busy || current === 'venus') return;
+    if (busy) return;
     busy = true;
     targetX = 0; targetY = 0;
-    const next = current === 'mars' ? 'earth' : 'venus';
+    const next = states[current].next.toLowerCase();
     try {
       transitionVid.src = states[current].portal;
       transitionVid.load();
