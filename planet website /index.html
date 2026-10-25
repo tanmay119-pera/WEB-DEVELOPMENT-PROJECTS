@@ -1052,6 +1052,9 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
     return planetTextureCache[planetKey];
   }
 
+  // ── SPHERICAL PROJECTION STRIP ENGINE ──
+  // Slices sphere into horizontal geometric strips mapped to equirectangular latitude/longitude coordinates
+
   // ── 3D PLANET SPHERE RENDERER ──
   function hash(x, y, seed) {
     let h = seed + x * 374761393 + y * 668265263;
