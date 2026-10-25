@@ -694,6 +694,39 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
     }
   }
 
+  // ── PROCEDURAL NOISE & MATH ENGINE ──
+  function hash2D(x, y) {
+    let n = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453123;
+    return n - Math.floor(n);
+  }
+
+  function smoothNoise(x, y) {
+    const i = Math.floor(x);
+    const j = Math.floor(y);
+    const fx = x - i;
+    const fy = y - j;
+    const u = fx * fx * (3.0 - 2.0 * fx);
+    const v = fy * fy * (3.0 - 2.0 * fy);
+    const a = hash2D(i, j);
+    const b = hash2D(i + 1, j);
+    const c = hash2D(i, j + 1);
+    const d = hash2D(i + 1, j + 1);
+    return a * (1 - u) * (1 - v) + b * u * (1 - v) + c * (1 - u) * v + d * u * v;
+  }
+
+  function fbm2D(x, y, octaves, persistence) {
+    let total = 0, freq = 1, amp = 1, maxAmp = 0;
+    octaves = octaves || 4;
+    persistence = persistence || 0.5;
+    for (let i = 0; i < octaves; i++) {
+      total += smoothNoise(x * freq, y * freq) * amp;
+      maxAmp += amp;
+      amp *= persistence;
+      freq *= 2;
+    }
+    return total / maxAmp;
+  }
+
   // ── 3D PLANET SPHERE RENDERER ──
   function hash(x, y, seed) {
     let h = seed + x * 374761393 + y * 668265263;
