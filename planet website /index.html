@@ -1244,23 +1244,34 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
   function drawPortalPlanet(context, cx, cy, w, h, time) {
     const s = states[current];
     const nextPlanetName = s.next.toLowerCase();
-    const planetRadius = Math.min(w, h) * 0.35;
-    const bgGrad = context.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h) * 0.7);
-    bgGrad.addColorStop(0, '#0e0c14');
-    bgGrad.addColorStop(1, '#040308');
+    const planetRadius = Math.min(w, h) * 0.36;
+
+    // Deep space portal background
+    const bgGrad = context.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h) * 0.75);
+    bgGrad.addColorStop(0, '#0d0b14');
+    bgGrad.addColorStop(1, '#030206');
     context.fillStyle = bgGrad;
     context.fillRect(0, 0, innerWidth, innerHeight);
-    for (let i = 0; i < 40; i++) {
-      const sx = cx + (hash(i, 100, 42) - 0.5) * w;
-      const sy = cy + (hash(i, 200, 42) - 0.5) * h;
-      const sr = hash(i, 300, 42) * 1.2 + 0.3;
-      const sa = 0.3 + 0.3 * Math.sin(time * 0.002 * (hash(i, 400, 42) + 0.5));
+
+    // Twinkling stars inside portal window
+    for (let i = 0; i < 50; i++) {
+      const sx = cx + (hash2D(i, 100) - 0.5) * w * 1.2;
+      const sy = cy + (hash2D(i, 200) - 0.5) * h * 1.2;
+      const sr = hash2D(i, 300) * 1.4 + 0.4;
+      const sa = 0.4 + 0.4 * Math.sin(time * 0.002 * (hash2D(i, 400) + 0.5));
       context.beginPath();
       context.arc(sx, sy, sr, 0, Math.PI * 2);
       context.fillStyle = 'rgba(255,255,255,' + sa + ')';
       context.fill();
     }
-    drawPlanet3D(context, cx, cy + h * 0.05, planetRadius, nextPlanetName, time);
+
+    // Render 3D Destination Planet with smooth rotation & interactive tilt
+    const pv = planetVisuals[nextPlanetName] || planetVisuals.earth;
+    const rotAngle = time * 0.0006 * (pv.rotationSpeed > 0 ? 1 : -1);
+    drawPlanet3DGlobe(context, cx, cy + h * 0.02, planetRadius, nextPlanetName, rotAngle, {
+      showAtmosphere: true,
+      showRings: true
+    });
   }
 
   // ── ROUNDED RECT & PROJECTION ──
