@@ -728,6 +728,29 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
   }
 
   // ── PROCEDURAL PLANETARY TEXTURE GENERATORS ──
+  function generateSaturnTexture(w, h) {
+    const cvs = document.createElement('canvas');
+    cvs.width = w; cvs.height = h;
+    const c = cvs.getContext('2d');
+    const idata = c.createImageData(w, h);
+    const data = idata.data;
+    for (let y = 0; y < h; y++) {
+      const ny = y / h;
+      const band = Math.sin(ny * Math.PI * 18);
+      for (let x = 0; x < w; x++) {
+        const nx = x / w;
+        const n = fbm2D(nx * 10, ny * 16, 2, 0.5);
+        const r = Math.floor(220 + band * 18 + n * 12);
+        const g = Math.floor(195 + band * 16 + n * 10);
+        const b = Math.floor(145 + band * 14 + n * 8);
+        const idx = (y * w + x) * 4;
+        data[idx] = r; data[idx + 1] = g; data[idx + 2] = b; data[idx + 3] = 255;
+      }
+    }
+    c.putImageData(idata, 0, 0);
+    return cvs;
+  }
+
   function generateJupiterTexture(w, h) {
     const cvs = document.createElement('canvas');
     cvs.width = w; cvs.height = h;
