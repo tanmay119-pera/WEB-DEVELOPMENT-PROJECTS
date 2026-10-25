@@ -463,34 +463,84 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
   const allPlanets = ['Mercury','Venus','Earth','Mars','Jupiter','Saturn','Uranus','Neptune'];
 
   const states = {
-    mars: {
-      name: 'Mars', next: 'Earth', number: '[03]', portal: TO_EARTH,
+    mercury: {
+      name: 'Mercury', next: 'Venus', number: '[01]', portal: TO_VENUS,
       background: 'mars-background',
       facts: [
-        ['Distance:', 'About 228 million km (1.5 astronomical units).'],
-        ['Year:', 'One Martian year is equal to 687 Earth days.'],
-        ['Temperature:', 'Around -60 \u00b0C, dropping to -125 \u00b0C at the poles in winter.'],
-        ['Atmosphere:', 'Very thin, consisting of 95% carbon dioxide, with frequent dust storms.']
-      ]
-    },
-    earth: {
-      name: 'Earth', next: 'Venus', number: '[02]', portal: TO_VENUS,
-      background: 'earth-background',
-      facts: [
-        ['Distance:', '149.6 million km from the Sun.'],
-        ['Year:', '365.25 Earth days.'],
-        ['Temperature:', 'Average surface temperature around 15 \u00b0C.'],
-        ['Atmosphere:', 'Mostly nitrogen and oxygen, supporting life and liquid water.']
+        ['Distance:', '57.9 million km from the Sun (0.39 AU).'],
+        ['Year:', '88 Earth days per orbit.'],
+        ['Temperature:', '-180 °C at night to 430 °C during daylight.'],
+        ['Atmosphere:', 'Extremely thin exosphere of oxygen, sodium, and helium.']
       ]
     },
     venus: {
-      name: 'Venus', next: 'Mercury', number: '[06]', image: MERCURY,
+      name: 'Venus', next: 'Earth', number: '[02]', portal: TO_EARTH,
       background: 'venus-background',
       facts: [
-        ['Distance:', '108.2 million km from the Sun.'],
+        ['Distance:', '108.2 million km from the Sun (0.72 AU).'],
         ['Year:', '225 Earth days.'],
-        ['Temperature:', 'Around 465 \u00b0C \u2014 the hottest planet in the Solar System.'],
+        ['Temperature:', 'Around 465 °C — the hottest planet in the Solar System.'],
         ['Atmosphere:', 'Extremely dense, mostly carbon dioxide, with clouds of sulfuric acid.']
+      ]
+    },
+    earth: {
+      name: 'Earth', next: 'Mars', number: '[03]', portal: TO_MARS,
+      background: 'earth-background',
+      facts: [
+        ['Distance:', '149.6 million km from the Sun (1.0 AU).'],
+        ['Year:', '365.25 Earth days.'],
+        ['Temperature:', 'Average surface temperature around 15 °C.'],
+        ['Atmosphere:', 'Mostly nitrogen and oxygen, supporting life and liquid water.']
+      ]
+    },
+    mars: {
+      name: 'Mars', next: 'Jupiter', number: '[04]', portal: TO_EARTH,
+      background: 'mars-background',
+      facts: [
+        ['Distance:', 'About 228 million km (1.52 AU).'],
+        ['Year:', 'One Martian year is equal to 687 Earth days.'],
+        ['Temperature:', 'Around -60 °C, dropping to -125 °C at polar caps in winter.'],
+        ['Atmosphere:', 'Very thin, consisting of 95% carbon dioxide, with frequent dust storms.']
+      ]
+    },
+    jupiter: {
+      name: 'Jupiter', next: 'Saturn', number: '[05]', portal: TO_VENUS,
+      background: 'earth-background',
+      facts: [
+        ['Distance:', '778.5 million km from the Sun (5.20 AU).'],
+        ['Year:', '11.86 Earth years (4,333 Earth days).'],
+        ['Temperature:', '-110 °C in upper cloud layers.'],
+        ['Atmosphere:', 'Mostly hydrogen and helium with the iconic centuries-old Great Red Spot storm.']
+      ]
+    },
+    saturn: {
+      name: 'Saturn', next: 'Uranus', number: '[06]', portal: TO_MARS,
+      background: 'venus-background',
+      facts: [
+        ['Distance:', '1.43 billion km from the Sun (9.58 AU).'],
+        ['Year:', '29.45 Earth years.'],
+        ['Temperature:', 'Around -140 °C.'],
+        ['Atmosphere:', 'Gaseous hydrogen with a magnificent 280,000 km wide ice ring system.']
+      ]
+    },
+    uranus: {
+      name: 'Uranus', next: 'Neptune', number: '[07]', portal: TO_EARTH,
+      background: 'earth-background',
+      facts: [
+        ['Distance:', '2.87 billion km from the Sun (19.2 AU).'],
+        ['Year:', '84 Earth years.'],
+        ['Temperature:', '-195 °C — the coldest planetary atmosphere in the Solar System.'],
+        ['Atmosphere:', 'Hydrogen, helium, and methane ice, rotating with a radical 98° axial tilt.']
+      ]
+    },
+    neptune: {
+      name: 'Neptune', next: 'Mercury', number: '[08]', portal: TO_MARS,
+      background: 'venus-background',
+      facts: [
+        ['Distance:', '4.50 billion km from the Sun (30.1 AU).'],
+        ['Year:', '164.8 Earth years.'],
+        ['Temperature:', 'Around -200 °C.'],
+        ['Atmosphere:', 'Active supersonic wind storms exceeding 2,100 km/h with bright methane clouds.']
       ]
     }
   };
