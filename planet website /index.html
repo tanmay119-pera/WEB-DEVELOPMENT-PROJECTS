@@ -1027,6 +1027,31 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
     return cvs;
   }
 
+  // ── PLANET TEXTURE CACHE ──
+  const planetTextureCache = {};
+  const planetCloudsCache = {};
+
+  function getPlanetTexture(planetKey) {
+    if (!planetTextureCache[planetKey]) {
+      const tw = 512, th = 256;
+      switch (planetKey) {
+        case 'mercury': planetTextureCache[planetKey] = generateMercuryTexture(tw, th); break;
+        case 'venus':   planetTextureCache[planetKey] = generateVenusTexture(tw, th); break;
+        case 'earth':
+          planetTextureCache[planetKey] = generateEarthTexture(tw, th);
+          planetCloudsCache[planetKey] = generateEarthCloudsTexture(tw, th);
+          break;
+        case 'mars':    planetTextureCache[planetKey] = generateMarsTexture(tw, th); break;
+        case 'jupiter': planetTextureCache[planetKey] = generateJupiterTexture(tw, th); break;
+        case 'saturn':  planetTextureCache[planetKey] = generateSaturnTexture(tw, th); break;
+        case 'uranus':  planetTextureCache[planetKey] = generateUranusTexture(tw, th); break;
+        case 'neptune': planetTextureCache[planetKey] = generateNeptuneTexture(tw, th); break;
+        default:        planetTextureCache[planetKey] = generateMarsTexture(tw, th); break;
+      }
+    }
+    return planetTextureCache[planetKey];
+  }
+
   // ── 3D PLANET SPHERE RENDERER ──
   function hash(x, y, seed) {
     let h = seed + x * 374761393 + y * 668265263;
