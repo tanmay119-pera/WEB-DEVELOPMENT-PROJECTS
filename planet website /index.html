@@ -728,6 +728,60 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
   }
 
   // ── PROCEDURAL PLANETARY TEXTURE GENERATORS ──
+  function generateMarsTexture(w, h) {
+    const cvs = document.createElement('canvas');
+    cvs.width = w; cvs.height = h;
+    const c = cvs.getContext('2d');
+    const idata = c.createImageData(w, h);
+    const data = idata.data;
+    for (let y = 0; y < h; y++) {
+      const ny = y / h;
+      const lat = (ny - 0.5) * Math.PI; // -pi/2 to pi/2
+      const isPolarNorth = ny < 0.12;
+      const isPolarSouth = ny > 0.88;
+      for (let x = 0; x < w; x++) {
+        const nx = x / w;
+        const n1 = fbm2D(nx * 8, ny * 4, 4, 0.55);
+        const n2 = fbm2D(nx * 20, ny * 10, 3, 0.5);
+        // Base red-orange
+        let r = Math.floor(190 + n1 * 45);
+        let g = Math.floor(65 + n1 * 30 + n2 * 10);
+        let b = Math.floor(20 + n1 * 20);
+        // Dark volcanic basalt regions (Syrtis Major, Acidalia)
+        const basaltNoise = fbm2D(nx * 5 + 1.2, ny * 3 + 0.8, 3, 0.5);
+        if (basaltNoise > 0.58) {
+          const blend = (basaltNoise - 0.58) * 3.0;
+          r = Math.floor(r * (1 - blend * 0.55));
+          g = Math.floor(g * (1 - blend * 0.50));
+          b = Math.floor(b * (1 - blend * 0.40));
+        }
+        // Valles Marineris canyon feature around equator
+        if (Math.abs(ny - 0.52) < 0.04 && nx > 0.35 && nx < 0.65) {
+          const canyon = Math.sin((nx - 0.35) / 0.30 * Math.PI);
+          r = Math.floor(r * (1 - canyon * 0.6));
+          g = Math.floor(g * (1 - canyon * 0.6));
+          b = Math.floor(b * (1 - canyon * 0.6));
+        }
+        // Polar ice caps
+        if (isPolarNorth) {
+          const ice = (0.12 - ny) / 0.12;
+          r = Math.floor(r * (1 - ice) + 245 * ice);
+          g = Math.floor(g * (1 - ice) + 250 * ice);
+          b = Math.floor(b * (1 - ice) + 255 * ice);
+        } else if (isPolarSouth) {
+          const ice = (ny - 0.88) / 0.12;
+          r = Math.floor(r * (1 - ice) + 245 * ice);
+          g = Math.floor(g * (1 - ice) + 250 * ice);
+          b = Math.floor(b * (1 - ice) + 255 * ice);
+        }
+        const idx = (y * w + x) * 4;
+        data[idx] = r; data[idx + 1] = g; data[idx + 2] = b; data[idx + 3] = 255;
+      }
+    }
+    c.putImageData(idata, 0, 0);
+    return cvs;
+  }
+
   function generateMercuryTexture(w, h) {
     const cvs = document.createElement('canvas');
     cvs.width = w; cvs.height = h;
