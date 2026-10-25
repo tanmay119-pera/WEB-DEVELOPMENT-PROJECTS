@@ -1429,8 +1429,21 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
     planetList.innerHTML = '';
     for (const p of allPlanets) {
       const span = document.createElement('span');
-      span.className = 'planet-item' + (p.toLowerCase() === s.name.toLowerCase() ? ' active' : '');
+      const isCurrent = p.toLowerCase() === s.name.toLowerCase();
+      span.className = 'planet-item' + (isCurrent ? ' active' : '');
       span.textContent = p;
+      span.setAttribute('role', 'button');
+      span.setAttribute('tabindex', '0');
+      span.setAttribute('aria-label', 'Switch orbit to ' + p);
+
+      // Interactive planet jumping on sidebar click
+      span.addEventListener('click', function (e) {
+        e.stopPropagation();
+        const targetKey = p.toLowerCase();
+        if (targetKey !== current && !busy) {
+          switchPlanet(targetKey);
+        }
+      });
       planetList.appendChild(span);
     }
     if (!firstRender) {
@@ -1529,6 +1542,17 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
       preloaderVid.addEventListener('loadedmetadata', startPreloader, { once: true });
       setTimeout(function () { if (!finished && preloaderVid.readyState < 1) finish(); }, 5000);
     }
+  }
+
+  // ── INTERACTIVE PLANET SWITCHER ──
+  function switchPlanet(targetPlanetKey) {
+    if (busy || !states[targetPlanetKey]) return;
+    busy = true;
+    current = targetPlanetKey;
+    render();
+    revealPlanetContent();
+    revealMask();
+    setTimeout(function () { busy = false; }, 450);
   }
 
   // ── TRAVEL ──
