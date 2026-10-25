@@ -693,15 +693,21 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
 
   // ── STARFIELD ──
   const stars = [];
-  const NUM_STARS = 600;
+  const NUM_STARS = 850;
   function initStars() {
     for (let i = 0; i < NUM_STARS; i++) {
+      const spectral = Math.random();
+      let colorPrefix = 'rgba(255,255,255,';
+      if (spectral > 0.85) colorPrefix = 'rgba(180,215,255,';      // O/B Blue giant
+      else if (spectral > 0.70) colorPrefix = 'rgba(255,235,185,'; // G Yellow dwarf
+      else if (spectral > 0.60) colorPrefix = 'rgba(255,185,160,'; // M Red dwarf
       stars.push({
         x: Math.random(), y: Math.random(),
-        r: Math.random() * 1.8 + 0.3,
-        brightness: Math.random() * 0.7 + 0.3,
-        twinkleSpeed: Math.random() * 2 + 0.5,
-        twinkleOffset: Math.random() * Math.PI * 2
+        r: Math.random() * 1.9 + 0.3,
+        brightness: Math.random() * 0.75 + 0.25,
+        twinkleSpeed: Math.random() * 2.2 + 0.5,
+        twinkleOffset: Math.random() * Math.PI * 2,
+        colorPrefix: colorPrefix
       });
     }
   }
@@ -746,7 +752,7 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
       const alpha = s.brightness * (0.5 + 0.5 * twinkle);
       sfCtx.beginPath();
       sfCtx.arc(s.x * w, s.y * h, s.r, 0, Math.PI * 2);
-      sfCtx.fillStyle = 'rgba(255,255,255,' + alpha + ')';
+      sfCtx.fillStyle = (s.colorPrefix || 'rgba(255,255,255,') + alpha + ')';
       sfCtx.fill();
     }
     // MAJESTIC 3D ORBITAL PLANET IN SPACE BACKGROUND
