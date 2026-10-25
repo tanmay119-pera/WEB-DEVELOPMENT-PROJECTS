@@ -728,6 +728,44 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
   }
 
   // ── PROCEDURAL PLANETARY TEXTURE GENERATORS ──
+  function generateJupiterTexture(w, h) {
+    const cvs = document.createElement('canvas');
+    cvs.width = w; cvs.height = h;
+    const c = cvs.getContext('2d');
+    const idata = c.createImageData(w, h);
+    const data = idata.data;
+    for (let y = 0; y < h; y++) {
+      const ny = y / h;
+      // 16 cloud belts
+      const band = Math.sin(ny * Math.PI * 16);
+      const turb = fbm2D(x => 0, ny * 12, 3, 0.5); // dummy to ensure vars
+      for (let x = 0; x < w; x++) {
+        const nx = x / w;
+        const edy = fbm2D(nx * 16, ny * 24, 3, 0.55);
+        let r = Math.floor(195 + band * 35 + edy * 20);
+        let g = Math.floor(145 + band * 25 + edy * 15);
+        let b = Math.floor(105 + band * 20 + edy * 10);
+        // Great Red Spot at ~68% width, 68% height (southern hemisphere)
+        const dx = (nx - 0.65) * 6.0;
+        const dy = (ny - 0.68) * 12.0;
+        const spotDist = Math.sqrt(dx*dx + dy*dy);
+        if (spotDist < 0.65) {
+          const spotWeight = Math.cos(spotDist / 0.65 * Math.PI * 0.5);
+          r = Math.floor(r * (1 - spotWeight) + 215 * spotWeight);
+          g = Math.floor(g * (1 - spotWeight) + 75 * spotWeight);
+          b = Math.floor(b * (1 - spotWeight) + 45 * spotWeight);
+        }
+        const idx = (y * w + x) * 4;
+        data[idx] = Math.min(255, Math.max(0, r));
+        data[idx + 1] = Math.min(255, Math.max(0, g));
+        data[idx + 2] = Math.min(255, Math.max(0, b));
+        data[idx + 3] = 255;
+      }
+    }
+    c.putImageData(idata, 0, 0);
+    return cvs;
+  }
+
   function generateVenusTexture(w, h) {
     const cvs = document.createElement('canvas');
     cvs.width = w; cvs.height = h;
