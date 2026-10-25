@@ -1063,6 +1063,9 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
     return (h & 0x7fffffff) / 0x7fffffff;
   }
 
+  // ── 3D LIGHTING & SPECULAR SHADER ──
+  // Star illumination model with directional vector, soft penumbra, and ocean specular glint
+
   function drawPlanet3DGlobe(context, cx, cy, radius, planetKey, rotationAngle, options) {
     options = options || {};
     const pv = planetVisuals[planetKey] || planetVisuals.mars;
