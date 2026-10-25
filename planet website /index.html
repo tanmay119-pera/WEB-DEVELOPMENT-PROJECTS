@@ -1,6 +1,6 @@
 <!--
   Planet Jumping — High-Fidelity 3D Planetary Portal Experience
-  Engine: Procedural Canvas 2D Sphere Projection (60 FPS)
+  Engine: Procedural Canvas 2D Sphere Projection (60 FPS) + Native 8-Planet HD Video Engine
   Curated & Architected by Tanmay (Adesh Srivastava)
   Planetary Systems: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune
 -->
@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Planet Jumping</title>
-<meta name="description" content="Planet Jumping — Cinematic 3D space portal landing experience. Conceived and architected by Tanmay (Adesh Srivastava).">
+<meta name="description" content="Planet Jumping — Cinematic 3D space portal landing experience with distinct planetary video engines. Conceived and architected by Tanmay (Adesh Srivastava).">
 <meta name="author" content="Tanmay (Adesh Srivastava)">
 
 <!-- Google Fonts: Premium Typography Replacement -->
@@ -42,24 +42,20 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
   min-height: 540px; overflow: hidden; background: #0a0908;
 }
 
-.starfield-canvas {
-  position: absolute; inset: 0; z-index: 1;
-  width: 100%; height: 100%; pointer-events: none;
-}
-
+/* ── 8 DISTINCT PLANETARY BACKGROUND VIDEOS ── */
 .backgrounds, .background, .shade, .transition-layer, .transition-layer video {
   position: absolute; inset: 0; width: 100%; height: 100%;
 }
 .backgrounds { z-index: 0; pointer-events: none; }
 .background {
-  object-fit: cover; opacity: 0; transition: opacity .8s ease;
-  mix-blend-mode: screen; filter: brightness(0.85);
+  object-fit: cover; opacity: 0; transition: opacity .9s cubic-bezier(0.16,1,0.3,1);
+  filter: brightness(0.92) contrast(1.05);
 }
-.background.is-visible { opacity: 0.45; }
+.background.is-visible { opacity: 1; }
 
 .shade {
   z-index: 2;
-  background: linear-gradient(to bottom, transparent 48%, rgba(0,0,0,.85) 100%);
+  background: linear-gradient(to bottom, transparent 45%, rgba(0,0,0,.82) 100%);
   pointer-events: none;
 }
 
@@ -78,6 +74,7 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
 .experience.is-committing .background { transition: none !important; }
 
 .transition-layer { display: none; z-index: 3; }
+.transition-layer video { object-fit: cover; }
 .scene-canvas { display: none; }
 .loading {
   position: absolute; z-index: 12; left: 50%; bottom: 30px;
@@ -120,7 +117,7 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
 }
 .menu:hover { background: #f0f0f0; transform: scale(1.03); }
 
-/* ── SIDEBAR PLANET LIST ── */
+/* ── SIDEBAR PLANET LIST (ALL 8 WORLDS) ── */
 .planet-list {
   left: clamp(18px, 1.95vw, 28px); top: 50%;
   transform: translateY(-43%);
@@ -130,7 +127,7 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
 .planet-item {
   display: flex; align-items: center; min-height: 22px;
   cursor: pointer !important; user-select: none;
-  opacity: 0.55; padding: 3px 8px; border-radius: 999px;
+  opacity: 0.60; padding: 3px 8px; border-radius: 999px;
   letter-spacing: 0.04em; font-weight: 500;
   transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease, background 0.25s ease, color 0.25s ease;
 }
@@ -204,7 +201,7 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
   margin: 0 0 -.04em; letter-spacing: 0.02em;
   text-transform: uppercase;
   transform: translateX(-32px); opacity: 0;
-  text-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  text-shadow: 0 8px 32px rgba(0,0,0,0.7);
 }
 .planet-content dl {
   width: min(460px, 35vw); margin: 0; font-size: 15px;
@@ -374,19 +371,16 @@ html, body, button, a, .portal { cursor: none !important; }
 <body>
 
 <main class="experience" data-planet="mars">
-  <!-- 3D Astronomical Deep-Space Starfield & Celestial Planet Canvas -->
-  <canvas class="starfield-canvas" id="starfield-canvas" aria-hidden="true"></canvas>
-
+  <!-- 8 DISTINCT BACKGROUND VIDEOS FOR EACH PLANET -->
   <div class="backgrounds" aria-hidden="true">
-    <video id="mars-background" class="background is-visible"
-      src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/3c83091e-4046-4fd6-adbb-2edb728be79a.mp4"
-      muted playsinline preload="auto" loop></video>
-    <video id="earth-background" class="background"
-      src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/fc3ded42-e845-41f3-a830-5cab512d79cd.mp4"
-      muted playsinline preload="auto" loop></video>
-    <video id="venus-background" class="background"
-      src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/b30f64d9-1637-477a-83df-d0fc6461a422.mp4"
-      muted playsinline preload="auto" loop></video>
+    <video id="mercury-background" class="background" src="videos/mercury.mp4" muted playsinline preload="auto" loop></video>
+    <video id="venus-background"   class="background" src="videos/venus.mp4"   muted playsinline preload="auto" loop></video>
+    <video id="earth-background"   class="background" src="videos/earth.mp4"   muted playsinline preload="auto" loop></video>
+    <video id="mars-background"    class="background is-visible" src="videos/mars.mp4" muted playsinline preload="auto" loop></video>
+    <video id="jupiter-background" class="background" src="videos/jupiter.mp4" muted playsinline preload="auto" loop></video>
+    <video id="saturn-background"  class="background" src="videos/saturn.mp4"  muted playsinline preload="auto" loop></video>
+    <video id="uranus-background"  class="background" src="videos/uranus.mp4"  muted playsinline preload="auto" loop></video>
+    <video id="neptune-background" class="background" src="videos/neptune.mp4" muted playsinline preload="auto" loop></video>
   </div>
 
   <div class="preloader" id="preloader" aria-label="Loading Mars">
@@ -428,11 +422,11 @@ html, body, button, a, .portal { cursor: none !important; }
   <section class="portal-wrap chrome" aria-label="Next destination">
     <div class="portal-heading">
       <span>Next:</span>
-      <span><span id="next-number">[03]</span> <strong id="next-name">Earth</strong></span>
+      <span><span id="next-number">[05]</span> <strong id="next-name">Jupiter</strong></span>
     </div>
-    <button class="portal" id="portal" type="button" aria-label="Travel to Earth">
+    <button class="portal" id="portal" type="button" aria-label="Travel to Jupiter">
       <video id="portal-video"
-        src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/fc3ded42-e845-41f3-a830-5cab512d79cd.mp4"
+        src="videos/jupiter.mp4"
         muted playsinline preload="auto" loop></video>
       <img id="portal-image"
         src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/d6fb8b6b-c15e-4aaa-9cf7-45bbb5e33372.jpg"
@@ -465,7 +459,7 @@ html, body, button, a, .portal { cursor: none !important; }
       <div class="modal-badge">Planetary Observatory</div>
       <h2 class="modal-title">Planet Jumping</h2>
       <p class="modal-desc">
-        A real-time cinematic 3D space portal landing experience rendered with procedural spherical projection, atmospheric corona scattering, multi-spectral starfields, and physics-based orbital dynamics.
+        A real-time cinematic space portal landing experience featuring 8 distinct high-definition planetary video backdrops, custom 3D perspective portal optics, and orbital transit physics.
       </p>
       <div class="modal-credits">
         <div class="modal-credits-label">Concept, Architecture & Engineering</div>
@@ -480,30 +474,25 @@ html, body, button, a, .portal { cursor: none !important; }
 (function () {
   'use strict';
 
-  // ── REMOTE ASSETS ──
-  const BASE      = 'https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P';
-  const MARS_BG   = BASE + '/3c83091e-4046-4fd6-adbb-2edb728be79a.mp4';
-  const TO_EARTH  = BASE + '/fc3ded42-e845-41f3-a830-5cab512d79cd.mp4';
-  const TO_VENUS  = BASE + '/b30f64d9-1637-477a-83df-d0fc6461a422.mp4';
-  const TO_MARS   = BASE + '/5fc5651c-3b5d-4171-b507-87f7e635d1b4.mp4';
-  const MERCURY   = BASE + '/d6fb8b6b-c15e-4aaa-9cf7-45bbb5e33372.jpg';
-  const LOGO      = BASE + '/eb7e0f53-50cd-4af5-abc4-8b9a52cdc01b.svg';
-
-  // ── COMPLETE 8-PLANET DATA MODEL ──
+  // ── ALL 8 PLANETS WITH DISTINCT INDIVIDUAL VIDEOS ──
   const planets = ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune'];
 
   const states = {
     mercury: {
-      name: 'Mercury', next: 'Venus', number: '[01]', image: MERCURY, background: 'venus-background',
+      name: 'Mercury', next: 'Venus', number: '[01]',
+      portal: 'videos/venus.mp4',
+      background: 'mercury-background',
       facts: [
         ['Distance:', '57.9 million km from the Sun (0.39 AU).'],
         ['Year:', '88 Earth days (orbital speed: 47 km/s).'],
-        ['Temperature:', '430 °C during daytime, plunging to -180 °C at night.'],
+        ['Temperature:', '430 °C daytime, plunging to -180 °C at night.'],
         ['Atmosphere:', 'Thin exosphere of sodium, magnesium, and solar wind ions.']
       ]
     },
     venus: {
-      name: 'Venus', next: 'Earth', number: '[02]', portal: TO_EARTH, background: 'venus-background',
+      name: 'Venus', next: 'Earth', number: '[02]',
+      portal: 'videos/earth.mp4',
+      background: 'venus-background',
       facts: [
         ['Distance:', '108.2 million km from the Sun (0.72 AU).'],
         ['Year:', '225 Earth days (rotates backwards every 243 days).'],
@@ -512,7 +501,9 @@ html, body, button, a, .portal { cursor: none !important; }
       ]
     },
     earth: {
-      name: 'Earth', next: 'Mars', number: '[03]', portal: TO_MARS, background: 'earth-background',
+      name: 'Earth', next: 'Mars', number: '[03]',
+      portal: 'videos/mars.mp4',
+      background: 'earth-background',
       facts: [
         ['Distance:', '149.6 million km from the Sun (1.00 AU).'],
         ['Year:', '365.25 Earth days (axial tilt: 23.4°).'],
@@ -521,7 +512,9 @@ html, body, button, a, .portal { cursor: none !important; }
       ]
     },
     mars: {
-      name: 'Mars', next: 'Jupiter', number: '[04]', portal: TO_EARTH, background: 'mars-background',
+      name: 'Mars', next: 'Jupiter', number: '[04]',
+      portal: 'videos/jupiter.mp4',
+      background: 'mars-background',
       facts: [
         ['Distance:', 'About 228 million km (1.52 AU from the Sun).'],
         ['Year:', '687 Earth days (one Martian sol: 24h 37m).'],
@@ -530,7 +523,9 @@ html, body, button, a, .portal { cursor: none !important; }
       ]
     },
     jupiter: {
-      name: 'Jupiter', next: 'Saturn', number: '[05]', portal: TO_VENUS, background: 'earth-background',
+      name: 'Jupiter', next: 'Saturn', number: '[05]',
+      portal: 'videos/saturn.mp4',
+      background: 'jupiter-background',
       facts: [
         ['Distance:', '778.5 million km from the Sun (5.20 AU).'],
         ['Year:', '11.86 Earth years (rapid rotation day: 9h 55m).'],
@@ -539,7 +534,9 @@ html, body, button, a, .portal { cursor: none !important; }
       ]
     },
     saturn: {
-      name: 'Saturn', next: 'Uranus', number: '[06]', portal: TO_MARS, background: 'venus-background',
+      name: 'Saturn', next: 'Uranus', number: '[06]',
+      portal: 'videos/uranus.mp4',
+      background: 'saturn-background',
       facts: [
         ['Distance:', '1.43 billion km from the Sun (9.58 AU).'],
         ['Year:', '29.45 Earth years (rapid rotation: 10h 33m).'],
@@ -548,7 +545,9 @@ html, body, button, a, .portal { cursor: none !important; }
       ]
     },
     uranus: {
-      name: 'Uranus', next: 'Neptune', number: '[07]', portal: TO_EARTH, background: 'earth-background',
+      name: 'Uranus', next: 'Neptune', number: '[07]',
+      portal: 'videos/neptune.mp4',
+      background: 'uranus-background',
       facts: [
         ['Distance:', '2.87 billion km from the Sun (19.2 AU).'],
         ['Year:', '84.0 Earth years (extreme 97.8° axial tilt).'],
@@ -557,7 +556,9 @@ html, body, button, a, .portal { cursor: none !important; }
       ]
     },
     neptune: {
-      name: 'Neptune', next: 'Mercury', number: '[08]', portal: TO_MARS, background: 'mars-background',
+      name: 'Neptune', next: 'Mercury', number: '[08]',
+      portal: 'videos/mercury.mp4',
+      background: 'neptune-background',
       facts: [
         ['Distance:', '4.50 billion km from the Sun (30.1 AU).'],
         ['Year:', '164.8 Earth years (16h 06m rotation period).'],
@@ -565,26 +566,6 @@ html, body, button, a, .portal { cursor: none !important; }
         ['Atmosphere:', 'Supersonic winds up to 2,100 km/h with high-altitude methane cirrus.']
       ]
     }
-  };
-
-  // ── PLANETARY 3D VISUAL PARAMETERS ──
-  const planetVisuals = {
-    mercury: { radius: 0.38, color: [165,160,155], accent: [115,110,105], atmosphere: null,
-               rings: false, axialTilt: 0.03, rotationSpeed: 0.004, clouds: false },
-    venus:   { radius: 0.95, color: [225,182,115], accent: [195,145,75], atmosphere: [255,215,130,0.40],
-               rings: false, axialTilt: 3.1, rotationSpeed: -0.003, clouds: true },
-    earth:   { radius: 1.00, color: [35,95,210], accent: [45,150,85], atmosphere: [100,195,255,0.45],
-               rings: false, axialTilt: 0.41, rotationSpeed: 0.012, clouds: true },
-    mars:    { radius: 0.53, color: [215,85,30], accent: [165,55,15], atmosphere: [255,125,70,0.30],
-               rings: false, axialTilt: 0.44, rotationSpeed: 0.011, clouds: false },
-    jupiter: { radius: 2.20, color: [205,160,125], accent: [180,125,85], atmosphere: [230,190,150,0.32],
-               rings: false, axialTilt: 0.05, rotationSpeed: 0.028, clouds: true },
-    saturn:  { radius: 1.90, color: [225,198,145], accent: [195,165,115], atmosphere: [240,215,165,0.30],
-               rings: true, ringTilt: 0.46, axialTilt: 0.47, rotationSpeed: 0.024, clouds: true },
-    uranus:  { radius: 1.45, color: [140,220,235], accent: [100,190,210], atmosphere: [160,235,250,0.36],
-               rings: true, ringTilt: 1.70, axialTilt: 1.71, rotationSpeed: -0.016, clouds: false },
-    neptune: { radius: 1.40, color: [55,95,225], accent: [30,65,185], atmosphere: [80,140,255,0.42],
-               rings: false, axialTilt: 0.49, rotationSpeed: 0.018, clouds: true }
   };
 
   // ── DOM ELEMENTS ──
@@ -596,7 +577,6 @@ html, body, button, a, .portal { cursor: none !important; }
   const floatingLogo  = document.getElementById('floating-logo');
   const portalCanvas  = document.getElementById('portal-canvas');
   const sceneCanvas   = document.getElementById('scene-canvas');
-  const starfieldCanvas = document.getElementById('starfield-canvas');
   const portalBtn     = document.getElementById('portal');
   const portalVideo   = document.getElementById('portal-video');
   const portalImage   = document.getElementById('portal-image');
@@ -620,7 +600,6 @@ html, body, button, a, .portal { cursor: none !important; }
 
   const ctx  = portalCanvas.getContext('2d');
   const sctx = sceneCanvas.getContext('2d');
-  const sfCtx = starfieldCanvas.getContext('2d');
 
   // ── INTERACTIVE STATE ──
   let current = 'mars';
@@ -657,7 +636,7 @@ html, body, button, a, .portal { cursor: none !important; }
     });
   }
 
-  // ── CANVAS RESIZING WITH DEVICE PIXEL RATIO ──
+  // ── CANVAS RESIZING ──
   function resizeCanvas() {
     const d = Math.min(devicePixelRatio || 1, 2);
 
@@ -666,12 +645,6 @@ html, body, button, a, .portal { cursor: none !important; }
     portalCanvas.style.width = innerWidth + 'px';
     portalCanvas.style.height = innerHeight + 'px';
     ctx.setTransform(d, 0, 0, d, 0, 0);
-
-    starfieldCanvas.width = innerWidth * d;
-    starfieldCanvas.height = innerHeight * d;
-    starfieldCanvas.style.width = innerWidth + 'px';
-    starfieldCanvas.style.height = innerHeight + 'px';
-    sfCtx.setTransform(d, 0, 0, d, 0, 0);
 
     if (!frozenScene) {
       sceneCanvas.width = innerWidth * d;
@@ -682,567 +655,6 @@ html, body, button, a, .portal { cursor: none !important; }
     }
   }
   window.addEventListener('resize', resizeCanvas);
-
-  // ── PROCEDURAL 3D TEXTURE ENGINE (FBM / VALUE NOISE) ──
-  function hash2D(x, y) {
-    let n = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453123;
-    return n - Math.floor(n);
-  }
-
-  function smoothNoise(x, y) {
-    const i = Math.floor(x);
-    const j = Math.floor(y);
-    const fx = x - i;
-    const fy = y - j;
-    const u = fx * fx * (3.0 - 2.0 * fx);
-    const v = fy * fy * (3.0 - 2.0 * fy);
-    const a = hash2D(i, j);
-    const b = hash2D(i + 1, j);
-    const c = hash2D(i, j + 1);
-    const d = hash2D(i + 1, j + 1);
-    return a * (1 - u) * (1 - v) + b * u * (1 - v) + c * (1 - u) * v + d * u * v;
-  }
-
-  function fbm2D(x, y, octaves, persistence) {
-    let total = 0, freq = 1, amp = 1, maxAmp = 0;
-    octaves = octaves || 4;
-    persistence = persistence || 0.5;
-    for (let i = 0; i < octaves; i++) {
-      total += smoothNoise(x * freq, y * freq) * amp;
-      maxAmp += amp;
-      amp *= persistence;
-      freq *= 2;
-    }
-    return total / maxAmp;
-  }
-
-  // Texture caches
-  const planetTextureCache = {};
-  const planetCloudsCache  = {};
-
-  // 1. MARS TEXTURE
-  function generateMarsTexture(w, h) {
-    const cvs = document.createElement('canvas'); cvs.width = w; cvs.height = h;
-    const c = cvs.getContext('2d');
-    const idata = c.createImageData(w, h);
-    const data = idata.data;
-    for (let y = 0; y < h; y++) {
-      const ny = y / h;
-      for (let x = 0; x < w; x++) {
-        const nx = x / w;
-        const n = fbm2D(nx * 6, ny * 4, 4, 0.5);
-        const canyon = fbm2D(nx * 14 + 1.2, ny * 8 + 0.3, 3, 0.6);
-        let r = 180 + n * 55;
-        let g = 70 + n * 35;
-        let b = 30 + n * 20;
-        if (canyon < 0.28) { r *= 0.65; g *= 0.65; b *= 0.65; } // Valles Marineris
-        if (ny < 0.09 || ny > 0.91) { // Polar ice caps
-          const polarPurity = Math.min(1, Math.abs(ny - 0.5) * 2.3);
-          r = r * (1 - polarPurity) + 245 * polarPurity;
-          g = g * (1 - polarPurity) + 248 * polarPurity;
-          b = b * (1 - polarPurity) + 252 * polarPurity;
-        }
-        const idx = (y * w + x) * 4;
-        data[idx] = Math.min(255, r); data[idx+1] = Math.min(255, g);
-        data[idx+2] = Math.min(255, b); data[idx+3] = 255;
-      }
-    }
-    c.putImageData(idata, 0, 0);
-    return cvs;
-  }
-
-  // 2. EARTH TEXTURE & CLOUDS
-  function generateEarthTexture(w, h) {
-    const cvs = document.createElement('canvas'); cvs.width = w; cvs.height = h;
-    const c = cvs.getContext('2d');
-    const idata = c.createImageData(w, h);
-    const data = idata.data;
-    for (let y = 0; y < h; y++) {
-      const ny = y / h;
-      for (let x = 0; x < w; x++) {
-        const nx = x / w;
-        const land = fbm2D(nx * 4.5, ny * 3.5, 5, 0.52);
-        let r, g, b;
-        if (land > 0.52) {
-          const elev = (land - 0.52) / 0.48;
-          r = 35 + elev * 110; g = 105 + elev * 65; b = 45 + elev * 25;
-        } else {
-          const depth = land / 0.52;
-          r = 15 + depth * 20; g = 45 + depth * 55; b = 135 + depth * 80;
-        }
-        if (ny < 0.08 || ny > 0.92) { r = 240; g = 245; b = 255; } // Ice caps
-        const idx = (y * w + x) * 4;
-        data[idx] = r; data[idx+1] = g; data[idx+2] = b; data[idx+3] = 255;
-      }
-    }
-    c.putImageData(idata, 0, 0);
-    return cvs;
-  }
-
-  function generateEarthCloudsTexture(w, h) {
-    const cvs = document.createElement('canvas'); cvs.width = w; cvs.height = h;
-    const c = cvs.getContext('2d');
-    const idata = c.createImageData(w, h);
-    const data = idata.data;
-    for (let y = 0; y < h; y++) {
-      const ny = y / h;
-      for (let x = 0; x < w; x++) {
-        const nx = x / w;
-        const cloud = fbm2D(nx * 7 + 0.3, ny * 5 + 0.1, 4, 0.55);
-        const idx = (y * w + x) * 4;
-        data[idx] = 255; data[idx+1] = 255; data[idx+2] = 255;
-        data[idx+3] = cloud > 0.56 ? Math.floor((cloud - 0.56) / 0.44 * 210) : 0;
-      }
-    }
-    c.putImageData(idata, 0, 0);
-    return cvs;
-  }
-
-  // 3. VENUS TEXTURE
-  function generateVenusTexture(w, h) {
-    const cvs = document.createElement('canvas'); cvs.width = w; cvs.height = h;
-    const c = cvs.getContext('2d');
-    const idata = c.createImageData(w, h);
-    const data = idata.data;
-    for (let y = 0; y < h; y++) {
-      const ny = y / h;
-      const wave = Math.sin(ny * Math.PI * 8);
-      for (let x = 0; x < w; x++) {
-        const nx = x / w;
-        const n = fbm2D(nx * 8 + wave * 0.1, ny * 6, 4, 0.5);
-        const r = Math.floor(215 + n * 35);
-        const g = Math.floor(170 + n * 40);
-        const b = Math.floor(105 + n * 30);
-        const idx = (y * w + x) * 4;
-        data[idx] = r; data[idx+1] = g; data[idx+2] = b; data[idx+3] = 255;
-      }
-    }
-    c.putImageData(idata, 0, 0);
-    return cvs;
-  }
-
-  // 4. MERCURY TEXTURE
-  function generateMercuryTexture(w, h) {
-    const cvs = document.createElement('canvas'); cvs.width = w; cvs.height = h;
-    const c = cvs.getContext('2d');
-    const idata = c.createImageData(w, h);
-    const data = idata.data;
-    for (let y = 0; y < h; y++) {
-      const ny = y / h;
-      for (let x = 0; x < w; x++) {
-        const nx = x / w;
-        const n = fbm2D(nx * 12, ny * 10, 5, 0.55);
-        const crater = fbm2D(nx * 22, ny * 18, 3, 0.6);
-        let val = Math.floor(125 + n * 70 - (crater < 0.25 ? 30 : 0));
-        val = Math.max(45, Math.min(235, val));
-        const idx = (y * w + x) * 4;
-        data[idx] = val; data[idx+1] = val; data[idx+2] = val; data[idx+3] = 255;
-      }
-    }
-    c.putImageData(idata, 0, 0);
-    return cvs;
-  }
-
-  // 5. JUPITER TEXTURE
-  function generateJupiterTexture(w, h) {
-    const cvs = document.createElement('canvas'); cvs.width = w; cvs.height = h;
-    const c = cvs.getContext('2d');
-    const idata = c.createImageData(w, h);
-    const data = idata.data;
-    for (let y = 0; y < h; y++) {
-      const ny = y / h;
-      const band = Math.sin(ny * Math.PI * 18);
-      for (let x = 0; x < w; x++) {
-        const nx = x / w;
-        const eddy = fbm2D(nx * 10 + band * 0.25, ny * 12, 4, 0.52);
-        let r = Math.floor(195 + band * 35 + eddy * 30);
-        let g = Math.floor(155 + band * 25 + eddy * 25);
-        let b = Math.floor(115 + band * 20 + eddy * 20);
-        // Great Red Spot at latitude ~22°S, longitude ~0.55
-        const spotDx = (nx - 0.55) * 4.5;
-        const spotDy = (ny - 0.62) * 9.0;
-        const spotDist = Math.sqrt(spotDx * spotDx + spotDy * spotDy);
-        if (spotDist < 0.45) {
-          const spotWeight = 1 - (spotDist / 0.45);
-          r = Math.floor(r * (1 - spotWeight) + 215 * spotWeight);
-          g = Math.floor(g * (1 - spotWeight) + 75 * spotWeight);
-          b = Math.floor(b * (1 - spotWeight) + 50 * spotWeight);
-        }
-        const idx = (y * w + x) * 4;
-        data[idx] = Math.min(255, r); data[idx+1] = Math.min(255, g);
-        data[idx+2] = Math.min(255, b); data[idx+3] = 255;
-      }
-    }
-    c.putImageData(idata, 0, 0);
-    return cvs;
-  }
-
-  // 6. SATURN TEXTURE
-  function generateSaturnTexture(w, h) {
-    const cvs = document.createElement('canvas'); cvs.width = w; cvs.height = h;
-    const c = cvs.getContext('2d');
-    const idata = c.createImageData(w, h);
-    const data = idata.data;
-    for (let y = 0; y < h; y++) {
-      const ny = y / h;
-      const band = Math.sin(ny * Math.PI * 24);
-      for (let x = 0; x < w; x++) {
-        const nx = x / w;
-        const n = fbm2D(nx * 6, ny * 16, 3, 0.45);
-        const r = Math.floor(220 + band * 18 + n * 12);
-        const g = Math.floor(190 + band * 15 + n * 10);
-        const b = Math.floor(138 + band * 12 + n * 8);
-        const idx = (y * w + x) * 4;
-        data[idx] = r; data[idx+1] = g; data[idx+2] = b; data[idx+3] = 255;
-      }
-    }
-    c.putImageData(idata, 0, 0);
-    return cvs;
-  }
-
-  // 7. URANUS TEXTURE
-  function generateUranusTexture(w, h) {
-    const cvs = document.createElement('canvas'); cvs.width = w; cvs.height = h;
-    const c = cvs.getContext('2d');
-    const idata = c.createImageData(w, h);
-    const data = idata.data;
-    for (let y = 0; y < h; y++) {
-      const ny = y / h;
-      const band = Math.sin(ny * Math.PI * 6);
-      for (let x = 0; x < w; x++) {
-        const nx = x / w;
-        const n = fbm2D(nx * 8, ny * 8, 2, 0.5);
-        const r = Math.floor(135 + band * 12 + n * 10);
-        const g = Math.floor(215 + band * 14 + n * 10);
-        const b = Math.floor(230 + band * 12 + n * 10);
-        const idx = (y * w + x) * 4;
-        data[idx] = r; data[idx+1] = g; data[idx+2] = b; data[idx+3] = 255;
-      }
-    }
-    c.putImageData(idata, 0, 0);
-    return cvs;
-  }
-
-  // 8. NEPTUNE TEXTURE
-  function generateNeptuneTexture(w, h) {
-    const cvs = document.createElement('canvas'); cvs.width = w; cvs.height = h;
-    const c = cvs.getContext('2d');
-    const idata = c.createImageData(w, h);
-    const data = idata.data;
-    for (let y = 0; y < h; y++) {
-      const ny = y / h;
-      const band = Math.sin(ny * Math.PI * 10);
-      for (let x = 0; x < w; x++) {
-        const nx = x / w;
-        const n = fbm2D(nx * 9, ny * 7, 3, 0.5);
-        let r = Math.floor(45 + band * 15 + n * 15);
-        let g = Math.floor(85 + band * 20 + n * 20);
-        let b = Math.floor(215 + band * 18 + n * 20);
-        // High altitude white cirrus scooters
-        const cirrus = fbm2D(nx * 20, ny * 12, 2, 0.5);
-        if (cirrus > 0.72) {
-          r = Math.min(255, r + 130);
-          g = Math.min(255, g + 140);
-          b = Math.min(255, b + 40);
-        }
-        const idx = (y * w + x) * 4;
-        data[idx] = r; data[idx+1] = g; data[idx+2] = b; data[idx+3] = 255;
-      }
-    }
-    c.putImageData(idata, 0, 0);
-    return cvs;
-  }
-
-  function getPlanetTexture(planetKey) {
-    if (!planetTextureCache[planetKey]) {
-      const tw = 512, th = 256;
-      switch (planetKey) {
-        case 'mercury': planetTextureCache[planetKey] = generateMercuryTexture(tw, th); break;
-        case 'venus':   planetTextureCache[planetKey] = generateVenusTexture(tw, th); break;
-        case 'earth':
-          planetTextureCache[planetKey] = generateEarthTexture(tw, th);
-          planetCloudsCache[planetKey] = generateEarthCloudsTexture(tw, th);
-          break;
-        case 'mars':    planetTextureCache[planetKey] = generateMarsTexture(tw, th); break;
-        case 'jupiter': planetTextureCache[planetKey] = generateJupiterTexture(tw, th); break;
-        case 'saturn':  planetTextureCache[planetKey] = generateSaturnTexture(tw, th); break;
-        case 'uranus':  planetTextureCache[planetKey] = generateUranusTexture(tw, th); break;
-        case 'neptune': planetTextureCache[planetKey] = generateNeptuneTexture(tw, th); break;
-        default:        planetTextureCache[planetKey] = generateMarsTexture(tw, th); break;
-      }
-    }
-    return planetTextureCache[planetKey];
-  }
-
-  // ── 3D PLANET RINGS RENDERER ──
-  function drawPlanetRings(context, cx, cy, radius, pv, isBack) {
-    const isSaturn = (pv === planetVisuals.saturn);
-    const innerRing = radius * (isSaturn ? 1.25 : 1.15);
-    const outerRing = radius * (isSaturn ? 2.35 : 1.65);
-    const tilt = pv.ringTilt || 0.46;
-
-    context.save();
-    context.translate(cx, cy);
-    context.rotate(tilt);
-
-    context.beginPath();
-    if (isBack) {
-      context.rect(-outerRing * 1.5, -outerRing * 1.5, outerRing * 3, outerRing * 1.5);
-    } else {
-      context.rect(-outerRing * 1.5, 0, outerRing * 3, outerRing * 1.5);
-    }
-    context.clip();
-
-    context.scale(1.0, 0.28);
-    const ringGrad = context.createRadialGradient(0, 0, innerRing, 0, 0, outerRing);
-    if (isSaturn) {
-      ringGrad.addColorStop(0.00, 'rgba(215, 195, 155, 0.0)');
-      ringGrad.addColorStop(0.15, 'rgba(215, 195, 155, 0.75)');
-      ringGrad.addColorStop(0.55, 'rgba(195, 175, 135, 0.85)');
-      ringGrad.addColorStop(0.58, 'rgba(10, 10, 10, 0.05)'); // Cassini Division
-      ringGrad.addColorStop(0.65, 'rgba(180, 160, 120, 0.65)');
-      ringGrad.addColorStop(0.95, 'rgba(160, 140, 100, 0.35)');
-      ringGrad.addColorStop(1.00, 'rgba(160, 140, 100, 0.0)');
-    } else {
-      // Uranus faint vertical rings
-      ringGrad.addColorStop(0.00, 'rgba(150, 225, 240, 0.0)');
-      ringGrad.addColorStop(0.40, 'rgba(150, 225, 240, 0.45)');
-      ringGrad.addColorStop(0.70, 'rgba(130, 205, 230, 0.35)');
-      ringGrad.addColorStop(1.00, 'rgba(130, 205, 230, 0.0)');
-    }
-
-    context.beginPath();
-    context.arc(0, 0, outerRing, 0, Math.PI * 2);
-    context.arc(0, 0, innerRing, 0, Math.PI * 2, true);
-    context.fillStyle = ringGrad;
-    context.fill();
-
-    context.restore();
-  }
-
-  // ── CORE 3D GLOBE SPHERE PROJECTION ENGINE ──
-  function drawPlanet3DGlobe(context, cx, cy, radius, planetKey, rotationAngle, options) {
-    options = options || {};
-    const pv = planetVisuals[planetKey] || planetVisuals.mars;
-    const tex = getPlanetTexture(planetKey);
-    const cloudsTex = planetCloudsCache[planetKey];
-    const tw = tex.width;
-    const th = tex.height;
-
-    // Atmospheric outer corona
-    if (options.showAtmosphere !== false && pv.atmosphere) {
-      const [ar, ag, ab, aa] = pv.atmosphere;
-      const atmoGrad = context.createRadialGradient(cx, cy, radius * 0.90, cx, cy, radius * 1.35);
-      atmoGrad.addColorStop(0, 'rgba(' + ar + ',' + ag + ',' + ab + ',' + (aa * 0.8) + ')');
-      atmoGrad.addColorStop(0.5, 'rgba(' + ar + ',' + ag + ',' + ab + ',' + (aa * 0.3) + ')');
-      atmoGrad.addColorStop(1, 'rgba(' + ar + ',' + ag + ',' + ab + ',0)');
-      context.beginPath();
-      context.arc(cx, cy, radius * 1.35, 0, Math.PI * 2);
-      context.fillStyle = atmoGrad;
-      context.fill();
-    }
-
-    // Rear planetary rings (drawn behind planet)
-    if (options.showRings !== false && pv.rings) {
-      drawPlanetRings(context, cx, cy, radius, pv, true);
-    }
-
-    // 3D Spherical projection clip
-    context.save();
-    context.beginPath();
-    context.arc(cx, cy, radius, 0, Math.PI * 2);
-    context.clip();
-
-    // Geometric spherical latitude strip slices
-    const strips = Math.min(65, Math.max(35, Math.floor(radius)));
-    const sliceH = (radius * 2) / strips;
-    const wrapOffset = ((rotationAngle % (Math.PI * 2)) / (Math.PI * 2)) * tw;
-
-    for (let i = 0; i < strips; i++) {
-      const sy = -radius + (i + 0.5) * sliceH;
-      const ny = sy / radius;
-      const stripRadius = Math.sqrt(Math.max(0, radius * radius - sy * sy));
-      const lat = Math.asin(Math.max(-1, Math.min(1, ny)));
-      const texV = (lat / Math.PI + 0.5) * th;
-      const texRowH = Math.max(1, th / strips);
-
-      const destX = cx - stripRadius;
-      const destY = cy + sy - sliceH * 0.5;
-      const destW = stripRadius * 2;
-
-      // Draw wrapped texture row (seamless 360 wrap)
-      const u1 = (wrapOffset % tw + tw) % tw;
-      const w1 = tw - u1;
-      const scaleX = destW / tw;
-
-      context.drawImage(tex, u1, texV, w1, texRowH, destX, destY, w1 * scaleX, sliceH + 0.5);
-      if (w1 < tw) {
-        context.drawImage(tex, 0, texV, u1, texRowH, destX + w1 * scaleX, destY, u1 * scaleX, sliceH + 0.5);
-      }
-
-      // Swirling tropospheric cloud layer for Earth
-      if (cloudsTex) {
-        const cloudWrap = (((rotationAngle * 1.18) % (Math.PI * 2) + Math.PI * 2) / (Math.PI * 2)) * tw;
-        const cu1 = cloudWrap % tw;
-        const cw1 = tw - cu1;
-        context.drawImage(cloudsTex, cu1, texV, cw1, texRowH, destX, destY, cw1 * scaleX, sliceH + 0.5);
-        if (cw1 < tw) {
-          context.drawImage(cloudsTex, 0, texV, cu1, texRowH, destX + cw1 * scaleX, destY, cu1 * scaleX, sliceH + 0.5);
-        }
-      }
-    }
-
-    // 3D Spherical diffuse & terminator shadow
-    const lightX = cx - radius * 0.40;
-    const lightY = cy - radius * 0.38;
-    const sphereLight = context.createRadialGradient(lightX, lightY, radius * 0.08, cx, cy, radius);
-    sphereLight.addColorStop(0, 'rgba(255,255,255,0.24)');
-    sphereLight.addColorStop(0.35, 'rgba(255,255,255,0.05)');
-    sphereLight.addColorStop(0.70, 'rgba(0,0,0,0.30)');
-    sphereLight.addColorStop(0.92, 'rgba(0,0,0,0.78)');
-    sphereLight.addColorStop(1.0, 'rgba(0,0,0,0.95)');
-    context.fillStyle = sphereLight;
-    context.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
-
-    // Specular glint
-    const specLight = context.createRadialGradient(lightX, lightY, 0, lightX, lightY, radius * 0.45);
-    specLight.addColorStop(0, 'rgba(255,255,255,0.35)');
-    specLight.addColorStop(0.25, 'rgba(255,255,255,0.08)');
-    specLight.addColorStop(1, 'rgba(255,255,255,0)');
-    context.fillStyle = specLight;
-    context.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
-
-    // Atmospheric limb (Fresnel scattering ring)
-    if (pv.atmosphere) {
-      const [ar, ag, ab] = pv.atmosphere;
-      const limbGrad = context.createRadialGradient(cx, cy, radius * 0.82, cx, cy, radius);
-      limbGrad.addColorStop(0, 'rgba(' + ar + ',' + ag + ',' + ab + ',0)');
-      limbGrad.addColorStop(0.85, 'rgba(' + ar + ',' + ag + ',' + ab + ',0.45)');
-      limbGrad.addColorStop(1, 'rgba(' + ar + ',' + ag + ',' + ab + ',0.88)');
-      context.fillStyle = limbGrad;
-      context.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
-    }
-
-    context.restore();
-
-    // Front rings (drawn in front of planet)
-    if (options.showRings !== false && pv.rings) {
-      drawPlanetRings(context, cx, cy, radius, pv, false);
-    }
-  }
-
-  // ── STARFIELD GENERATION ──
-  const stars = [];
-  const NUM_STARS = 900;
-  function initStars() {
-    for (let i = 0; i < NUM_STARS; i++) {
-      const spectral = Math.random();
-      let colorPrefix = 'rgba(255,255,255,';
-      if (spectral > 0.85) colorPrefix = 'rgba(180,215,255,';      // O/B Blue giant
-      else if (spectral > 0.70) colorPrefix = 'rgba(255,235,185,'; // G Yellow dwarf
-      else if (spectral > 0.60) colorPrefix = 'rgba(255,185,160,'; // M Red dwarf
-      stars.push({
-        x: Math.random(), y: Math.random(),
-        r: Math.random() * 1.8 + 0.35,
-        brightness: Math.random() * 0.75 + 0.25,
-        twinkleSpeed: Math.random() * 2.2 + 0.5,
-        twinkleOffset: Math.random() * Math.PI * 2,
-        colorPrefix: colorPrefix
-      });
-    }
-  }
-  initStars();
-
-  let nebulaCanvas = null;
-  function buildNebulaCanvas(w, h) {
-    nebulaCanvas = document.createElement('canvas');
-    nebulaCanvas.width = w; nebulaCanvas.height = h;
-    const nc = nebulaCanvas.getContext('2d');
-    const bg = nc.createRadialGradient(w * 0.35, h * 0.45, 0, w * 0.5, h * 0.5, w * 0.85);
-    bg.addColorStop(0, '#0c0a12');
-    bg.addColorStop(0.5, '#09080c');
-    bg.addColorStop(1, '#050406');
-    nc.fillStyle = bg;
-    nc.fillRect(0, 0, w, h);
-
-    const nebulae = [
-      { x: 0.25, y: 0.35, rx: 0.28, ry: 0.22, color: [190, 75, 45] },
-      { x: 0.75, y: 0.60, rx: 0.32, ry: 0.20, color: [45, 65, 140] },
-      { x: 0.50, y: 0.18, rx: 0.22, ry: 0.14, color: [70, 35, 100] }
-    ];
-    for (const n of nebulae) {
-      const grad = nc.createRadialGradient(n.x * w, n.y * h, 0, n.x * w, n.y * h, Math.max(n.rx * w, n.ry * h));
-      grad.addColorStop(0, 'rgba(' + n.color[0] + ',' + n.color[1] + ',' + n.color[2] + ',0.10)');
-      grad.addColorStop(0.5, 'rgba(' + n.color[0] + ',' + n.color[1] + ',' + n.color[2] + ',0.03)');
-      grad.addColorStop(1, 'rgba(0,0,0,0)');
-      nc.fillStyle = grad;
-      nc.fillRect(0, 0, w, h);
-    }
-  }
-
-  function drawStarfield(time) {
-    const w = innerWidth, h = innerHeight;
-    if (!nebulaCanvas || nebulaCanvas.width !== w || nebulaCanvas.height !== h) {
-      buildNebulaCanvas(w, h);
-    }
-    sfCtx.drawImage(nebulaCanvas, 0, 0);
-
-    // Twinkling multi-spectral stars
-    for (const s of stars) {
-      const twinkle = 0.5 + 0.5 * Math.sin(time * 0.001 * s.twinkleSpeed + s.twinkleOffset);
-      const alpha = s.brightness * (0.5 + 0.5 * twinkle);
-      sfCtx.beginPath();
-      sfCtx.arc(s.x * w, s.y * h, s.r, 0, Math.PI * 2);
-      sfCtx.fillStyle = (s.colorPrefix || 'rgba(255,255,255,') + alpha + ')';
-      sfCtx.fill();
-    }
-
-    // MAJESTIC 3D ORBITAL PLANET IN SPACE (CURRENT PLANET VIEW)
-    const st = states[current];
-    if (st) {
-      const pv = planetVisuals[current] || planetVisuals.mars;
-      const c = pv.color;
-      const glowGrad = sfCtx.createRadialGradient(w * 0.68, h * 0.50, 0, w * 0.68, h * 0.50, w * 0.65);
-      glowGrad.addColorStop(0, 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',0.18)');
-      glowGrad.addColorStop(0.4, 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',0.06)');
-      glowGrad.addColorStop(1, 'rgba(0,0,0,0)');
-      sfCtx.fillStyle = glowGrad;
-      sfCtx.fillRect(0, 0, w, h);
-
-      const bgRadius = Math.min(w, h) * 0.38;
-      const bgCenterX = w * 0.68;
-      const bgCenterY = h * 0.50;
-      const rotAngle = time * 0.00035 * (pv.rotationSpeed > 0 ? 1 : -1);
-
-      // Render the current planet as a magnificent 3D globe in space
-      drawPlanet3DGlobe(sfCtx, bgCenterX, bgCenterY, bgRadius, current, rotAngle, {
-        showAtmosphere: true,
-        showRings: true
-      });
-    }
-  }
-
-  // ── PORTAL DESTINATION PLANET RENDERER ──
-  function drawPortalPlanet(context, cx, cy, w, h, time) {
-    const nextPlanetName = states[current].next.toLowerCase();
-    const planetRadius = Math.min(w, h) * 0.36;
-
-    // Subtle star field inside portal window
-    const portalGrad = context.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h) * 0.65);
-    portalGrad.addColorStop(0, '#090810');
-    portalGrad.addColorStop(0.65, '#050408');
-    portalGrad.addColorStop(1, '#020204');
-    context.fillStyle = portalGrad;
-    context.fillRect(cx - w / 2, cy - h / 2, w, h);
-
-    // Destination celestial globe with interactive tilt
-    const pv = planetVisuals[nextPlanetName] || planetVisuals.earth;
-    const rotAngle = time * 0.0006 * (pv.rotationSpeed > 0 ? 1 : -1);
-    drawPlanet3DGlobe(context, cx, cy + h * 0.02, planetRadius, nextPlanetName, rotAngle, {
-      showAtmosphere: true,
-      showRings: true
-    });
-  }
 
   // ── ROUNDED RECT & 3D PERSPECTIVE PROJECTION ──
   function roundedRectPoints(w, h, r) {
@@ -1275,7 +687,7 @@ html, body, button, a, .portal { cursor: none !important; }
 
   function drawShade(context) {
     if (!context) context = ctx;
-    const y0 = innerHeight * 0.48;
+    const y0 = innerHeight * 0.45;
     const grad = context.createLinearGradient(0, y0, 0, innerHeight);
     grad.addColorStop(0, 'rgba(0,0,0,0)');
     grad.addColorStop(1, 'rgba(0,0,0,0.85)');
@@ -1301,15 +713,18 @@ html, body, button, a, .portal { cursor: none !important; }
     } catch (e) { return false; }
   }
 
-  // ── MAIN DRAW LOOP ──
+  function getPortalMedia() {
+    const s = states[current];
+    if (s.image) return portalImage;
+    return portalVideo;
+  }
+
+  // ── MAIN DRAW LOOP (PORTAL PROJECTION & TILT) ──
   let lastTime = 0;
   function draw(now) {
     requestAnimationFrame(draw);
     const dt = Math.min(now - (lastTime || now), 40);
     lastTime = now;
-
-    // Render Starfield & 3D Celestial Background
-    drawStarfield(now);
 
     if (!busy) {
       rotX += (targetX - rotX) * Math.min(1, dt * 0.009);
@@ -1355,13 +770,11 @@ html, body, button, a, .portal { cursor: none !important; }
       ctx.fillRect(0, 0, innerWidth, innerHeight);
 
       if (transitionActive) {
-        if (!drawCover(transitionVid, ctx)) {
-          drawPortalPlanet(ctx, cx, cy, w, h, now);
-        }
+        drawCover(transitionVid, ctx);
         drawShade(ctx);
       } else {
-        // Render 3D Destination Planet inside Portal Window
-        drawPortalPlanet(ctx, cx, cy, w, h, now);
+        const media = getPortalMedia();
+        drawCover(media, ctx);
       }
       ctx.restore();
     }
@@ -1398,7 +811,7 @@ html, body, button, a, .portal { cursor: none !important; }
   portalBtn.addEventListener('pointerenter', function () { cursorEl.classList.add('is-enter'); });
   portalBtn.addEventListener('pointerleave', function () { cursorEl.classList.remove('is-enter'); });
 
-  // ── STATE RENDER FUNCTION ──
+  // ── STATE RENDER FUNCTION (DRIVES DISTINCT VIDEO PER PLANET) ──
   function render() {
     const st = states[current];
     if (!st) return;
@@ -1438,17 +851,21 @@ html, body, button, a, .portal { cursor: none !important; }
       planetList.classList.add('is-switching');
     }
 
-    // Background video visibility
+    // PLAY THE DISTINCT BACKGROUND VIDEO FOR CURRENT PLANET
     document.querySelectorAll('.background').forEach(function (v) {
       if (v.id === st.background) {
         v.classList.add('is-visible');
-        if (v.paused) v.play().catch(function () {});
+        const playPromise = v.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(function () {});
+        }
       } else {
         v.classList.remove('is-visible');
+        v.pause();
       }
     });
 
-    // Portal media selection
+    // UPDATE AND PLAY NEXT PLANET VIDEO IN THE PORTAL
     if (st.image) {
       portalImage.style.display = 'block';
       portalVideo.style.display = 'none';
@@ -1459,7 +876,10 @@ html, body, button, a, .portal { cursor: none !important; }
       if (portalVideo.getAttribute('src') !== st.portal) {
         portalVideo.src = st.portal;
         portalVideo.load();
-        portalVideo.play().catch(function () {});
+      }
+      const pvPromise = portalVideo.play();
+      if (pvPromise !== undefined) {
+        pvPromise.catch(function () {});
       }
     }
     firstRender = false;
@@ -1559,7 +979,7 @@ html, body, button, a, .portal { cursor: none !important; }
     }
   }
 
-  // ── INTERACTIVE PLANET SWITCHER ──
+  // ── INTERACTIVE PLANET SWITCHER (INSTANT VIDEO SWAP) ──
   function switchPlanet(targetPlanetKey) {
     if (busy || !states[targetPlanetKey] || targetPlanetKey === current) return;
     busy = true;
@@ -1567,7 +987,7 @@ html, body, button, a, .portal { cursor: none !important; }
     render();
     revealPlanetContent();
     revealMask();
-    setTimeout(function () { busy = false; }, 400);
+    setTimeout(function () { busy = false; }, 350);
   }
 
   // ── TRAVEL / TRANSITION ENGINE ──
@@ -1580,7 +1000,7 @@ html, body, button, a, .portal { cursor: none !important; }
     const next = states[current].next.toLowerCase();
 
     try {
-      transitionVid.src = states[current].portal || TO_EARTH;
+      transitionVid.src = states[current].portal || states[next].background ? 'videos/' + next + '.mp4' : '';
       transitionVid.load();
       experience.classList.add('is-loading');
 
@@ -1589,7 +1009,7 @@ html, body, button, a, .portal { cursor: none !important; }
         function done() { if (!resolved) { resolved = true; resolve(); } }
         transitionVid.addEventListener('canplaythrough', done, { once: true });
         transitionVid.addEventListener('error', done, { once: true });
-        setTimeout(done, 1400);
+        setTimeout(done, 1200);
       });
 
       experience.classList.remove('is-loading');
@@ -1602,13 +1022,13 @@ html, body, button, a, .portal { cursor: none !important; }
       transitionVid.play().catch(function () {});
 
       // Expansion phase (portal zooms to fill viewport)
-      await animateValue(function (v) { expansion = v; }, 1100);
+      await animateValue(function (v) { expansion = v; }, 1000);
 
       current = next;
       render();
 
       // Reverse contraction phase
-      await animateValue(function (v) { expansion = 1 - v; }, 900);
+      await animateValue(function (v) { expansion = 1 - v; }, 850);
 
       transitionActive = false;
       experience.classList.remove('is-transitioning');
