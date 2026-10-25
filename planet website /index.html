@@ -728,6 +728,30 @@ body:not(.intro-ready) .planet-content .fact { opacity: 0; }
   }
 
   // ── PROCEDURAL PLANETARY TEXTURE GENERATORS ──
+  function generateVenusTexture(w, h) {
+    const cvs = document.createElement('canvas');
+    cvs.width = w; cvs.height = h;
+    const c = cvs.getContext('2d');
+    const idata = c.createImageData(w, h);
+    const data = idata.data;
+    for (let y = 0; y < h; y++) {
+      const ny = y / h;
+      for (let x = 0; x < w; x++) {
+        const nx = x / w;
+        // Chevron wave atmospheric pattern
+        const wave = Math.sin((nx * 4 + Math.abs(ny - 0.5) * 6) * Math.PI * 2) * 0.15;
+        const n1 = fbm2D((nx + wave) * 6, ny * 12, 4, 0.55);
+        const r = Math.floor(215 + n1 * 35);
+        const g = Math.floor(175 + n1 * 30);
+        const b = Math.floor(105 + n1 * 25);
+        const idx = (y * w + x) * 4;
+        data[idx] = r; data[idx + 1] = g; data[idx + 2] = b; data[idx + 3] = 255;
+      }
+    }
+    c.putImageData(idata, 0, 0);
+    return cvs;
+  }
+
   function generateEarthTexture(w, h) {
     const cvs = document.createElement('canvas');
     cvs.width = w; cvs.height = h;
