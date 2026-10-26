@@ -1,0 +1,9 @@
+/* Custom Obsidian Starlight Scrollbar */
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-track { background: rgba(5, 5, 8, 0.95); }
+::-webkit-scrollbar-thumb {
+  background: rgba(232, 195, 125, 0.30);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(232, 195, 125, 0.65); }
