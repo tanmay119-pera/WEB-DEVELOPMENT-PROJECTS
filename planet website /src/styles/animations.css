@@ -1,0 +1,8 @@
+/* Scroll-Triggered Entrance Animations */
+@keyframes section-fade-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.content-section {
+  animation: section-fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
