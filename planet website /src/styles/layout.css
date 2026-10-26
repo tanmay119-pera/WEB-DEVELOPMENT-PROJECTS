@@ -1,0 +1,10 @@
+/* Fluid Scrollable Layout Architecture */
+html, body {
+  margin: 0; padding: 0;
+  width: 100%; min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  background: #050508;
+  color: #f5f6fa;
+}
