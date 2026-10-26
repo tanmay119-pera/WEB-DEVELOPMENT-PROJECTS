@@ -1,0 +1,14 @@
+/* Glassmorphic Celestial Card System */
+.glass-card, .telemetry-card, .mission-card, .mystery-card {
+  background: rgba(14, 15, 24, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glass-card:hover {
+  border-color: rgba(232, 195, 125, 0.40);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
