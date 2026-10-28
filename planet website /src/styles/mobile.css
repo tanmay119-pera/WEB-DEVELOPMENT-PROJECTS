@@ -1,0 +1,17 @@
+/* Mobile & Tablet Responsive Optimizations */
+@media (max-width: 1024px) {
+  .observatory-viewport {
+    position: relative; right: auto; top: auto;
+    transform: none; margin: 40px auto;
+    width: min(380px, 80vw);
+  }
+  .hero-content { max-width: 100%; text-align: center; }
+  .telemetry-grid { grid-template-columns: repeat(2, 1fr); }
+  .planet-dock { display: none; }
+}
+@media (max-width: 768px) {
+  .header-nav { display: none; }
+  .telemetry-grid { grid-template-columns: 1fr; }
+  .cards-split-layout { grid-template-columns: 1fr; }
+  .content-section { padding: 60px 20px; }
+}
