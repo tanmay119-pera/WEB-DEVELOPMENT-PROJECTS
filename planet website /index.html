@@ -1,25 +1,24 @@
 <!--
-  Planet Jumping — High-Fidelity 3D Planetary Portal Experience
-  Engine: Procedural Canvas 2D Sphere Projection (60 FPS) + Native 8-Planet HD Video Engine
-  Curated & Architected by Tanmay (Adesh Srivastava)
-  Planetary Systems: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune
+  The Living Archive / Planet Jumping — Master Interplanetary Observatory
+  Conceived, Designed & Architected by Tanmay (Adesh Srivastava)
+  High-Fidelity 3D Perspective Portal Engine • Native Hardware-Accelerated Video Pipeline
 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Planet Jumping</title>
-<meta name="description" content="Planet Jumping — Cinematic 3D space portal landing experience with distinct planetary video engines. Conceived and architected by Tanmay (Adesh Srivastava).">
+<title>The Living Archive — Planet Jumping</title>
+<meta name="description" content="The Living Archive — Cinematic 3D interplanetary portal experience. Conceived and architected by Tanmay (Adesh Srivastava).">
 <meta name="author" content="Tanmay (Adesh Srivastava)">
 
-<!-- Google Fonts: Premium Typography Replacement -->
+<!-- Google Fonts: Premium Typography Hierarchy -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Cinzel:wght@600;700;900&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Cinzel:wght@600;700;900&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* ── LOCAL & SYSTEM FONT FALLBACK DECLARATIONS ── */
+/* ── SYSTEM & FALLBACK FONT DECLARATIONS ── */
 @font-face { font-family: 'SF Pro'; font-weight: 400; src: local('SF Pro'); }
 @font-face { font-family: 'SF Pro'; font-weight: 700; src: local('SF Pro Bold'); }
 @font-face { font-family: 'SF Pro Thin'; font-weight: 100; src: local('SF Pro Thin'); }
@@ -35,30 +34,35 @@
 }
 
 * { box-sizing: border-box; }
-html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #090807; }
+html, body {
+  margin: 0; padding: 0; width: 100%; height: 100%;
+  overflow: hidden; background: #090807;
+}
 
 .experience {
   position: relative; width: 100%; height: 100%;
   min-height: 540px; overflow: hidden; background: #0a0908;
 }
 
-/* ── 8 DISTINCT PLANETARY BACKGROUND VIDEOS ── */
+/* ── CINEMATIC BACKGROUND VIDEOS ── */
 .backgrounds, .background, .shade, .transition-layer, .transition-layer video {
   position: absolute; inset: 0; width: 100%; height: 100%;
 }
 .backgrounds { z-index: 0; pointer-events: none; }
 .background {
-  object-fit: cover; opacity: 0; transition: opacity .9s cubic-bezier(0.16,1,0.3,1);
+  object-fit: cover; opacity: 0;
+  transition: opacity .9s cubic-bezier(0.16, 1, 0.3, 1);
   filter: brightness(0.92) contrast(1.05);
 }
 .background.is-visible { opacity: 1; }
 
 .shade {
   z-index: 2;
-  background: linear-gradient(to bottom, transparent 45%, rgba(0,0,0,.82) 100%);
+  background: linear-gradient(to bottom, transparent 48%, rgba(0, 0, 0, 0.88) 100%);
   pointer-events: none;
 }
 
+/* ── CHROME HUD OVERLAYS ── */
 .chrome {
   position: absolute; z-index: 4;
   transition: opacity .45s ease, filter .45s ease;
@@ -75,15 +79,19 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
 
 .transition-layer { display: none; z-index: 3; }
 .transition-layer video { object-fit: cover; }
-.scene-canvas { display: none; }
+.scene-canvas {
+  position: absolute; inset: 0; z-index: 1;
+  pointer-events: none; display: none;
+}
 .loading {
   position: absolute; z-index: 12; left: 50%; bottom: 30px;
   transform: translateX(-50%); opacity: 0;
-  font-family: 'JetBrains Mono', 'Plus Jakarta Sans', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 12px; letter-spacing: .2em; text-transform: uppercase;
-  transition: opacity .2s; color: rgba(255,255,255,0.85);
+  transition: opacity .2s; color: rgba(255, 255, 255, 0.85);
+  pointer-events: none;
 }
-.experience.is-loading .loading { opacity: .8; }
+.experience.is-loading .loading { opacity: .85; }
 
 /* ── HEADER NAVIGATION ── */
 .header {
@@ -94,9 +102,9 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
 .header-actions { margin-left: auto; display: flex; align-items: center; }
 .nav {
   display: flex; align-items: center; height: 42px; padding: 4px 5px;
-  border: 1px solid rgba(255,255,255,.32);
-  background: rgba(255,255,255,.08); backdrop-filter: blur(16px);
-  border-radius: 999px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(16px);
+  border-radius: 999px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 .nav a {
   color: #fff; text-decoration: none; padding: 8px 19px;
@@ -105,7 +113,7 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
   transition: background 0.2s ease, color 0.2s ease;
 }
 .nav a.active { background: #fff; color: #000; font-weight: 600; }
-.nav a:hover:not(.active) { color: #fff; background: rgba(255,255,255,0.12); }
+.nav a:hover:not(.active) { color: #fff; background: rgba(255, 255, 255, 0.12); }
 
 .menu {
   height: 42px; padding: 0 20px; border: 0; border-radius: 999px;
@@ -113,11 +121,11 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
   font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 600;
   letter-spacing: 0.03em; margin-left: 10px;
   transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 16px rgba(255,255,255,0.15);
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.15);
 }
 .menu:hover { background: #f0f0f0; transform: scale(1.03); }
 
-/* ── SIDEBAR PLANET LIST (ALL 8 WORLDS) ── */
+/* ── SIDEBAR PLANET LIST (8 WORLDS) ── */
 .planet-list {
   left: clamp(18px, 1.95vw, 28px); top: 50%;
   transform: translateY(-43%);
@@ -127,9 +135,9 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
 .planet-item {
   display: flex; align-items: center; min-height: 22px;
   cursor: pointer !important; user-select: none;
-  opacity: 0.60; padding: 3px 8px; border-radius: 999px;
+  opacity: 0.55; padding: 3px 8px; border-radius: 999px;
   letter-spacing: 0.04em; font-weight: 500;
-  transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease, background 0.25s ease, color 0.25s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, background 0.25s ease, color 0.25s ease;
 }
 .planet-item:hover {
   opacity: 1; transform: translateX(8px);
@@ -143,23 +151,24 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
 .planet-item.active::before {
   content: ''; width: 14px; height: 14px; border-radius: 50%;
   background: #fff; display: inline-block;
-  box-shadow: 0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.4);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4);
 }
 
 .planet-list.is-switching .planet-item {
-  animation: planet-item-in .45s cubic-bezier(.16,1,.3,1) both;
+  animation: planet-item-in .45s cubic-bezier(.16, 1, .3, 1) both;
 }
 @keyframes planet-item-in {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: .65; transform: none; }
 }
 
-/* ── CENTER PORTAL ── */
+/* ── CENTER 3D PERSPECTIVE PORTAL ── */
 .portal-canvas {
   position: fixed; inset: 0; z-index: 3;
   width: 100%; height: 100%; pointer-events: none;
 }
 .portal-wrap {
+  position: absolute;
   left: 50%; top: 50%; width: min(320px, 31vw);
   transform: translate(-50%, -54%);
   perspective: none; pointer-events: auto;
@@ -168,7 +177,7 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
   display: flex; justify-content: space-between; align-items: center;
   margin-bottom: 12px; font-size: 14px; opacity: 0;
   font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: 0.04em;
-  text-transform: uppercase; color: rgba(255,255,255,0.8);
+  text-transform: uppercase; color: rgba(255, 255, 255, 0.8);
 }
 .portal-heading strong {
   font-size: 16px; margin-left: 8px; font-weight: 700; color: #fff;
@@ -176,7 +185,7 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
 }
 #next-number {
   font-family: 'JetBrains Mono', monospace; font-weight: 600;
-  color: rgba(255,255,255,0.65);
+  color: rgba(255, 255, 255, 0.65);
 }
 .portal {
   position: relative; display: block; width: 100%; aspect-ratio: 320/350;
@@ -188,8 +197,9 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
   visibility: hidden; position: absolute; width: 1px; height: 1px; pointer-events: none;
 }
 
-/* ── BOTTOM PLANET CONTENT & FACTS ── */
+/* ── PLANET TITLE & ASTROPHYSICAL FACTS ── */
 .planet-content {
+  position: absolute;
   left: clamp(28px, 4vw, 58px); right: clamp(28px, 3vw, 44px);
   bottom: clamp(24px, 3vh, 30px);
   display: flex; justify-content: space-between; align-items: flex-end; gap: 40px;
@@ -201,7 +211,7 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
   margin: 0 0 -.04em; letter-spacing: 0.02em;
   text-transform: uppercase;
   transform: translateX(-32px); opacity: 0;
-  text-shadow: 0 8px 32px rgba(0,0,0,0.7);
+  text-shadow: 0 8px 32px rgba(0, 0, 0, 0.75);
 }
 .planet-content dl {
   width: min(460px, 35vw); margin: 0; font-size: 15px;
@@ -210,13 +220,13 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
 .fact {
   display: grid; grid-template-columns: 135px 1fr;
   gap: 16px; padding: 9px 0;
-  border-bottom: 1px solid rgba(255,255,255,.32); opacity: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.32); opacity: 0;
 }
 .fact:last-child { border-bottom: 0; }
 .fact dt {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 600; font-size: 13px; text-transform: uppercase;
-  letter-spacing: 0.06em; color: rgba(255,255,255,0.75);
+  letter-spacing: 0.06em; color: rgba(255, 255, 255, 0.75);
 }
 .fact dd {
   margin: 0; font-family: 'Plus Jakarta Sans', sans-serif;
@@ -224,7 +234,7 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
   color: #ffffff;
 }
 
-/* ── PRELOADER ── */
+/* ── PRELOADER TIMING ENGINE ── */
 .preloader {
   position: absolute; inset: 0; z-index: 20;
   background: #000; overflow: hidden;
@@ -245,11 +255,11 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
   transform: translate(-50%, -50%);
   will-change: left, top, width, height, transform;
   transition:
-    left 1.8s cubic-bezier(.16,1,.3,1),
-    top 1.8s cubic-bezier(.16,1,.3,1),
-    width 1.8s cubic-bezier(.16,1,.3,1),
-    height 1.8s cubic-bezier(.16,1,.3,1),
-    transform 1.8s cubic-bezier(.16,1,.3,1);
+    left 1.8s cubic-bezier(.16, 1, .3, 1),
+    top 1.8s cubic-bezier(.16, 1, .3, 1),
+    width 1.8s cubic-bezier(.16, 1, .3, 1),
+    height 1.8s cubic-bezier(.16, 1, .3, 1),
+    transform 1.8s cubic-bezier(.16, 1, .3, 1);
 }
 .floating-logo.is-docked {
   left: clamp(18px, 1.95vw, 28px); top: clamp(18px, 3.1vh, 28px);
@@ -262,7 +272,7 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
   bottom: clamp(22px, 3.1vh, 28px);
   display: flex; align-items: flex-end; gap: 4px;
   transform: translateX(-50%);
-  font-family: 'JetBrains Mono', -apple-system, monospace; line-height: 1;
+  font-family: 'JetBrains Mono', monospace; line-height: 1;
 }
 .preloader-count > span:first-child {
   font-family: 'JetBrains Mono', monospace;
@@ -270,7 +280,7 @@ html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background:
 }
 .preloader-count .percent { font-size: 24px; padding-bottom: 4px; font-weight: 400; }
 .preloader-count.is-leaving {
-  animation: preload-count-out .75s cubic-bezier(.22,1,.36,1) both;
+  animation: preload-count-out .75s cubic-bezier(.22, 1, .36, 1) both;
 }
 @keyframes preload-count-out {
   to { opacity: 0; filter: blur(7px); transform: translate(-50%, -34px); }
@@ -289,15 +299,15 @@ html, body, button, a, .portal { cursor: none !important; }
   position: absolute; left: 0; top: 0; border-radius: 50%;
   transform: translate(-50%, -50%);
 }
-.cursor-dot { width: 12px; height: 12px; background: #fff; box-shadow: 0 0 10px rgba(255,255,255,0.8); }
+.cursor-dot { width: 12px; height: 12px; background: #fff; box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); }
 .cursor-orbit {
-  width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.85);
-  background: rgba(255,255,255,.2);
-  transition: transform .3s cubic-bezier(.22,1,.36,1);
+  width: 36px; height: 36px; border: 1px solid rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.2);
+  transition: transform .3s cubic-bezier(.22, 1, .36, 1);
 }
 .custom-cursor.is-enter .cursor-orbit {
   transform: translate(-50%, -50%) scale(1.25);
-  background: rgba(255,255,255,.35);
+  background: rgba(255, 255, 255, 0.35);
 }
 .cursor-label {
   position: absolute; top: 26px; left: 0;
@@ -305,7 +315,7 @@ html, body, button, a, .portal { cursor: none !important; }
   font: 500 13px/1.2 'Plus Jakarta Sans', sans-serif;
   letter-spacing: 0.08em; text-transform: uppercase;
   white-space: nowrap; opacity: 0; color: #fff;
-  transition: opacity .2s ease, transform .3s cubic-bezier(.22,1,.36,1);
+  transition: opacity .2s ease, transform .3s cubic-bezier(.22, 1, .36, 1);
 }
 .custom-cursor.is-enter .cursor-label {
   opacity: 1; transform: translateX(-50%) translateY(0);
@@ -321,21 +331,21 @@ html, body, button, a, .portal { cursor: none !important; }
 .archive-modal.is-open { opacity: 1; pointer-events: auto; }
 .archive-modal-card {
   position: relative; width: min(520px, 90vw);
-  background: rgba(18, 18, 26, 0.9);
+  background: rgba(18, 18, 26, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 24px; padding: 36px 32px;
-  box-shadow: 0 24px 60px rgba(0,0,0,0.7), 0 0 40px rgba(232, 195, 125, 0.1);
-  transform: translateY(20px); transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(232, 195, 125, 0.1);
+  transform: translateY(20px); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .archive-modal.is-open .archive-modal-card { transform: translateY(0); }
 .modal-close-btn {
   position: absolute; top: 20px; right: 20px;
   width: 36px; height: 36px; border-radius: 50%; border: 0;
-  background: rgba(255,255,255,0.12); color: #fff;
+  background: rgba(255, 255, 255, 0.12); color: #fff;
   font-size: 20px; display: flex; align-items: center; justify-content: center;
   cursor: pointer !important; transition: background 0.2s;
 }
-.modal-close-btn:hover { background: rgba(255,255,255,0.25); }
+.modal-close-btn:hover { background: rgba(255, 255, 255, 0.25); }
 .modal-badge {
   display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px;
   letter-spacing: 0.16em; text-transform: uppercase; color: #e8c37d;
@@ -348,14 +358,14 @@ html, body, button, a, .portal { cursor: none !important; }
 }
 .modal-desc {
   font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; line-height: 1.6;
-  color: rgba(255,255,255,0.75); margin: 0 0 24px;
+  color: rgba(255, 255, 255, 0.78); margin: 0 0 24px;
 }
 .modal-credits {
-  border-top: 1px solid rgba(255,255,255,0.15); padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15); padding-top: 20px;
 }
 .modal-credits-label {
   font-family: 'JetBrains Mono', monospace; font-size: 11px;
-  letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.5);
+  letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255, 255, 255, 0.5);
   margin-bottom: 6px;
 }
 .modal-credits-author {
@@ -364,35 +374,63 @@ html, body, button, a, .portal { cursor: none !important; }
 }
 .modal-credits-sub {
   font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12.5px;
-  color: rgba(255,255,255,0.6); margin-top: 4px;
+  color: rgba(255, 255, 255, 0.6); margin-top: 4px;
+}
+
+/* ── RESPONSIVE RULES ── */
+@media (max-width: 900px) {
+  .nav { display: none; }
+  .portal-wrap { width: min(300px, 48vw); }
+  .planet-content h1 { font-size: clamp(105px, 24vw, 190px); }
+  .planet-content dl { width: 43vw; }
+  .fact { grid-template-columns: 110px 1fr; }
+  .planet-list { font-size: 14px; }
+  .planet-item.active { font-size: 16px; }
+}
+@media (max-width: 640px) {
+  .experience { min-height: 600px; }
+  .planet-list { display: none; }
+  .portal-wrap { top: 44%; width: min(260px, 66vw); }
+  .planet-content {
+    left: 18px; right: 18px; bottom: 18px; display: block;
+  }
+  .planet-content h1 {
+    font-size: clamp(98px, 30vw, 160px); margin-bottom: 20px;
+  }
+  .planet-content dl { width: 100%; font-size: 13px; }
+  .fact { grid-template-columns: 92px 1fr; padding: 5px 0; }
+  .portal-heading { font-size: 14px; }
+  .portal-heading strong { font-size: 16px; }
+  .menu { height: 38px; }
+  .portal { border-radius: 70px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: .01ms !important; }
+  .portal { transform: none !important; }
 }
 </style>
 </head>
 <body>
 
 <main class="experience" data-planet="mars">
-  <!-- 8 DISTINCT BACKGROUND VIDEOS FOR EACH PLANET -->
+  <!-- CINEMATIC BACKGROUND VIDEOS -->
   <div class="backgrounds" aria-hidden="true">
-    <video id="mercury-background" class="background" src="videos/mercury.mp4" muted playsinline preload="auto" loop></video>
-    <video id="venus-background"   class="background" src="videos/venus.mp4"   muted playsinline preload="auto" loop></video>
-    <video id="earth-background"   class="background" src="videos/earth.mp4"   muted playsinline preload="auto" loop></video>
-    <video id="mars-background"    class="background is-visible" src="videos/mars.mp4" muted playsinline preload="auto" loop></video>
-    <video id="jupiter-background" class="background" src="videos/jupiter.mp4" muted playsinline preload="auto" loop></video>
-    <video id="saturn-background"  class="background" src="videos/saturn.mp4"  muted playsinline preload="auto" loop></video>
-    <video id="uranus-background"  class="background" src="videos/uranus.mp4"  muted playsinline preload="auto" loop></video>
-    <video id="neptune-background" class="background" src="videos/neptune.mp4" muted playsinline preload="auto" loop></video>
+    <video id="mars-background"  class="background is-visible" src="videos/mars.mp4"  muted playsinline preload="auto" loop></video>
+    <video id="earth-background" class="background"             src="videos/earth.mp4" muted playsinline preload="auto" loop></video>
+    <video id="venus-background" class="background"             src="videos/venus.mp4" muted playsinline preload="auto" loop></video>
   </div>
 
-  <div class="preloader" id="preloader" aria-label="Loading Mars">
+  <!-- INTRO PRELOADER -->
+  <div class="preloader" id="preloader" aria-label="Loading The Living Archive">
     <video id="preloader-video"
-      src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/5fc5651c-3b5d-4171-b507-87f7e635d1b4.mp4"
+      src="videos/to_mars.mp4"
       muted playsinline preload="auto"></video>
     <div class="preloader-shade"></div>
   </div>
 
   <img class="floating-logo" id="floating-logo"
-    src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/eb7e0f53-50cd-4af5-abc4-8b9a52cdc01b.svg"
-    alt="Ubernatural">
+    src="logo.svg"
+    alt="The Living Archive">
 
   <div class="preloader-count" id="preloader-count" aria-live="polite">
     <span id="preloader-value">0</span><span class="percent">%</span>
@@ -401,7 +439,7 @@ html, body, button, a, .portal { cursor: none !important; }
   <canvas id="scene-canvas" class="scene-canvas" aria-hidden="true"></canvas>
   <div class="shade" aria-hidden="true"></div>
 
-  <!-- Header Navigation -->
+  <!-- HEADER NAVIGATION -->
   <header class="header chrome">
     <div class="header-actions">
       <nav class="nav" aria-label="Primary navigation">
@@ -413,28 +451,28 @@ html, body, button, a, .portal { cursor: none !important; }
     </div>
   </header>
 
-  <!-- Left Sidebar (All 8 Solar System Worlds) -->
+  <!-- LEFT SIDEBAR (8 SOLAR SYSTEM WORLDS) -->
   <aside class="planet-list chrome" aria-label="Planets"></aside>
 
-  <!-- Center 3D Interplanetary Portal -->
+  <!-- CENTER 3D INTERPLANETARY PORTAL -->
   <canvas id="portal-canvas" class="portal-canvas" aria-hidden="true"></canvas>
 
   <section class="portal-wrap chrome" aria-label="Next destination">
     <div class="portal-heading">
       <span>Next:</span>
-      <span><span id="next-number">[05]</span> <strong id="next-name">Jupiter</strong></span>
+      <span><span id="next-number">[03]</span> <strong id="next-name">Earth</strong></span>
     </div>
-    <button class="portal" id="portal" type="button" aria-label="Travel to Jupiter">
+    <button class="portal" id="portal" type="button" aria-label="Travel to Earth">
       <video id="portal-video"
-        src="videos/jupiter.mp4"
+        src="videos/earth.mp4"
         muted playsinline preload="auto" loop></video>
       <img id="portal-image"
-        src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/d6fb8b6b-c15e-4aaa-9cf7-45bbb5e33372.jpg"
-        alt="Mercury">
+        src="videos/mercury.jpg"
+        alt="Mercury" style="display: none;">
     </button>
   </section>
 
-  <!-- Bottom Planet Title & Physical Facts -->
+  <!-- BOTTOM PLANET TITLE & PHYSICAL FACTS -->
   <section class="planet-content chrome" aria-live="polite">
     <h1 id="planet-title">MARS</h1>
     <dl id="facts"></dl>
@@ -444,7 +482,7 @@ html, body, button, a, .portal { cursor: none !important; }
     <video id="transition-video" muted playsinline preload="auto"></video>
   </div>
 
-  <div class="loading" aria-hidden="true">Preparing orbit…</div>
+  <div class="loading" aria-hidden="true">Preparing warp…</div>
 
   <div class="custom-cursor" aria-hidden="true">
     <span class="cursor-orbit"></span>
@@ -452,14 +490,14 @@ html, body, button, a, .portal { cursor: none !important; }
     <span class="cursor-label">Enter</span>
   </div>
 
-  <!-- Credits & About Modal Dialog -->
+  <!-- ABOUT & CREDITS MODAL DIALOG -->
   <div class="archive-modal" id="archive-modal" aria-hidden="true">
     <div class="archive-modal-card">
       <button class="modal-close-btn" id="modal-close" type="button" aria-label="Close modal">×</button>
       <div class="modal-badge">Planetary Observatory</div>
-      <h2 class="modal-title">Planet Jumping</h2>
+      <h2 class="modal-title">The Living Archive</h2>
       <p class="modal-desc">
-        A real-time cinematic space portal landing experience featuring 8 distinct high-definition planetary video backdrops, custom 3D perspective portal optics, and orbital transit physics.
+        A real-time cinematic space portal landing experience featuring authentic high-definition planetary video backdrops, custom 3D perspective portal optics, and orbital transit physics.
       </p>
       <div class="modal-credits">
         <div class="modal-credits-label">Concept, Architecture & Engineering</div>
@@ -474,69 +512,76 @@ html, body, button, a, .portal { cursor: none !important; }
 (function () {
   'use strict';
 
-  // ── ALL 8 PLANETS WITH DISTINCT INDIVIDUAL VIDEOS ──
-  const planets = ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune'];
+  // ── 8 SOLAR SYSTEM WORLDS DATA MODEL ──
+  const allPlanets = ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune'];
 
   const states = {
-    mercury: {
-      name: 'Mercury', next: 'Venus', number: '[01]',
-      portal: 'videos/venus.mp4',
-      background: 'mercury-background',
-      facts: [
-        ['Distance:', '57.9 million km from the Sun (0.39 AU).'],
-        ['Year:', '88 Earth days (orbital speed: 47 km/s).'],
-        ['Temperature:', '430 °C daytime, plunging to -180 °C at night.'],
-        ['Atmosphere:', 'Thin exosphere of sodium, magnesium, and solar wind ions.']
-      ]
-    },
-    venus: {
-      name: 'Venus', next: 'Earth', number: '[02]',
+    mars: {
+      name: 'Mars', next: 'Earth', number: '[03]',
       portal: 'videos/earth.mp4',
-      background: 'venus-background',
+      transit: 'videos/earth.mp4',
+      background: 'mars-background',
       facts: [
-        ['Distance:', '108.2 million km from the Sun (0.72 AU).'],
-        ['Year:', '225 Earth days (rotates backwards every 243 days).'],
-        ['Temperature:', '465 °C — the hottest planetary surface in the Solar System.'],
-        ['Atmosphere:', 'Super-critical 93-bar carbon dioxide with dense sulfuric acid clouds.']
+        ['Distance:', 'About 228 million km (1.52 AU from the Sun).'],
+        ['Year:', 'One Martian year is equal to 687 Earth days.'],
+        ['Temperature:', 'Around -63 °C, dropping to -140 °C at polar caps in winter.'],
+        ['Atmosphere:', 'Very thin, consisting of 95% carbon dioxide, with frequent dust storms.']
       ]
     },
     earth: {
-      name: 'Earth', next: 'Mars', number: '[03]',
-      portal: 'videos/mars.mp4',
+      name: 'Earth', next: 'Venus', number: '[02]',
+      portal: 'videos/venus.mp4',
+      transit: 'videos/venus.mp4',
       background: 'earth-background',
       facts: [
         ['Distance:', '149.6 million km from the Sun (1.00 AU).'],
         ['Year:', '365.25 Earth days (axial tilt: 23.4°).'],
-        ['Temperature:', 'Global average 15 °C (-89 °C to 56.7 °C extremes).'],
-        ['Atmosphere:', '78% nitrogen, 21% oxygen — dynamic water cycle and biosphere.']
+        ['Temperature:', 'Average surface temperature around 15 °C.'],
+        ['Atmosphere:', 'Mostly nitrogen and oxygen, supporting life and liquid water.']
       ]
     },
-    mars: {
-      name: 'Mars', next: 'Jupiter', number: '[04]',
-      portal: 'videos/jupiter.mp4',
+    venus: {
+      name: 'Venus', next: 'Mars', number: '[04]',
+      portal: 'videos/to_mars.mp4',
+      transit: 'videos/to_mars.mp4',
+      background: 'venus-background',
+      facts: [
+        ['Distance:', '108.2 million km from the Sun (0.72 AU).'],
+        ['Year:', '225 Earth days (rotates backwards every 243 days).'],
+        ['Temperature:', 'Around 465 °C — the hottest planet in the Solar System.'],
+        ['Atmosphere:', 'Extremely dense, mostly carbon dioxide, with clouds of sulfuric acid.']
+      ]
+    },
+    mercury: {
+      name: 'Mercury', next: 'Venus', number: '[02]',
+      portal: 'videos/venus.mp4',
+      transit: 'videos/venus.mp4',
+      image: 'videos/mercury.jpg',
       background: 'mars-background',
       facts: [
-        ['Distance:', 'About 228 million km (1.52 AU from the Sun).'],
-        ['Year:', '687 Earth days (one Martian sol: 24h 37m).'],
-        ['Temperature:', 'Around -63 °C, dropping to -140 °C at polar caps in winter.'],
-        ['Atmosphere:', 'Very thin 0.006 bar CO2, featuring global seasonal dust storms.']
+        ['Distance:', '57.9 million km from the Sun (0.39 AU).'],
+        ['Year:', '88 Earth days (orbital velocity: 47.4 km/s).'],
+        ['Temperature:', '430 °C daytime, plunging to -180 °C at night.'],
+        ['Atmosphere:', 'Ultra-thin exosphere of sodium, potassium, and magnesium.']
       ]
     },
     jupiter: {
-      name: 'Jupiter', next: 'Saturn', number: '[05]',
-      portal: 'videos/saturn.mp4',
-      background: 'jupiter-background',
+      name: 'Jupiter', next: 'Saturn', number: '[06]',
+      portal: 'videos/earth.mp4',
+      transit: 'videos/earth.mp4',
+      background: 'mars-background',
       facts: [
         ['Distance:', '778.5 million km from the Sun (5.20 AU).'],
         ['Year:', '11.86 Earth years (rapid rotation day: 9h 55m).'],
-        ['Temperature:', '-110 °C at 1-bar cloud deck; metallic core exceeds 24,000 °C.'],
-        ['Atmosphere:', 'Hydrogen-helium envelope with ammonia lightning and Great Red Spot.']
+        ['Temperature:', '-110 °C cloud deck with internal liquid metallic core.'],
+        ['Atmosphere:', 'Hydrogen-helium envelope with ammonia lightning storms and Great Red Spot.']
       ]
     },
     saturn: {
-      name: 'Saturn', next: 'Uranus', number: '[06]',
-      portal: 'videos/uranus.mp4',
-      background: 'saturn-background',
+      name: 'Saturn', next: 'Uranus', number: '[07]',
+      portal: 'videos/venus.mp4',
+      transit: 'videos/venus.mp4',
+      background: 'venus-background',
       facts: [
         ['Distance:', '1.43 billion km from the Sun (9.58 AU).'],
         ['Year:', '29.45 Earth years (rapid rotation: 10h 33m).'],
@@ -545,25 +590,27 @@ html, body, button, a, .portal { cursor: none !important; }
       ]
     },
     uranus: {
-      name: 'Uranus', next: 'Neptune', number: '[07]',
-      portal: 'videos/neptune.mp4',
-      background: 'uranus-background',
+      name: 'Uranus', next: 'Neptune', number: '[08]',
+      portal: 'videos/earth.mp4',
+      transit: 'videos/earth.mp4',
+      background: 'earth-background',
       facts: [
         ['Distance:', '2.87 billion km from the Sun (19.2 AU).'],
-        ['Year:', '84.0 Earth years (extreme 97.8° axial tilt).'],
+        ['Year:', '84.0 Earth years (extreme 97.8° axial tilt roll).'],
         ['Temperature:', '-195 °C average, dipping to -224 °C (coldest atmosphere).'],
         ['Atmosphere:', 'Hydrogen, helium, and methane ice forming diamond precipitation.']
       ]
     },
     neptune: {
-      name: 'Neptune', next: 'Mercury', number: '[08]',
-      portal: 'videos/mercury.mp4',
-      background: 'neptune-background',
+      name: 'Neptune', next: 'Mars', number: '[04]',
+      portal: 'videos/to_mars.mp4',
+      transit: 'videos/to_mars.mp4',
+      background: 'earth-background',
       facts: [
         ['Distance:', '4.50 billion km from the Sun (30.1 AU).'],
         ['Year:', '164.8 Earth years (16h 06m rotation period).'],
-        ['Temperature:', '-201 °C cloud deck with internal geothermal heat core.'],
-        ['Atmosphere:', 'Supersonic winds up to 2,100 km/h with high-altitude methane cirrus.']
+        ['Temperature:', '-201 °C cloud deck with internal geothermal heat source.'],
+        ['Atmosphere:', 'Supersonic winds up to 2,100 km/h with high methane clouds.']
       ]
     }
   };
@@ -627,7 +674,7 @@ html, body, button, a, .portal { cursor: none !important; }
     return new Promise(function (resolve) {
       const start = performance.now();
       function tick(now) {
-        let t = Math.min(1, (now - start) / duration);
+        const t = Math.min(1, (now - start) / duration);
         setter(easeInOutCubic(t));
         if (t < 1) requestAnimationFrame(tick);
         else resolve();
@@ -687,10 +734,10 @@ html, body, button, a, .portal { cursor: none !important; }
 
   function drawShade(context) {
     if (!context) context = ctx;
-    const y0 = innerHeight * 0.45;
+    const y0 = innerHeight * 0.48;
     const grad = context.createLinearGradient(0, y0, 0, innerHeight);
     grad.addColorStop(0, 'rgba(0,0,0,0)');
-    grad.addColorStop(1, 'rgba(0,0,0,0.85)');
+    grad.addColorStop(1, 'rgba(0,0,0,0.88)');
     context.fillStyle = grad;
     context.fillRect(0, y0, innerWidth, innerHeight - y0);
   }
@@ -715,11 +762,11 @@ html, body, button, a, .portal { cursor: none !important; }
 
   function getPortalMedia() {
     const s = states[current];
-    if (s.image) return portalImage;
+    if (s && s.image) return portalImage;
     return portalVideo;
   }
 
-  // ── MAIN DRAW LOOP (PORTAL PROJECTION & TILT) ──
+  // ── MAIN DRAW LOOP (3D PERSPECTIVE PORTAL MASK) ──
   let lastTime = 0;
   function draw(now) {
     requestAnimationFrame(draw);
@@ -785,8 +832,8 @@ html, body, button, a, .portal { cursor: none !important; }
     mouseX = ev.clientX;
     mouseY = ev.clientY;
     if (!busy) {
-      targetY = (ev.clientX / innerWidth - 0.5) * 36;
-      targetX = (ev.clientY / innerHeight - 0.5) * -32;
+      targetY = (ev.clientX / innerWidth - 0.5) * 37.4;
+      targetX = (ev.clientY / innerHeight - 0.5) * -33;
     }
     if (!cursorEl.classList.contains('is-visible')) {
       cursorEl.classList.add('is-visible');
@@ -811,7 +858,7 @@ html, body, button, a, .portal { cursor: none !important; }
   portalBtn.addEventListener('pointerenter', function () { cursorEl.classList.add('is-enter'); });
   portalBtn.addEventListener('pointerleave', function () { cursorEl.classList.remove('is-enter'); });
 
-  // ── STATE RENDER FUNCTION (DRIVES DISTINCT VIDEO PER PLANET) ──
+  // ── RENDER FUNCTION (STATE SYNCHRONIZATION) ──
   function render() {
     const st = states[current];
     if (!st) return;
@@ -822,7 +869,7 @@ html, body, button, a, .portal { cursor: none !important; }
     nextNumber.textContent = st.number;
     portalBtn.setAttribute('aria-label', 'Travel to ' + st.next);
 
-    // Build fact items
+    // Render physical facts
     factsEl.innerHTML = '';
     st.facts.forEach(function (f) {
       const div = document.createElement('div');
@@ -831,14 +878,14 @@ html, body, button, a, .portal { cursor: none !important; }
       factsEl.appendChild(div);
     });
 
-    // Build sidebar planet items
+    // Render 8 solar system items in sidebar
     planetList.innerHTML = '';
-    planets.forEach(function (p) {
+    allPlanets.forEach(function (p) {
       const span = document.createElement('span');
-      const isAct = p.toLowerCase() === current;
+      const isAct = (p.toLowerCase() === current);
       span.className = 'planet-item' + (isAct ? ' active' : '');
       span.textContent = p;
-      span.setAttribute('data-target-planet', p.toLowerCase());
+      span.setAttribute('data-planet-key', p.toLowerCase());
       span.addEventListener('click', function () {
         switchPlanet(p.toLowerCase());
       });
@@ -851,25 +898,25 @@ html, body, button, a, .portal { cursor: none !important; }
       planetList.classList.add('is-switching');
     }
 
-    // PLAY THE DISTINCT BACKGROUND VIDEO FOR CURRENT PLANET
+    // Synchronize background video
     document.querySelectorAll('.background').forEach(function (v) {
       if (v.id === st.background) {
         v.classList.add('is-visible');
         const playPromise = v.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(function () {});
-        }
+        if (playPromise !== undefined) playPromise.catch(function () {});
       } else {
         v.classList.remove('is-visible');
         v.pause();
       }
     });
 
-    // UPDATE AND PLAY NEXT PLANET VIDEO IN THE PORTAL
+    // Synchronize portal media
     if (st.image) {
       portalImage.style.display = 'block';
       portalVideo.style.display = 'none';
-      portalImage.src = st.image;
+      if (portalImage.getAttribute('src') !== st.image) {
+        portalImage.src = st.image;
+      }
     } else {
       portalImage.style.display = 'none';
       portalVideo.style.display = 'block';
@@ -878,20 +925,19 @@ html, body, button, a, .portal { cursor: none !important; }
         portalVideo.load();
       }
       const pvPromise = portalVideo.play();
-      if (pvPromise !== undefined) {
-        pvPromise.catch(function () {});
-      }
+      if (pvPromise !== undefined) pvPromise.catch(function () {});
     }
+
     firstRender = false;
   }
 
-  // ── ANIMATION REVEALS ──
+  // ── ENTRANCE REVEAL ANIMATIONS ──
   function revealPlanetContent() {
     planetTitle.style.transition = 'none';
     planetTitle.style.transform = 'translateX(-32px)';
     planetTitle.style.opacity = '0';
     void planetTitle.offsetWidth;
-    planetTitle.style.transition = 'transform .9s cubic-bezier(.16,1,.3,1), opacity .9s ease';
+    planetTitle.style.transition = 'transform .9s cubic-bezier(.16, 1, .3, 1), opacity .9s ease';
     planetTitle.style.transform = 'none';
     planetTitle.style.opacity = '1';
 
@@ -901,7 +947,7 @@ html, body, button, a, .portal { cursor: none !important; }
       f.style.transform = 'translateY(16px)';
       f.style.opacity = '0';
       setTimeout(function () {
-        f.style.transition = 'transform .65s cubic-bezier(.16,1,.3,1), opacity .65s ease';
+        f.style.transition = 'transform .65s cubic-bezier(.16, 1, .3, 1), opacity .65s ease';
         f.style.transform = 'none';
         f.style.opacity = '1';
       }, 70 * i + 80);
@@ -913,7 +959,7 @@ html, body, button, a, .portal { cursor: none !important; }
       ph.style.opacity = '0';
       ph.style.transform = 'translateY(10px)';
       void ph.offsetWidth;
-      ph.style.transition = 'opacity .7s ease, transform .7s cubic-bezier(.16,1,.3,1)';
+      ph.style.transition = 'opacity .7s ease, transform .7s cubic-bezier(.16, 1, .3, 1)';
       ph.style.opacity = '1';
       ph.style.transform = 'none';
     }
@@ -921,7 +967,7 @@ html, body, button, a, .portal { cursor: none !important; }
 
   function revealMask() {
     maskScale = 0.55;
-    animateValue(function (v) {
+    return animateValue(function (v) {
       maskScale = 0.55 + 0.45 * v;
     }, 850);
   }
@@ -935,7 +981,7 @@ html, body, button, a, .portal { cursor: none !important; }
     cursorLoop();
   }
 
-  // ── PRELOADER TIMING ENGINE ──
+  // ── PRELOADER SEQUENCE ──
   function initPreloader() {
     let finished = false;
     function finish() {
@@ -966,7 +1012,7 @@ html, body, button, a, .portal { cursor: none !important; }
 
     preloaderVid.addEventListener('ended', finish, { once: true });
     function startPreloader() {
-      preloaderVid.playbackRate = Math.max(0.25, preloaderVid.duration / 3);
+      preloaderVid.playbackRate = 1.0;
       preloaderVid.play().then(function () {
         requestAnimationFrame(trackProgress);
       }).catch(function () { finish(); });
@@ -979,7 +1025,7 @@ html, body, button, a, .portal { cursor: none !important; }
     }
   }
 
-  // ── INTERACTIVE PLANET SWITCHER (INSTANT VIDEO SWAP) ──
+  // ── SEAMLESS PLANET SWITCHER ──
   function switchPlanet(targetPlanetKey) {
     if (busy || !states[targetPlanetKey] || targetPlanetKey === current) return;
     busy = true;
@@ -990,17 +1036,22 @@ html, body, button, a, .portal { cursor: none !important; }
     setTimeout(function () { busy = false; }, 350);
   }
 
-  // ── TRAVEL / TRANSITION ENGINE ──
+  // ── MASTER WARP TRANSIT (ZERO ZOOM-OUT, SEAMLESS ONE-WAY TRANSIT) ──
   portalBtn.addEventListener('click', travel);
 
   async function travel() {
     if (busy) return;
     busy = true;
     targetX = 0; targetY = 0;
-    const next = states[current].next.toLowerCase();
+    const st = states[current];
+    if (!st || !st.transit) {
+      busy = false;
+      return;
+    }
+    const next = st.next.toLowerCase();
 
     try {
-      transitionVid.src = states[current].portal || states[next].background ? 'videos/' + next + '.mp4' : '';
+      transitionVid.src = st.transit;
       transitionVid.load();
       experience.classList.add('is-loading');
 
@@ -1009,37 +1060,86 @@ html, body, button, a, .portal { cursor: none !important; }
         function done() { if (!resolved) { resolved = true; resolve(); } }
         transitionVid.addEventListener('canplaythrough', done, { once: true });
         transitionVid.addEventListener('error', done, { once: true });
-        setTimeout(done, 1200);
+        setTimeout(done, 1500);
       });
 
       experience.classList.remove('is-loading');
+      experience.classList.remove('content-revealing');
+      experience.classList.remove('mask-revealing');
       experience.classList.add('is-transitioning');
       transitionVid.currentTime = 0;
-      transitionVid.playbackRate = 1.35;
+      transitionVid.playbackRate = 1.3;
       canvasOpacity = 1;
-
       transitionActive = true;
-      transitionVid.play().catch(function () {});
 
-      // Expansion phase (portal zooms to fill viewport)
-      await animateValue(function (v) { expansion = v; }, 1000);
+      try { await transitionVid.play(); } catch (e) {}
 
+      // 1. One-way expansion: Portal zooms to fill viewport over 1100ms
+      await animateValue(function (v) { expansion = v; }, 1100);
+
+      // 2. Wait for flight transition to reach completion
+      await new Promise(function (resolve) {
+        if (transitionVid.ended) { resolve(); return; }
+        transitionVid.addEventListener('ended', resolve, { once: true });
+        setTimeout(resolve, 3600);
+      });
+
+      // 3. Freeze scene canvas on final frame
+      frozenScene = true;
+      const d = Math.min(devicePixelRatio || 1, 2);
+      sceneCanvas.width = innerWidth * d;
+      sceneCanvas.height = innerHeight * d;
+      sceneCanvas.style.width = innerWidth + 'px';
+      sceneCanvas.style.height = innerHeight + 'px';
+      sctx.setTransform(d, 0, 0, d, 0, 0);
+      sctx.clearRect(0, 0, innerWidth, innerHeight);
+      drawCover(transitionVid, sctx);
+
+      // 4. Commit destination state behind the frozen canvas
       current = next;
+      experience.classList.add('is-committing');
       render();
 
-      // Reverse contraction phase
-      await animateValue(function (v) { expansion = 1 - v; }, 850);
+      await new Promise(function (r) {
+        requestAnimationFrame(function () { requestAnimationFrame(r); });
+      });
 
+      // 5. Instantly reset portal geometry to resting position (scale 0) underneath — NO ZOOM OUT!
       transitionActive = false;
+      expansion = 0;
+      maskScale = 0;
+      canvasOpacity = 1;
       experience.classList.remove('is-transitioning');
-      revealPlanetContent();
-      revealMask();
+      experience.classList.remove('is-committing');
+
+      // 6. Start the destination planet background video
+      const bgVid = document.getElementById(states[current].background);
+      if (bgVid) {
+        bgVid.currentTime = 0;
+        try { await bgVid.play(); } catch (e) {}
+      }
+
+      // 7. Reveal the new portal mask and planet content smoothly
+      const maskRevealP = revealMask();
+      setTimeout(revealPlanetContent, 120);
+      await maskRevealP;
+
+      frozenScene = false;
+      setTimeout(function () {
+        transitionVid.removeAttribute('src');
+        transitionVid.load();
+        busy = false;
+      }, 300);
     } catch (err) {
-      console.error(err);
-      current = next;
-      render();
-      revealPlanetContent();
-    } finally {
+      console.warn('Travel error:', err);
+      transitionActive = false;
+      expansion = 0;
+      maskScale = 1;
+      canvasOpacity = 1;
+      frozenScene = false;
+      experience.classList.remove('is-transitioning');
+      experience.classList.remove('is-committing');
+      experience.classList.remove('is-loading');
       busy = false;
     }
   }
@@ -1060,8 +1160,8 @@ html, body, button, a, .portal { cursor: none !important; }
   if (navExplore) navExplore.addEventListener('click', function (e) { e.preventDefault(); travel(); });
   if (navPlanets) navPlanets.addEventListener('click', function (e) {
     e.preventDefault();
-    const nextIdx = (planets.map(p => p.toLowerCase()).indexOf(current) + 1) % planets.length;
-    switchPlanet(planets[nextIdx].toLowerCase());
+    const nextIdx = (allPlanets.map(p => p.toLowerCase()).indexOf(current) + 1) % allPlanets.length;
+    switchPlanet(allPlanets[nextIdx].toLowerCase());
   });
 
   archiveModal.addEventListener('click', function (e) {
