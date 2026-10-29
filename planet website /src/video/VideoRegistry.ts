@@ -9,3 +9,4 @@ export const PLANETARY_VIDEOS = {
   uranus:  { bg: 'videos/uranus.mp4',  opening: 'videos/uranus.mp4',  title: 'Voyager Tilted Cyan Atmosphere' },
   neptune: { bg: 'videos/neptune.mp4', opening: 'videos/neptune.mp4', title: 'Supersonic Azure Dark Spot Vortex' }
 };
+export const VIDEO_COUNT = 8;
