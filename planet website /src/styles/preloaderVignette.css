@@ -1,0 +1,5 @@
+/* Preloader Radial Vignette */
+.preloader-shade {
+  position: absolute; inset: auto 0 0; height: 40%;
+  background: linear-gradient(to bottom, transparent, rgba(9, 8, 7, 0.95));
+}
