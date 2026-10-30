@@ -1,0 +1,7 @@
+/* Chrome Glass & Blur Transitions */
+.chrome {
+  transition: opacity .45s ease, filter .45s ease;
+}
+.experience.is-transitioning .chrome {
+  opacity: 0; filter: blur(8px); pointer-events: none;
+}
