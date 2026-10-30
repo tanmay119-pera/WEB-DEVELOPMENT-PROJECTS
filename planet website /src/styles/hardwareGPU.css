@@ -1,0 +1,6 @@
+/* Hardware GPU Acceleration */
+.background, .portal-canvas, .floating-logo {
+  transform: translateZ(0);
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+}
