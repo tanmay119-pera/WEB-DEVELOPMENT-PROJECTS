@@ -1,0 +1,4 @@
+/* Destination Heading Entrance Animation */
+.portal-heading {
+  transition: opacity .7s ease, transform .7s cubic-bezier(.16,1,.3,1);
+}
