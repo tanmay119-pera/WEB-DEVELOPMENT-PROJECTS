@@ -1,0 +1,3 @@
+/* Luminous Custom Cursor */
+.cursor-dot { width: 12px; height: 12px; background: #fff; box-shadow: 0 0 10px rgba(255,255,255,0.8); }
+.cursor-orbit { width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.85); background: rgba(255,255,255,.2); }
