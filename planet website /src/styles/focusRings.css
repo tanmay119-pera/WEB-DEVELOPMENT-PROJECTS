@@ -1,0 +1,5 @@
+/* Visible Accessible Focus Rings */
+:focus-visible {
+  outline: 2px solid #e8c37d;
+  outline-offset: 4px;
+}
