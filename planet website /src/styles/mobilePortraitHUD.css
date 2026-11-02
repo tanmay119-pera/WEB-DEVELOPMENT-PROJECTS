@@ -1,0 +1,5 @@
+/* Mobile Vertical Layout Stacking */
+@media (max-width: 768px) {
+  .planet-content { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .planet-content dl { width: 100%; }
+}
