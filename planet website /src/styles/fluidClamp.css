@@ -1,0 +1,4 @@
+/* Fluid Responsive Layout Units */
+.header { left: clamp(18px, 1.95vw, 28px); right: clamp(18px, 1.95vw, 28px); top: clamp(18px, 3.1vh, 28px); }
+.portal-wrap { width: min(320px, 31vw); }
+.planet-content { left: clamp(28px, 4vw, 58px); right: clamp(28px, 3vw, 44px); bottom: clamp(24px, 3vh, 30px); }
