@@ -8,17 +8,18 @@
 
 ## 🌌 Project Overview
 
-**The Living Archive** is an award-winning cinematic planetary codex showcasing the **Sun and all eight planets of our Solar System** in order:
+**The Living Archive** is an award-winning cinematic planetary codex showcasing the **Sun, the Moon, and all eight planets of our Solar System** in order:
 1. **The Sun** (*Yellow Dwarf Star*)
-2. **Mercury** (*Terrestrial Silicate World*)
-3. **Venus** (*Terrestrial Greenhouse World*)
-4. **Earth** (*Dynamic Biosphere & Oceanic Sanctuary*)
-5. **Mars** (*Desert Terrestrial Frontier*)
-6. **Jupiter** (*Gas Giant Colossus*)
-7. **Saturn** (*Ringed Gas Giant*)
-8. **Uranus** (*Tilted Ice Giant*)
-9. **Neptune** (*Supersonic Ice Giant*)
-10. **Interactive Quiz** (*Explorer & Astrophysicist modes with Circular Timer & Streak tracking*)
+2. **The Moon** (*Natural Satellite & Tidal Anchor*)
+3. **Mercury** (*Terrestrial Silicate World*)
+4. **Venus** (*Terrestrial Greenhouse World*)
+5. **Earth** (*Dynamic Biosphere & Oceanic Sanctuary*)
+6. **Mars** (*Desert Terrestrial Frontier*)
+7. **Jupiter** (*Gas Giant Colossus*)
+8. **Saturn** (*Ringed Gas Giant*)
+9. **Uranus** (*Tilted Ice Giant*)
+10. **Neptune** (*Supersonic Ice Giant*)
+11. **Interactive Quiz** (*Explorer & Astrophysicist modes with Circular Timer & Streak tracking*)
 
 ---
 
