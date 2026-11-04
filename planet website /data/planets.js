@@ -97,6 +97,11 @@ window.PLANETS_DATA = [
       structure: "Beneath its pulverised regolith crust lies a solid silicate mantle and an iron-rich metallic core roughly 500 kilometers across. Dark basaltic plains, or maria, were formed by ancient volcanic floods following gargantuan asteroid impacts.",
       moonsAndRings: "As Earth's sole permanent natural satellite, the Moon commands no moons or rings of its own. It is locked in synchronous rotation, meaning its gravitational interaction keeps the exact same hemisphere permanently facing humanity."
     },
+    missions: [
+      { year: "1969", name: "Apollo 11 (NASA)", role: "Neil Armstrong and Buzz Aldrin achieved humanity's historic first crewed touchdown in the Sea of Tranquility." },
+      { year: "2019", name: "Chang'e 4 (CNSA)", role: "Achieved the first-ever soft landing on the uncharted lunar far side, exploring the South Pole-Aitken Basin." },
+      { year: "2023", name: "Chandrayaan-3 (ISRO)", role: "Executed a historic soft landing near the lunar south pole, confirming in-situ sulfur and analyzing the polar regolith." }
+    ],
     nextPlanet: { id: "mercury", name: "Mercury" }
   },
   {
