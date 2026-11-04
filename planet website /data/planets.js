@@ -563,3 +563,11 @@ window.PLANETS_DATA = [
     nextPlanet: { id: "quiz", name: "Odyssey Quiz" }
   }
 ];
+
+// Terrestrial World Comparative Matrix (Mercury, Venus, Earth, Mars)
+window.TERRESTRIAL_COMPARISON = [
+  { name: "Mercury", mass: "0.055 M⊕", radius: "0.383 R⊕", density: "5.43 g/cm³", gravity: "3.70 m/s²", atmosphere: "Exosphere (10⁻¹⁴ bar)", magneticField: "1.1% Earth" },
+  { name: "Venus", mass: "0.815 M⊕", radius: "0.949 R⊕", density: "5.24 g/cm³", gravity: "8.87 m/s²", atmosphere: "93 bar Supercritical CO₂", magneticField: "Negligible" },
+  { name: "Earth", mass: "1.000 M⊕", radius: "1.000 R⊕", density: "5.51 g/cm³", gravity: "9.81 m/s²", atmosphere: "1.01 bar N₂-O₂", magneticField: "Active Geodynamo" },
+  { name: "Mars", mass: "0.107 M⊕", radius: "0.532 R⊕", density: "3.93 g/cm³", gravity: "3.72 m/s²", atmosphere: "0.006 bar CO₂", magneticField: "Crustal Remnants" }
+];
