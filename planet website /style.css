@@ -55,16 +55,16 @@
   --glow-moon: rgba(226, 232, 240, 0.45);
 
   --accent-mercury: #94a3b8;
-  --glow-mercury: rgba(148, 163, 184, 0.4);
+  --glow-mercury: rgba(148, 163, 184, 0.55);
 
   --accent-venus: #f97316;
-  --glow-venus: rgba(249, 115, 22, 0.45);
+  --glow-venus: rgba(249, 115, 22, 0.55);
 
   --accent-earth: #06b6d4;
-  --glow-earth: rgba(6, 182, 212, 0.45);
+  --glow-earth: rgba(6, 182, 212, 0.55);
 
   --accent-mars: #ef4444;
-  --glow-mars: rgba(239, 68, 68, 0.45);
+  --glow-mars: rgba(239, 68, 68, 0.55);
 
   --accent-jupiter: #d97706;
   --glow-jupiter: rgba(217, 119, 6, 0.45);
