@@ -466,7 +466,11 @@
      9. KEYBOARD ARROW NAVIGATION BETWEEN CELESTIAL CHAPTERS
      ============================================================================ */
   function initKeyboardNavigation() {
-    const chapterIds = ['hero', 'sun', 'mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'quiz'];
+    const chapterIds = [
+      'hero',
+      ...(window.PLANETS_DATA || []).map(p => p.id),
+      'quiz'
+    ];
 
     window.addEventListener('keydown', (e) => {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
