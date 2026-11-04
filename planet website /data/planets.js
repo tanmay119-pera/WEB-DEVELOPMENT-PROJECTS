@@ -130,7 +130,7 @@ window.PLANETS_DATA = [
     accentColor: "#94a3b8",
     glowColor: "rgba(148, 163, 184, 0.45)",
     videoSrc: "videos/mercury.mp4",
-    posterSrc: "videos/mercury.jpg",
+    posterSrc: "videos/mercury_3d_cinema.jpg",
     keyChips: [
       { label: "Orbital Speed", val: "47.4 km/s" },
       { label: "Thermal Range", val: "-180°C to 430°C" },
