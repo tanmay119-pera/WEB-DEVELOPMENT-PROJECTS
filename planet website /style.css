@@ -1400,3 +1400,27 @@ body {
     text-align: center;
   }
 }
+
+/* Terrestrial World Comparative Matrix Dock */
+.terrestrial-comparison-bar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 1.25rem;
+  padding: 1rem;
+  background: rgba(10, 12, 20, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(12px);
+}
+.comparison-stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+}
