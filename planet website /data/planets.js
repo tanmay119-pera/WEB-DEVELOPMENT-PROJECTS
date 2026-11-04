@@ -209,6 +209,7 @@ window.PLANETS_DATA = [
     },
     missions: [
       { year: "1970", name: "Venera 7 (Soviet Union)", role: "First spacecraft to successfully land on another planet, returning telemetry from the molten surface." },
+      { year: "1982", name: "Venera 13 (Soviet Union)", role: "Transmitted first color panoramic surface photographs and executed in-situ X-ray fluorescence soil analysis under 89 atm." },
       { year: "1990", name: "Magellan (NASA)", role: "Radar-mapped 98% of the hidden volcanic surface with breathtaking topographic resolution." },
       { year: "2015", name: "Akatsuki (JAXA)", role: "Decoded atmospheric super-rotation and high-altitude gravity waves across Venusian clouds." }
     ],
