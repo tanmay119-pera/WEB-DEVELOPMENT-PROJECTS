@@ -102,6 +102,23 @@ window.PLANETS_DATA = [
       { year: "2019", name: "Chang'e 4 (CNSA)", role: "Achieved the first-ever soft landing on the uncharted lunar far side, exploring the South Pole-Aitken Basin." },
       { year: "2023", name: "Chandrayaan-3 (ISRO)", role: "Executed a historic soft landing near the lunar south pole, confirming in-situ sulfur and analyzing the polar regolith." }
     ],
+    flipFacts: [
+      {
+        tag: "Synchronous Lock",
+        hook: "Why do we never see the far side from Earth?",
+        fact: "Earth's gravitational tides have slowed the Moon's rotation until its axial spin matches its orbital period exactly (27.3 days). This tidal locking ensures that humanity only ever observes 59% of the lunar surface."
+      },
+      {
+        tag: "Shrinking World",
+        hook: "Is the Moon actually getting smaller?",
+        fact: "As the Moon's interior cools, it contracts like a drying grape, wrinkling its fragile crust into thrust faults and causing shallow moonquakes up to magnitude 5 that can vibrate for hours in the vacuum."
+      },
+      {
+        tag: "Hidden Polar Oasis",
+        hook: "Is there water on the scorched Moon?",
+        fact: "Deep within permanently shadowed craters at the lunar south pole, where temperatures plunge to -246 °C, billions of tons of ancient water ice lie preserved, serving as the cornerstone for future Artemis crewed outposts."
+      }
+    ],
     nextPlanet: { id: "mercury", name: "Mercury" }
   },
   {
