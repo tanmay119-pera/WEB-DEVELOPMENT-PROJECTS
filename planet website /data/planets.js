@@ -149,7 +149,7 @@ window.PLANETS_DATA = [
     story: {
       overview: "Mercury is the smallest planet and the closest to the Sun, hurtling through its orbit at a blistering 47 kilometers per second. Stripped of an insulating atmosphere, it experiences violent temperature swings exceeding 600 degrees Celsius between day and night.",
       atmosphere: "Rather than a true atmosphere, Mercury is blanketed by a paper-thin exosphere kicked up by solar wind and micrometeorite impacts. Atoms of sodium, magnesium, and helium drift briefly above the surface before escaping into space.",
-      structure: "A gargantuan metallic iron-nickel core occupies an astonishing 85% of Mercury's radius. As this core gradually cooled over billions of years, the planet contracted and buckled, forming towering cliff scarps hundreds of kilometers long.",
+      structure: "A colossal metallic iron-nickel core occupies an astonishing 85% of Mercury's radius (~2,074 km), wrapped in a thin 400-km silicate mantle. The 1,550-km Caloris Basin created concentric mountain rings and antipode chaotic terrain, while thermal cooling created Discovery Rupes scarps over 3 km high.",
       moonsAndRings: "Mercury has neither moons nor rings due to the dominating gravitational pull of the neighboring Sun. Its cratered basaltic surface remains an unblemished record of the early solar system's heavy bombardment."
     },
     missions: [
