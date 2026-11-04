@@ -10,6 +10,13 @@
 window.QUIZ_DATA = {
   kids: [
     {
+      planet: "moon",
+      question: "What was the name of the historic NASA mission that first landed astronauts on the Moon in 1969?",
+      options: ["Apollo 11", "Voyager 1", "Curiosity", "Sputnik 1"],
+      answer: 0,
+      explanation: "Apollo 11 landed Neil Armstrong and Buzz Aldrin on the Moon on July 20, 1969, marking humanity's first steps on another world!"
+    },
+    {
       planet: "sun",
       question: "Which celestial body sits in the very center of our Solar System and gives us warmth and light?",
       options: ["The Moon", "The Sun", "Jupiter", "Mars"],
@@ -95,6 +102,18 @@ window.QUIZ_DATA = {
     }
   ],
   adults: [
+    {
+      planet: "moon",
+      question: "Which scientific theory best explains the isotopic composition, lack of iron core, and angular momentum of the Earth-Moon system?",
+      options: [
+        "The Capture Theory (gravitational capture of a rogue body)",
+        "The Giant Impact Hypothesis (collision with a protoplanet named Theia)",
+        "The Fission Model (rapidly spinning proto-Earth spun off crustal matter)",
+        "The Co-accretion Model (formed side-by-side in the primordial solar nebula)"
+      ],
+      answer: 1,
+      explanation: "The Giant Impact Hypothesis posits that a Mars-sized protoplanet named Theia collided with the infant Earth 4.5 billion years ago, with the ejected silicate mantle debris coalescing into the Moon."
+    },
     {
       planet: "sun",
       question: "What primary thermonuclear process powers the Sun's radiant energy production in its core?",

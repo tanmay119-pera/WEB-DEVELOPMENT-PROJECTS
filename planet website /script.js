@@ -635,6 +635,7 @@
     // Color map for dynamic question lighting
     const planetColors = {
       sun: '#f59e0b',
+      moon: '#e2e8f0',
       mercury: '#94a3b8',
       venus: '#f97316',
       earth: '#06b6d4',
