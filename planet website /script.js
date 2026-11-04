@@ -442,6 +442,7 @@
         if (entry.isIntersecting) {
           const activeId = entry.target.getAttribute('data-chapter');
           state.activeChapterId = activeId;
+          prefetchAdjacentMedia(activeId);
 
           // Update active dot
           dotButtons.forEach(btn => {
@@ -507,6 +508,22 @@
   /* ============================================================================
      10. HARDWARE-ACCELERATED VIDEO LAZY-LOADER & PLAY/PAUSE OBSERVER
      ============================================================================ */
+  
+  // Predictive Adjacent Media Prefetcher for Terrestrial & Celestial Chapters
+  function prefetchAdjacentMedia(currentChapterId) {
+    if (!window.PLANETS_DATA) return;
+    const ids = window.PLANETS_DATA.map(p => p.id);
+    const idx = ids.indexOf(currentChapterId);
+    if (idx === -1) return;
+
+    // Prefetch adjacent chapters
+    const nextPlanet = ids[idx + 1] ? window.PLANETS_DATA[idx + 1] : null;
+    if (nextPlanet && nextPlanet.posterSrc) {
+      const img = new Image();
+      img.src = nextPlanet.posterSrc;
+    }
+  }
+
   function initVideoManager() {
     const videos = document.querySelectorAll('.chapter-video-element, .hero-video');
 
