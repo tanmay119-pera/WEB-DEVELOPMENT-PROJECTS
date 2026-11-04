@@ -314,7 +314,7 @@ window.PLANETS_DATA = [
     story: {
       overview: "Mars is the fourth planet from the Sun—a cold, dusty desert world whose surface is stained crimson by oxidized iron. Ancient river valleys, lake beds, and mineral veins prove that liquid water once flowed across its pristine lands.",
       atmosphere: "A wispy atmosphere of 95 percent carbon dioxide maintains a surface pressure less than 1 percent of Earth's. Planet-encircling dust storms occasionally ignite, obscuring the surface for months at a time.",
-      structure: "A dense sulfur-iron core lies beneath a rigid, unbroken silicate mantle and crust. Without moving tectonic plates, massive mantle plumes built shield volcanoes and canyon systems that dwarf anything on Earth.",
+      structure: "A dense 1,800-km iron-sulfur-nickel core sits beneath a rigid silicate lithosphere. Lacking crustal plate recycling, continuous mantle plume volcanic effusion created Olympus Mons (21.9 km elevation) and tectonic crustal pulling created the 4,000-km Valles Marineris fissure.",
       moonsAndRings: "Two tiny captured asteroids, Phobos and Deimos, circle the red planet. Phobos orbits so closely that tidal forces are drawing it inward; in roughly 50 million years, it will shred into a thin ring of dust."
     },
     missions: [
