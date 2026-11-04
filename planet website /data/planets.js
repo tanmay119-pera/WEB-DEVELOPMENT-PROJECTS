@@ -259,7 +259,7 @@ window.PLANETS_DATA = [
     story: {
       overview: "Earth is an extraordinary oasis cradled in the vast vacuum of space. It is the only celestial body confirmed to harbor conscious life, nurtured by vast liquid oceans that cover 71 percent of its vibrant surface.",
       atmosphere: "Earth's stratified atmosphere (78.08% N₂, 20.95% O₂, 0.93% Ar) maintains a balanced greenhouse baseline and shields living biomes via the stratospheric ozone layer. A synchronized hydrologic cycle and oceanic heat conveyors distribute thermal energy globally.",
-      structure: "A solid iron-nickel inner core is enveloped by a swirling liquid iron outer core that generates our vital geomagnetic shield. Above it lies a dynamic silicate mantle driving plate tectonics that continually renews the continents.",
+      structure: "A crystalline inner core (1,220 km radius) is enveloped by a convective liquid iron-nickel outer core (2,260 km thick) powering the geodynamo. This generates an expansive magnetosphere deflecting energetic solar coronal mass ejections and creating polar auroral displays.",
       moonsAndRings: "Earth is paired with the Moon, an oversized satellite born from a colossal proto-planetary collision 4.5 billion years ago. The Moon's gravitational pull anchors Earth's axial tilt, preventing extreme, chaotic climate shifts."
     },
     missions: [
