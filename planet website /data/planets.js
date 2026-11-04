@@ -67,6 +67,24 @@ window.PLANETS_DATA = [
     nextPlanet: { id: "mercury", name: "Mercury" }
   },
   {
+    id: "moon",
+    name: "The Moon",
+    classification: "Natural Satellite of Earth (Luna)",
+    chapter: "02 / 09",
+    tagline: "Earth's tidal stabilizer, cratered sentinel, and cosmic stepping stone.",
+    accentColor: "#e2e8f0",
+    glowColor: "rgba(226, 232, 240, 0.45)",
+    videoSrc: "videos/moon.mp4",
+    posterSrc: "videos/moon_3d_cinema.jpg",
+    story: {
+      overview: "The Moon formed roughly 4.5 billion years ago when a Mars-sized protoplanet named Theia collided with the infant Earth. The resulting debris disk coalesced into our gravitational partner, whose tidal pull stabilizes Earth's climate and axial tilt.",
+      atmosphere: "The Moon possesses an extremely tenuous surface-boundary exosphere composed of trace argon, helium, and neon. Because there is virtually no atmospheric pressure or weather, footprints and impact craters remain pristine for billions of years.",
+      structure: "Beneath its pulverised regolith crust lies a solid silicate mantle and an iron-rich metallic core roughly 500 kilometers across. Dark basaltic plains, or maria, were formed by ancient volcanic floods following gargantuan asteroid impacts.",
+      moonsAndRings: "As Earth's sole permanent natural satellite, the Moon commands no moons or rings of its own. It is locked in synchronous rotation, meaning its gravitational interaction keeps the exact same hemisphere permanently facing humanity."
+    },
+    nextPlanet: { id: "mercury", name: "Mercury" }
+  },
+  {
     id: "mercury",
     name: "Mercury",
     classification: "Terrestrial Silicate World",
