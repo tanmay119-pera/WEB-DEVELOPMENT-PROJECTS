@@ -204,7 +204,7 @@ window.PLANETS_DATA = [
     story: {
       overview: "Nearly identical to Earth in mass and density, Venus took a terrifyingly divergent evolutionary path. Beneath brilliant reflective clouds lies a crushing world consumed by an irreversible runaway greenhouse effect.",
       atmosphere: "Venus is encased in a 93-bar supercritical CO₂ atmosphere with corrosive sulfuric acid clouds circulating via 360 km/h super-rotation. Runaway infrared trapping produces a crushing 465 °C furnace hot enough to melt lead, with upper-level virga rain that vaporizes before impact.",
-      structure: "Venus has a metallic core and a silicate mantle dominated by thousands of ancient and active volcanoes. Because the crust lacks segmented moving tectonic plates, internal heat accumulates until catastrophic global resurfacing occurs.",
+      structure: "Venus boasts a 3,200-km metallic iron-nickel core surrounded by a ductile silicate mantle. Lacking plate tectonics, internal mantle heat periodically triggers catastrophic volcanic resurfacing across Maxwell Montes, while its retrograde 243-day axial spin turns clockwise relative to its north pole.",
       moonsAndRings: "Venus has zero moons and zero rings. It rotates backward compared to most planets, causing the Sun to rise in the west and set in the east across an agonizingly slow 243-day axial rotation."
     },
     missions: [
