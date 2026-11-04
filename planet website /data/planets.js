@@ -76,6 +76,21 @@ window.PLANETS_DATA = [
     glowColor: "rgba(226, 232, 240, 0.45)",
     videoSrc: "videos/moon.mp4",
     posterSrc: "videos/moon_3d_cinema.jpg",
+    keyChips: [
+      { label: "Surface Gravity", val: "1.62 m/s² (0.166g)" },
+      { label: "Orbital Period", val: "27.3 Days (Tidal Lock)" },
+      { label: "Mean Distance", val: "384,400 km" }
+    ],
+    quickFacts: [
+      { label: "Equatorial Diameter", val: "3,474.8", unit: "km", display: "3,474.8 km" },
+      { label: "Mass Magnitude", val: "7.342", unit: "× 10²² kg", display: "7.342 × 10²² kg" },
+      { label: "Distance to Earth", val: "384,400", unit: "km", display: "384,400 km" },
+      { label: "Orbital Period", val: "27.3", unit: "Earth Days", display: "27.3 Earth Days (Synchronous)" },
+      { label: "Lunar Day Length", val: "29.5", unit: "Earth Days", display: "29.5 Earth Days (Synodic Month)" },
+      { label: "Surface Gravity", val: "1.62", unit: "m/s²", display: "1.62 m/s² (0.166g)" },
+      { label: "Temperature Extremes", val: "250", unit: "°C Range", display: "-130 °C to +120 °C" },
+      { label: "Axial Tilt", val: "1.54", unit: "Degrees", display: "1.54° (Nearly Upright)" }
+    ],
     story: {
       overview: "The Moon formed roughly 4.5 billion years ago when a Mars-sized protoplanet named Theia collided with the infant Earth. The resulting debris disk coalesced into our gravitational partner, whose tidal pull stabilizes Earth's climate and axial tilt.",
       atmosphere: "The Moon possesses an extremely tenuous surface-boundary exosphere composed of trace argon, helium, and neon. Because there is virtually no atmospheric pressure or weather, footprints and impact craters remain pristine for billions of years.",
