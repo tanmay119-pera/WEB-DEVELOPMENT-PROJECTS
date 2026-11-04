@@ -312,7 +312,7 @@ window.PLANETS_DATA = [
       { label: "Natural Satellites", val: "2", unit: "Moons", display: "2 Moons (Phobos & Deimos)" }
     ],
     story: {
-      overview: "Mars is the fourth planet from the Sun—a cold, dusty desert world whose surface is stained crimson by oxidized iron. Ancient river valleys, lake beds, and mineral veins prove that liquid water once flowed across its pristine lands.",
+      overview: "Mars is a cold hyper-arid desert world whose signature ferruginous soil reflects oxidized hematite dust. Widespread phyllosilicate clays, serpentine minerals, and Jezero Crater alluvial fans verify that an ancient warmer, wetter era supported active hydrology 3.8 billion years ago.",
       atmosphere: "A wispy atmosphere of 95 percent carbon dioxide maintains a surface pressure less than 1 percent of Earth's. Planet-encircling dust storms occasionally ignite, obscuring the surface for months at a time.",
       structure: "A dense 1,800-km iron-sulfur-nickel core sits beneath a rigid silicate lithosphere. Lacking crustal plate recycling, continuous mantle plume volcanic effusion created Olympus Mons (21.9 km elevation) and tectonic crustal pulling created the 4,000-km Valles Marineris fissure.",
       moonsAndRings: "Two tiny captured asteroids, Phobos and Deimos, circle the red planet. Phobos orbits so closely that tidal forces are drawing it inward; in roughly 50 million years, it will shred into a thin ring of dust."
