@@ -185,7 +185,7 @@ window.PLANETS_DATA = [
     accentColor: "#f97316",
     glowColor: "rgba(249, 115, 22, 0.45)",
     videoSrc: "videos/venus.mp4",
-    posterSrc: "videos/venus.mp4",
+    posterSrc: "videos/venus_3d_cinema.jpg",
     keyChips: [
       { label: "Global Surface Temp", val: "465 °C" },
       { label: "Surface Pressure", val: "92× Earth" },
