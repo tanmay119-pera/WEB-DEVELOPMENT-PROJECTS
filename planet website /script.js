@@ -550,6 +550,10 @@
           if (!video.paused) {
             video.pause();
           }
+          // Reduce GPU memory consumption when far out of viewport
+          if (entry.boundingClientRect.top > window.innerHeight * 2.5 || entry.boundingClientRect.bottom < -window.innerHeight * 2.5) {
+            video.currentTime = 0;
+          }
         }
       });
     }, {
