@@ -64,7 +64,7 @@ window.PLANETS_DATA = [
         fact: "While the Sun's visible surface sits at 5,500 °C, its ethereal corona skyrockets to over 2,000,000 °C. Nanoflares and magnetic acoustic waves inject extreme thermal energy directly into the outer atmosphere."
       }
     ],
-    nextPlanet: { id: "mercury", name: "Mercury" }
+    nextPlanet: { id: "moon", name: "The Moon" }
   },
   {
     id: "moon",
