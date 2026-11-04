@@ -408,15 +408,7 @@
 
     const chapters = [
       { id: 'hero', name: 'Zenith (Hero)' },
-      { id: 'sun', name: 'The Sun' },
-      { id: 'mercury', name: 'Mercury' },
-      { id: 'venus', name: 'Venus' },
-      { id: 'earth', name: 'Earth' },
-      { id: 'mars', name: 'Mars' },
-      { id: 'jupiter', name: 'Jupiter' },
-      { id: 'saturn', name: 'Saturn' },
-      { id: 'uranus', name: 'Uranus' },
-      { id: 'neptune', name: 'Neptune' },
+      ...(window.PLANETS_DATA || []).map(p => ({ id: p.id, name: p.name })),
       { id: 'quiz', name: 'Odyssey Quiz' }
     ];
 
