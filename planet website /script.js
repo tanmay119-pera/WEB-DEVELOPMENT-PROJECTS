@@ -443,6 +443,7 @@
           const activeId = entry.target.getAttribute('data-chapter');
           state.activeChapterId = activeId;
           prefetchAdjacentMedia(activeId);
+          cullInactiveContexts();
 
           // Update active dot
           dotButtons.forEach(btn => {
@@ -523,6 +524,18 @@
       img.src = nextPlanet.posterSrc;
     }
   }
+
+  
+    // Pause offscreen background animation frames and canvas loops for inactive planetary scenes
+    function cullInactiveContexts() {
+      const activeId = state.activeChapterId;
+      const isGiantActive = ['jupiter', 'saturn', 'uranus', 'neptune'].includes(activeId);
+      if (typeof window.requestIdleCallback === 'function') {
+        window.requestIdleCallback(() => {
+          document.body.classList.toggle('outer-giants-view', isGiantActive);
+        });
+      }
+    }
 
   function initVideoManager() {
     const videos = document.querySelectorAll('.chapter-video-element, .hero-video');
