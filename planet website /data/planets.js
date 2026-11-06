@@ -571,3 +571,11 @@ window.TERRESTRIAL_COMPARISON = [
   { name: "Earth", mass: "1.000 M⊕", radius: "1.000 R⊕", density: "5.51 g/cm³", gravity: "9.81 m/s²", atmosphere: "1.01 bar N₂-O₂", magneticField: "Active Geodynamo" },
   { name: "Mars", mass: "0.107 M⊕", radius: "0.532 R⊕", density: "3.93 g/cm³", gravity: "3.72 m/s²", atmosphere: "0.006 bar CO₂", magneticField: "Crustal Remnants" }
 ];
+
+// Astrobiology & Subsurface Ocean Worlds Matrix (Europa, Enceladus, Titan, Ganymede)
+window.OCEAN_MOONS_DATA = [
+  { parent: "Jupiter", name: "Europa", oceanDepth: "100 km", iceShell: "15–25 km", energySource: "Tidal flexure & hydrothermal vents", oceanVolume: "2× Earth's Oceans Combined" },
+  { parent: "Jupiter", name: "Ganymede", oceanDepth: "100 km", iceShell: "150 km", energySource: "Intrinsic magnetic geodynamo", oceanVolume: "6× Earth's Oceans Combined" },
+  { parent: "Saturn", name: "Enceladus", oceanDepth: "30 km", iceShell: "5 km (South Pole)", energySource: "Silicate core hydrothermal vents", oceanVolume: "Global Subsurface Ocean" },
+  { parent: "Saturn", name: "Titan", oceanDepth: "Subsurface Liquid", iceShell: "80 km", energySource: "Dense nitrogen-methane cycle", oceanVolume: "Methane-Ethane Seas (Kraken Mare)" }
+];
