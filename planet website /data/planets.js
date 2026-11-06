@@ -536,7 +536,7 @@ window.PLANETS_DATA = [
       overview: "Neptune is the dynamic cobalt sentinel anchored 4.5 billion km from Sol, powered by an internal geothermal engine that radiates 2.61× more thermal energy than received. Its vivid methane-rich atmosphere drives supersonic equatorial winds exceeding 2,160 km/h—the fastest planetary winds ever recorded in the solar system.",
       atmosphere: "A rich mixture of hydrogen, helium, and methane creates its deep blue hue, accented by high-altitude white cirrus clouds made of frozen methane. Dark anticyclonic vortices regularly appear, migrate across latitudes, and dissipate.",
       structure: "A solid core of rock and metal is surrounded by an exotic ocean of high-pressure water, ammonia, and methane. Under these immense pressures, hydrocarbons are believed to compress into showers of solid diamonds.",
-      moonsAndRings: "Neptune has 16 known moons, headlined by Triton—a captured Kuiper Belt dwarf planet with active nitrogen geysers. Five faint ring arcs circle the planet, continually shaped by gravitational resonances with nearby moons."
+      moonsAndRings: "Neptune commands 16 moons led by Triton, a captured retrograde Kuiper Belt dwarf world exhibiting active liquid nitrogen cryovolcanic plumes rising 8 km into a thin nitrogen sky. Five clumpy ring arcs—Courage, Liberté, Egalité 1 & 2, and Fraternité—are gravitationally shepherded by the inner moon Galatea."
     },
     missions: [
       { year: "1846", name: "Le Verrier & Galle", role: "First planet discovered purely via mathematical prediction of orbital perturbations on Uranus." },
