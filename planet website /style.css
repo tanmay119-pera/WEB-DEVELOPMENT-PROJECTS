@@ -1455,3 +1455,13 @@ body {
   color: #fff;
   font-weight: 500;
 }
+
+/* Procedural Planetary Ring Shadow Projections */
+.ring-shadow-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.75) 0%, transparent 40%, rgba(0, 0, 0, 0.9) 100%);
+  mix-blend-mode: multiply;
+  opacity: 0.85;
+}
