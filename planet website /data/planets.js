@@ -370,7 +370,7 @@ window.PLANETS_DATA = [
     story: {
       overview: "Jupiter is the colossal monarch of the solar system, holding more mass than all other planets combined. Swirling bands of ammonia clouds and tempestuous jet streams define its face, crowned by the legendary Great Red Spot.",
       atmosphere: "Jupiter's vast atmosphere is an ammonia-crystal cloud deck laced with phosphorus and sulfur compounds, organized into alternating dark belts and bright zones. Its crown jewel, the Great Red Spot anticyclone, towers 8 km above surrounding clouds with 432 km/h peripheral winds and has raged for over 350 years.",
-      structure: "Deep below the clouds, unimaginable pressure turns gaseous hydrogen into a vast, churning ocean of liquid metallic hydrogen. This conducting ocean powers the solar system's strongest planetary magnetic field.",
+      structure: "Under pressures exceeding 4 million atmospheres, hydrogen transitions into an exotic conducting liquid metallic state. This vast churning mantle powers a colossal magnetosphere extending 5 million km sunward and past Saturn's orbit, sustained by an electric flux tube fed by Io's sulfur-dioxide volcanoes.",
       moonsAndRings: "Jupiter commands a miniature solar system of 95 known moons, headlined by the four Galilean satellites: volcanic Io, oceanic Europa, giant Ganymede, and Callisto. Faint dark dust rings also circle its equator."
     },
     missions: [
