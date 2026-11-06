@@ -579,3 +579,11 @@ window.OCEAN_MOONS_DATA = [
   { parent: "Saturn", name: "Enceladus", oceanDepth: "30 km", iceShell: "5 km (South Pole)", energySource: "Silicate core hydrothermal vents", oceanVolume: "Global Subsurface Ocean" },
   { parent: "Saturn", name: "Titan", oceanDepth: "Subsurface Liquid", iceShell: "80 km", energySource: "Dense nitrogen-methane cycle", oceanVolume: "Methane-Ethane Seas (Kraken Mare)" }
 ];
+
+// Outer Gas & Ice Giants Comparative Telemetry Matrix
+window.GIANTS_COMPARISON = [
+  { name: "Jupiter", type: "Gas Giant", mass: "317.8 M⊕", radius: "11.21 R⊕", density: "1.33 g/cm³", gravity: "24.79 m/s²", magneticField: "14.0× Earth (4.3 Gauss)", moons: 95 },
+  { name: "Saturn", type: "Gas Giant", mass: "95.2 M⊕", radius: "9.45 R⊕", density: "0.687 g/cm³", gravity: "10.44 m/s²", magneticField: "0.2× Earth (0.2 Gauss)", moons: 146 },
+  { name: "Uranus", type: "Ice Giant", mass: "14.5 M⊕", radius: "4.01 R⊕", density: "1.27 g/cm³", gravity: "8.69 m/s²", magneticField: "0.23 Gauss (Tilted 59°)", moons: 28 },
+  { name: "Neptune", type: "Ice Giant", mass: "17.1 M⊕", radius: "3.88 R⊕", density: "1.64 g/cm³", gravity: "11.15 m/s²", magneticField: "0.14 Gauss (Tilted 47°)", moons: 16 }
+];
