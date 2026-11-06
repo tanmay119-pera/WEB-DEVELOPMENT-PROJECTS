@@ -426,7 +426,7 @@ window.PLANETS_DATA = [
       overview: "Saturn is a breathtaking gas giant encircled by the most dazzling ring system in the cosmos. Despite its vast size, it has the lowest density of any planet—it is the only world lighter than water.",
       atmosphere: "A pale gold atmosphere of hydrogen and helium is laced with ammonia crystals and swept by equatorial jet streams reaching 1,800 km/h. At its north pole, a bizarre six-sided hexagonal jet stream spins indefinitely.",
       structure: "A dense core of rock and ice is surrounded by liquid metallic hydrogen and a thick blanket of liquid molecular hydrogen. Intense internal compression allows Saturn to radiate twice as much heat into space as it receives from the Sun.",
-      moonsAndRings: "The iconic rings span 282,000 kilometers yet average only 10 to 30 meters in thickness. Saturn also holds 146 moons, including Titan, which features methane lakes, and Enceladus, which sprays water geysers into space."
+      moonsAndRings: "Saturn's dazzling ring system spans 282,000 km across but averages only 10 meters in vertical thickness, consisting of 99% pure water-ice boulders and dust particles. The prominent 4,800-km Cassini Division is cleared by gravitational orbital resonance with Mimas, while micrometeorite bombardment drives a gradual 'ring rain' into the upper atmosphere."
     },
     missions: [
       { year: "1980", name: "Voyager 1 (NASA)", role: "Captured pristine images of intricate ring braiding and Titan's opaque nitrogen smog layer." },
