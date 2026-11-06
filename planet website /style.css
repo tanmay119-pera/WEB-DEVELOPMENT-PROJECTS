@@ -1424,3 +1424,34 @@ body {
   padding: 4px 10px;
   border-radius: var(--radius-full);
 }
+
+/* Outer Giant Worlds Comparative Matrix Styling */
+.giants-comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background: rgba(8, 10, 16, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(16px);
+}
+.giant-card-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.giant-metric-title {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+.giant-metric-value {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  color: #fff;
+  font-weight: 500;
+}
