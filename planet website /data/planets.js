@@ -478,7 +478,7 @@ window.PLANETS_DATA = [
       { label: "Natural Satellites", val: "28", unit: "Moons", display: "28 Named Moons" }
     ],
     story: {
-      overview: "Uranus is an ethereal cyan ice giant that orbits the Sun completely on its side, tipped at an extraordinary 98-degree tilt. This bizarre orientation was likely caused by a catastrophic collision with an Earth-sized protoplanet long ago.",
+      overview: "Uranus is an ethereal cyan ice giant rolling along its orbital plane on its side with an extreme 97.8° axial obliquity, yielding extreme 42-year polar solstices. Shrouded in deep methane hazes, it radiates virtually zero internal core heat and holds the solar system's atmospheric temperature record at -224.2 °C.",
       atmosphere: "Its calm azure color stems from atmospheric methane, which absorbs red light wavelengths while reflecting soft greens and blues. Cold clouds of hydrogen sulfide and ammonia drift quietly through the solar system's coldest planetary atmosphere.",
       structure: "A small silicate-iron core is surrounded by an enormous, superheated mantle of slushy water, ammonia, and methane ices under extreme pressure. Unlike other gas giants, Uranus generates very little internal heat.",
       moonsAndRings: "Uranus possesses 28 known moons, uniquely named after characters from William Shakespeare and Alexander Pope. It is encircled by 13 narrow, charcoal-dark rings held in place by tiny shepherd moons."
