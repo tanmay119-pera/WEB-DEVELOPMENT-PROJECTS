@@ -67,16 +67,16 @@
   --glow-mars: rgba(239, 68, 68, 0.55);
 
   --accent-jupiter: #d97706;
-  --glow-jupiter: rgba(217, 119, 6, 0.45);
+  --glow-jupiter: rgba(217, 119, 6, 0.6);
 
   --accent-saturn: #eab308;
-  --glow-saturn: rgba(234, 179, 8, 0.45);
+  --glow-saturn: rgba(234, 179, 8, 0.6);
 
   --accent-uranus: #14b8a6;
-  --glow-uranus: rgba(20, 184, 166, 0.45);
+  --glow-uranus: rgba(20, 184, 166, 0.6);
 
   --accent-neptune: #3b82f6;
-  --glow-neptune: rgba(59, 130, 246, 0.45);
+  --glow-neptune: rgba(59, 130, 246, 0.6);
 
   --accent-quiz: #a855f7;
   --glow-quiz: rgba(168, 85, 247, 0.45);
