@@ -480,7 +480,7 @@ window.PLANETS_DATA = [
     story: {
       overview: "Uranus is an ethereal cyan ice giant rolling along its orbital plane on its side with an extreme 97.8° axial obliquity, yielding extreme 42-year polar solstices. Shrouded in deep methane hazes, it radiates virtually zero internal core heat and holds the solar system's atmospheric temperature record at -224.2 °C.",
       atmosphere: "Its calm azure color stems from atmospheric methane, which absorbs red light wavelengths while reflecting soft greens and blues. Cold clouds of hydrogen sulfide and ammonia drift quietly through the solar system's coldest planetary atmosphere.",
-      structure: "A small silicate-iron core is surrounded by an enormous, superheated mantle of slushy water, ammonia, and methane ices under extreme pressure. Unlike other gas giants, Uranus generates very little internal heat.",
+      structure: "Beneath a cyan methane atmosphere lies a vast supercritical ionic mantle of hot, dense 'icy' water, ammonia, and methane fluids under millions of atmospheres. Pyrolysis under these pressures precipitates solid diamond hail toward the core, while 13 dark carbon-rich ring ribbons orbit its tilted equator.",
       moonsAndRings: "Uranus possesses 28 known moons, uniquely named after characters from William Shakespeare and Alexander Pope. It is encircled by 13 narrow, charcoal-dark rings held in place by tiny shepherd moons."
     },
     missions: [
