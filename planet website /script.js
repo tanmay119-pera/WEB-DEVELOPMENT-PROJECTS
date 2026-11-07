@@ -444,6 +444,7 @@
           state.activeChapterId = activeId;
           prefetchAdjacentMedia(activeId);
           cullInactiveContexts();
+          if (window.livingArchiveAudio) window.livingArchiveAudio.playPlanetaryResonance(activeId);
 
           // Update active dot
           dotButtons.forEach(btn => {
