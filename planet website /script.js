@@ -985,6 +985,7 @@
 
         this.isInitialized = true;
         console.log('[WebAudio] Living Archive procedural audio engine initialized.');
+        this.startSubBassDrone();
       } catch (e) {
         console.warn('[WebAudio] AudioContext init failed:', e);
       }
@@ -995,7 +996,42 @@
       if (this.ctx && this.ctx.state === 'suspended') {
         this.ctx.resume().catch(() => {});
       }
+    },
+    startSubBassDrone() {
+      if (!this.ctx || this.droneOsc1) return;
+      try {
+        this.droneGain = this.ctx.createGain();
+        this.droneGain.gain.setValueAtTime(0.001, this.ctx.currentTime);
+        this.droneGain.gain.exponentialRampToValueAtTime(0.18, this.ctx.currentTime + 3.0);
+
+        // 54 Hz Fundamental Sub-Bass Sine Wave
+        this.droneOsc1 = this.ctx.createOscillator();
+        this.droneOsc1.type = 'sine';
+        this.droneOsc1.frequency.setValueAtTime(54.0, this.ctx.currentTime);
+
+        // 108 Hz Warm Harmonic Overtone
+        this.droneOsc2 = this.ctx.createOscillator();
+        this.droneOsc2.type = 'sine';
+        this.droneOsc2.frequency.setValueAtTime(108.0, this.ctx.currentTime);
+
+        // 180 Hz Lowpass Filter with gentle resonance
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(180, this.ctx.currentTime);
+        filter.Q.setValueAtTime(1.2, this.ctx.currentTime);
+
+        this.droneOsc1.connect(filter);
+        this.droneOsc2.connect(filter);
+        filter.connect(this.droneGain);
+        this.droneGain.connect(this.masterGain);
+
+        this.droneOsc1.start();
+        this.droneOsc2.start();
+      } catch (e) {
+        console.warn('[WebAudio] Drone start failed:', e);
+      }
     }
+
   };
   window.livingArchiveAudio = livingArchiveAudio;
 
