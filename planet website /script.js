@@ -1067,6 +1067,20 @@
     },
 
 
+
+    toggleMute() {
+      this.resume();
+      this.isMuted = !this.isMuted;
+      if (this.masterGain && this.ctx) {
+        this.masterGain.gain.setValueAtTime(this.isMuted ? 0 : 0.35, this.ctx.currentTime);
+      }
+      const btn = document.getElementById('archive-audio-master-toggle');
+      if (btn) {
+        btn.classList.toggle('is-muted', this.isMuted);
+      }
+      return this.isMuted;
+    },
+
     playCrystallineChime() {
       if (!this.ctx || this.isMuted) return;
       try {
