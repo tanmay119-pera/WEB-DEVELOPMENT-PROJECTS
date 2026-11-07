@@ -1246,6 +1246,20 @@
   window.stopWarpStarStreaks = stopWarpStarStreaks;
 
   /* ============================================================================
+     BACKGROUND TAB CPU SUSPENSION OBSERVER
+     ============================================================================ */
+  function initVisibilityAudioLifecycle() {
+    document.addEventListener('visibilitychange', () => {
+      if (!window.livingArchiveAudio || !window.livingArchiveAudio.ctx) return;
+      if (document.hidden) {
+        window.livingArchiveAudio.ctx.suspend().catch(() => {});
+      } else if (!window.livingArchiveAudio.isMuted) {
+        window.livingArchiveAudio.ctx.resume().catch(() => {});
+      }
+    });
+  }
+
+  /* ============================================================================
      HASH-BASED DEEP URL ROUTING ENGINE (#sun, #moon, #mercury, etc.)
      ============================================================================ */
   function initHashDeepRouting() {
@@ -1351,6 +1365,7 @@
     initQuizEngine();
     initTouchSwipeNavigation();
     initHashDeepRouting();
+    initVisibilityAudioLifecycle();
 
     // Crystalline chime audio feedback on navigational dots and buttons
     document.querySelectorAll('.dot-item, .option-btn, .action-link').forEach(el => {
