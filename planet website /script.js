@@ -1246,6 +1246,27 @@
   window.stopWarpStarStreaks = stopWarpStarStreaks;
 
   /* ============================================================================
+     USER PREFERENCE & LAST VIEWED WORLD PERSISTENCE (LOCALSTORAGE)
+     ============================================================================ */
+  function initStoragePersistence() {
+    try {
+      const savedMute = localStorage.getItem('living_archive_muted');
+      if (savedMute === 'true' && window.livingArchiveAudio) {
+        window.livingArchiveAudio.isMuted = true;
+      }
+
+      window.addEventListener('beforeunload', () => {
+        if (state.activeChapterId) {
+          localStorage.setItem('living_archive_last_world', state.activeChapterId);
+        }
+        if (window.livingArchiveAudio) {
+          localStorage.setItem('living_archive_muted', window.livingArchiveAudio.isMuted);
+        }
+      });
+    } catch (e) {}
+  }
+
+  /* ============================================================================
      BACKGROUND TAB CPU SUSPENSION OBSERVER
      ============================================================================ */
   function initVisibilityAudioLifecycle() {
@@ -1366,6 +1387,7 @@
     initTouchSwipeNavigation();
     initHashDeepRouting();
     initVisibilityAudioLifecycle();
+    initStoragePersistence();
 
     // Crystalline chime audio feedback on navigational dots and buttons
     document.querySelectorAll('.dot-item, .option-btn, .action-link').forEach(el => {
