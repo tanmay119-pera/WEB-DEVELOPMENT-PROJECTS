@@ -1031,6 +1031,67 @@
       } catch (e) {
         console.warn('[WebAudio] Drone start failed:', e);
       }
+    },
+    frequencies: {
+      sun: 126.22,
+      moon: 210.42,
+      mercury: 141.27,
+      venus: 221.23,
+      earth: 136.10,
+      mars: 144.72,
+      jupiter: 183.58,
+      saturn: 147.85,
+      uranus: 207.36,
+      neptune: 211.44
+    },
+
+    playPlanetaryResonance(planetId) {
+      if (!this.ctx || this.isMuted) return;
+      const freq = this.frequencies[planetId] || 150.0;
+      try {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+        gain.gain.setValueAtTime(0.001, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.09, this.ctx.currentTime + 0.5);
+        gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 2.8);
+
+        osc.connect(gain);
+        gain.connect(this.masterGain);
+
+        osc.start();
+        osc.stop(this.ctx.currentTime + 3.0);
+      } catch (e) {}
+    },
+
+    playWarpSweep() {
+      if (!this.ctx || this.isMuted) return;
+      try {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(200, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1200, this.ctx.currentTime + 0.45);
+
+        gain.gain.setValueAtTime(0.02, this.ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.12, this.ctx.currentTime + 0.3);
+        gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.55);
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(400, this.ctx.currentTime);
+        filter.frequency.exponentialRampToValueAtTime(2400, this.ctx.currentTime + 0.45);
+        filter.Q.setValueAtTime(3.5, this.ctx.currentTime);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.masterGain);
+
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.6);
+      } catch (e) {}
     }
 
   };
