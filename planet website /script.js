@@ -915,6 +915,39 @@
     startQuiz('kids');
   }
 
+
+  /* ============================================================================
+     WARP TRANSIT ENGINE (FULL-BLEED ONE-WAY EXPANSION)
+     ============================================================================ */
+  function executeWarpTransit(targetId, callback) {
+    let overlay = document.getElementById('warp-portal-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'warp-portal-overlay';
+      document.body.appendChild(overlay);
+    }
+
+    document.body.classList.add('warp-transit-active');
+    overlay.classList.add('is-warping');
+
+    if (window.livingArchiveAudio && typeof window.livingArchiveAudio.playWarpSweep === 'function') {
+      window.livingArchiveAudio.playWarpSweep();
+    }
+
+    setTimeout(() => {
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: 'auto' });
+      }
+      setTimeout(() => {
+        overlay.classList.remove('is-warping');
+        document.body.classList.remove('warp-transit-active');
+        if (typeof callback === 'function') callback();
+      }, 220);
+    }, 320);
+  }
+  window.executeWarpTransit = executeWarpTransit;
+
   /* ============================================================================
      12. MASTER INITIALIZATION CONTROLLER
      ============================================================================ */
