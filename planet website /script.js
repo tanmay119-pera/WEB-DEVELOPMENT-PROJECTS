@@ -1066,6 +1066,27 @@
       } catch (e) {}
     },
 
+
+    playCrystallineChime() {
+      if (!this.ctx || this.isMuted) return;
+      try {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(2800, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(4200, this.ctx.currentTime + 0.06);
+
+        gain.gain.setValueAtTime(0.04, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.08);
+
+        osc.connect(gain);
+        gain.connect(this.masterGain);
+
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.09);
+      } catch (e) {}
+    },
+
     playWarpSweep() {
       if (!this.ctx || this.isMuted) return;
       try {
@@ -1238,6 +1259,14 @@
     initVideoManager();
     initCountUpNumbers();
     initQuizEngine();
+
+    // Crystalline chime audio feedback on navigational dots and buttons
+    document.querySelectorAll('.dot-item, .option-btn, .action-link').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        if (window.livingArchiveAudio) window.livingArchiveAudio.playCrystallineChime();
+      }, { passive: true });
+    });
+
     initWarpStarStreakFX();
     initPerspectivePointerTracking();
 
