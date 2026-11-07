@@ -1246,6 +1246,27 @@
   window.stopWarpStarStreaks = stopWarpStarStreaks;
 
   /* ============================================================================
+     HASH-BASED DEEP URL ROUTING ENGINE (#sun, #moon, #mercury, etc.)
+     ============================================================================ */
+  function initHashDeepRouting() {
+    function handleHashJump() {
+      const hash = window.location.hash.replace('#', '').trim().toLowerCase();
+      if (!hash) return;
+      const target = document.getElementById(hash);
+      if (target) {
+        setTimeout(() => {
+          executeWarpTransit(hash);
+        }, 150);
+      }
+    }
+
+    window.addEventListener('hashchange', handleHashJump);
+    if (window.location.hash) {
+      window.addEventListener('load', handleHashJump, { once: true });
+    }
+  }
+
+  /* ============================================================================
      TOUCH SWIPE GESTURE NAVIGATION FOR MOBILE & TABLET DEVICES
      ============================================================================ */
   function initTouchSwipeNavigation() {
@@ -1329,6 +1350,7 @@
     initCountUpNumbers();
     initQuizEngine();
     initTouchSwipeNavigation();
+    initHashDeepRouting();
 
     // Crystalline chime audio feedback on navigational dots and buttons
     document.querySelectorAll('.dot-item, .option-btn, .action-link').forEach(el => {
