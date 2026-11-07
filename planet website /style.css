@@ -1493,3 +1493,8 @@ body {
 .full-bleed-jump {
   scroll-behavior: auto !important;
 }
+
+.perspective-container, .chapter-media-wrap, .stat-card {
+  transform-style: preserve-3d;
+  transition: transform 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+}

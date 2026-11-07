@@ -1041,6 +1041,41 @@
   window.stopWarpStarStreaks = stopWarpStarStreaks;
 
   /* ============================================================================
+     3D POINTER PERSPECTIVE TRACKING WITH SMOOTH CUBIC EASING
+     ============================================================================ */
+  function initPerspectivePointerTracking() {
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    const cards = document.querySelectorAll('.perspective-container, .chapter-media-wrap, .stat-card');
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let currentX = 0;
+    let currentY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth) - 0.5;
+      mouseY = (e.clientY / window.innerHeight) - 0.5;
+    }, { passive: true });
+
+    function renderTilt() {
+      currentX += (mouseX - currentX) * 0.08;
+      currentY += (mouseY - currentY) * 0.08;
+
+      const tiltX = -currentY * 9;
+      const tiltY = currentX * 12;
+
+      cards.forEach(card => {
+        if (card.classList.contains('in-viewport')) {
+          card.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translateZ(8px)`;
+        }
+      });
+
+      requestAnimationFrame(renderTilt);
+    }
+    renderTilt();
+  }
+
+  /* ============================================================================
      12. MASTER INITIALIZATION CONTROLLER
      ============================================================================ */
   document.addEventListener('DOMContentLoaded', () => {
@@ -1055,6 +1090,7 @@
     initCountUpNumbers();
     initQuizEngine();
     initWarpStarStreakFX();
+    initPerspectivePointerTracking();
   });
 
 })();
