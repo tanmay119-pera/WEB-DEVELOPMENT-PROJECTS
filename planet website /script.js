@@ -948,6 +948,57 @@
       }, 220);
     }, 320);
   }
+
+  /* ============================================================================
+     PROCEDURAL WEB AUDIO API SYNTHESIS ENGINE
+     ============================================================================ */
+  const livingArchiveAudio = {
+    ctx: null,
+    masterGain: null,
+    compressor: null,
+    droneGain: null,
+    droneOsc1: null,
+    droneOsc2: null,
+    isInitialized: false,
+    isMuted: false,
+
+    init() {
+      if (this.isInitialized) return;
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        this.ctx = new AudioCtx();
+
+        // Master Limiter / Dynamics Compressor to guarantee 0 clipping
+        this.compressor = this.ctx.createDynamicsCompressor();
+        this.compressor.threshold.setValueAtTime(-12, this.ctx.currentTime);
+        this.compressor.knee.setValueAtTime(30, this.ctx.currentTime);
+        this.compressor.ratio.setValueAtTime(12, this.ctx.currentTime);
+        this.compressor.attack.setValueAtTime(0.003, this.ctx.currentTime);
+        this.compressor.release.setValueAtTime(0.25, this.ctx.currentTime);
+        this.compressor.connect(this.ctx.destination);
+
+        // Master Gain
+        this.masterGain = this.ctx.createGain();
+        this.masterGain.gain.setValueAtTime(0.35, this.ctx.currentTime);
+        this.masterGain.connect(this.compressor);
+
+        this.isInitialized = true;
+        console.log('[WebAudio] Living Archive procedural audio engine initialized.');
+      } catch (e) {
+        console.warn('[WebAudio] AudioContext init failed:', e);
+      }
+    },
+
+    resume() {
+      this.init();
+      if (this.ctx && this.ctx.state === 'suspended') {
+        this.ctx.resume().catch(() => {});
+      }
+    }
+  };
+  window.livingArchiveAudio = livingArchiveAudio;
+
   window.executeWarpTransit = executeWarpTransit;
 
   /* ============================================================================
@@ -1091,6 +1142,16 @@
     initQuizEngine();
     initWarpStarStreakFX();
     initPerspectivePointerTracking();
+
+    // Resume Web Audio on first meaningful user interaction
+    const audioResumeHandler = () => {
+      livingArchiveAudio.resume();
+      window.removeEventListener('pointerdown', audioResumeHandler);
+      window.removeEventListener('keydown', audioResumeHandler);
+    };
+    window.addEventListener('pointerdown', audioResumeHandler);
+    window.addEventListener('keydown', audioResumeHandler);
+
   });
 
 })();
