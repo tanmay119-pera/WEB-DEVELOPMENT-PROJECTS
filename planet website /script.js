@@ -1225,6 +1225,40 @@
   window.stopWarpStarStreaks = stopWarpStarStreaks;
 
   /* ============================================================================
+     TOUCH SWIPE GESTURE NAVIGATION FOR MOBILE & TABLET DEVICES
+     ============================================================================ */
+  function initTouchSwipeNavigation() {
+    let startY = 0;
+    let startX = 0;
+    const threshold = 65;
+
+    window.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1) return;
+      startY = e.touches[0].clientY;
+      startX = e.touches[0].clientX;
+    }, { passive: true });
+
+    window.addEventListener('touchend', (e) => {
+      if (e.changedTouches.length !== 1) return;
+      const deltaY = e.changedTouches[0].clientY - startY;
+      const deltaX = e.changedTouches[0].clientX - startX;
+
+      if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > threshold) {
+        const chapterIds = ['hero', ...(window.PLANETS_DATA || []).map(p => p.id), 'quiz'];
+        const currentIndex = chapterIds.indexOf(state.activeChapterId);
+
+        if (deltaY < 0 && currentIndex < chapterIds.length - 1) {
+          const nextId = chapterIds[currentIndex + 1];
+          executeWarpTransit(nextId);
+        } else if (deltaY > 0 && currentIndex > 0) {
+          const prevId = chapterIds[currentIndex - 1];
+          executeWarpTransit(prevId);
+        }
+      }
+    }, { passive: true });
+  }
+
+  /* ============================================================================
      3D POINTER PERSPECTIVE TRACKING WITH SMOOTH CUBIC EASING
      ============================================================================ */
   function initPerspectivePointerTracking() {
@@ -1273,6 +1307,7 @@
     initVideoManager();
     initCountUpNumbers();
     initQuizEngine();
+    initTouchSwipeNavigation();
 
     // Crystalline chime audio feedback on navigational dots and buttons
     document.querySelectorAll('.dot-item, .option-btn, .action-link').forEach(el => {
