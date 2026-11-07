@@ -478,6 +478,27 @@
     window.addEventListener('keydown', (e) => {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
+      // Numeric quick teleportation (Keys 1–9 and 0 for 10 celestial bodies)
+      const numberToPlanetMap = {
+        '1': 'sun',
+        '2': 'moon',
+        '3': 'mercury',
+        '4': 'venus',
+        '5': 'earth',
+        '6': 'mars',
+        '7': 'jupiter',
+        '8': 'saturn',
+        '9': 'uranus',
+        '0': 'neptune'
+      };
+
+      if (numberToPlanetMap[e.key]) {
+        e.preventDefault();
+        const targetWorldId = numberToPlanetMap[e.key];
+        executeWarpTransit(targetWorldId);
+        return;
+      }
+
       if (e.key === 'ArrowDown' || e.key === 'PageDown') {
         e.preventDefault();
         const currentIndex = chapterIds.indexOf(state.activeChapterId);
