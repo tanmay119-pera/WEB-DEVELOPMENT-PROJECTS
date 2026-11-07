@@ -929,6 +929,7 @@
 
     document.body.classList.add('warp-transit-active');
     overlay.classList.add('is-warping');
+    startWarpStarStreaks();
 
     if (window.livingArchiveAudio && typeof window.livingArchiveAudio.playWarpSweep === 'function') {
       window.livingArchiveAudio.playWarpSweep();
@@ -941,12 +942,103 @@
       }
       setTimeout(() => {
         overlay.classList.remove('is-warping');
+        stopWarpStarStreaks();
         document.body.classList.remove('warp-transit-active');
         if (typeof callback === 'function') callback();
       }, 220);
     }, 320);
   }
   window.executeWarpTransit = executeWarpTransit;
+
+  /* ============================================================================
+     RELATIVISTIC RADIAL STAR-STREAK CANVAS FX
+     ============================================================================ */
+  let warpCanvas = null;
+  let warpCtx = null;
+  let warpAnimationId = null;
+  let warpStars = [];
+
+  function initWarpStarStreakFX() {
+    warpCanvas = document.createElement('canvas');
+    warpCanvas.id = 'warp-star-streak-canvas';
+    warpCanvas.style.position = 'fixed';
+    warpCanvas.style.inset = '0';
+    warpCanvas.style.width = '100vw';
+    warpCanvas.style.height = '100vh';
+    warpCanvas.style.zIndex = '99998';
+    warpCanvas.style.pointerEvents = 'none';
+    warpCanvas.style.opacity = '0';
+    warpCanvas.style.transition = 'opacity 0.25s ease';
+    document.body.appendChild(warpCanvas);
+    warpCtx = warpCanvas.getContext('2d');
+
+    function resize() {
+      warpCanvas.width = window.innerWidth;
+      warpCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // Create 180 relativistic stars
+    warpStars = [];
+    for (let i = 0; i < 180; i++) {
+      warpStars.push({
+        x: (Math.random() - 0.5) * window.innerWidth,
+        y: (Math.random() - 0.5) * window.innerHeight,
+        z: Math.random() * window.innerWidth,
+        len: Math.random() * 25 + 15
+      });
+    }
+  }
+
+  function startWarpStarStreaks() {
+    if (!warpCanvas || !warpCtx) return;
+    warpCanvas.style.opacity = '1';
+    const cx = warpCanvas.width / 2;
+    const cy = warpCanvas.height / 2;
+
+    function renderStreaks() {
+      warpCtx.fillStyle = 'rgba(5, 5, 8, 0.35)';
+      warpCtx.fillRect(0, 0, warpCanvas.width, warpCanvas.height);
+
+      warpStars.forEach(s => {
+        s.z -= 42; // Hyperdrive velocity
+        if (s.z <= 0) {
+          s.z = warpCanvas.width;
+          s.x = (Math.random() - 0.5) * warpCanvas.width;
+          s.y = (Math.random() - 0.5) * warpCanvas.height;
+        }
+
+        const k = 250 / s.z;
+        const px = s.x * k + cx;
+        const py = s.y * k + cy;
+
+        const prevK = 250 / (s.z + s.len);
+        const ppx = s.x * prevK + cx;
+        const ppy = s.y * prevK + cy;
+
+        warpCtx.beginPath();
+        warpCtx.moveTo(ppx, ppy);
+        warpCtx.lineTo(px, py);
+        warpCtx.strokeStyle = 'rgba(232, 195, 125, 0.85)';
+        warpCtx.lineWidth = Math.min(2.5, k * 2);
+        warpCtx.stroke();
+      });
+
+      warpAnimationId = requestAnimationFrame(renderStreaks);
+    }
+    renderStreaks();
+  }
+
+  function stopWarpStarStreaks() {
+    if (warpAnimationId) cancelAnimationFrame(warpAnimationId);
+    if (warpCanvas) {
+      warpCanvas.style.opacity = '0';
+      if (warpCtx) warpCtx.clearRect(0, 0, warpCanvas.width, warpCanvas.height);
+    }
+  }
+  window.startWarpStarStreaks = startWarpStarStreaks;
+  window.stopWarpStarStreaks = stopWarpStarStreaks;
 
   /* ============================================================================
      12. MASTER INITIALIZATION CONTROLLER
@@ -962,6 +1054,7 @@
     initVideoManager();
     initCountUpNumbers();
     initQuizEngine();
+    initWarpStarStreakFX();
   });
 
 })();
