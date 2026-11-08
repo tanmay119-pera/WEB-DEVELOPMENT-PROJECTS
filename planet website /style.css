@@ -1619,3 +1619,16 @@ section[data-chapter] {
   transform: translateZ(0);
   will-change: transform, opacity;
 }
+
+/* ============================================================================
+   WCAG 2.1 AAA KEYBOARD ACCESSIBILITY FOCUS INDICATORS
+   ============================================================================ */
+*:focus-visible {
+  outline: 2px solid #e8c37d !important;
+  outline-offset: 4px !important;
+  box-shadow: 0 0 16px rgba(232, 195, 125, 0.6) !important;
+}
+
+button:focus-visible, a:focus-visible, .dot-item:focus-visible {
+  border-color: #e8c37d !important;
+}
