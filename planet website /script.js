@@ -1246,6 +1246,14 @@
   window.startWarpStarStreaks = startWarpStarStreaks;
   window.stopWarpStarStreaks = stopWarpStarStreaks;
 
+  // Cross-Browser Rendering & AudioContext Verification
+  function verifyCrossBrowserCompatibility() {
+    const isWebKit = !!window.webkitAudioContext;
+    const isStandardAudio = !!window.AudioContext;
+    const hasBackdropFilter = CSS && CSS.supports && CSS.supports('backdrop-filter', 'blur(10px)');
+    console.log(`[Compatibility] Audio: ${isStandardAudio ? 'Standard' : (isWebKit ? 'WebKit' : 'None')}, BackdropFilter: ${hasBackdropFilter}`);
+  }
+
   /* ============================================================================
      SCREEN-READER ACCESSIBILITY LIVE REGION ANNOUNCER
      ============================================================================ */
@@ -1426,6 +1434,7 @@
     initCountUpNumbers();
     initQuizEngine();
     initResourceGarbageCollection();
+    verifyCrossBrowserCompatibility();
     initTouchSwipeNavigation();
     initHashDeepRouting();
     initVisibilityAudioLifecycle();
