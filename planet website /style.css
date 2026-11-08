@@ -1581,3 +1581,27 @@ body {
   padding-left: var(--fluid-pad-x) !important;
   padding-right: var(--fluid-pad-x) !important;
 }
+
+/* ============================================================================
+   MOBILE SMARTPHONE OPTIMIZATION (TOUCH TARGETS & SAFE AREAS)
+   ============================================================================ */
+@media (max-width: 768px) {
+  .dot-item, .nav-action-btn, .audio-wave-btn, .option-btn {
+    min-height: 48px !important;
+    min-width: 48px !important;
+  }
+  
+  .chapter-media-wrap {
+    height: 52vh !important;
+    margin-bottom: 1.5rem;
+  }
+
+  .stat-grid, .quick-facts-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.75rem !important;
+  }
+
+  body {
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+  }
+}
