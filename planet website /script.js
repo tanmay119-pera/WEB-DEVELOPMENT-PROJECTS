@@ -1246,6 +1246,25 @@
   window.stopWarpStarStreaks = stopWarpStarStreaks;
 
   /* ============================================================================
+     AUTOMATIC MEMORY & GPU RESOURCE GARBAGE COLLECTION ON PAGE UNLOAD
+     ============================================================================ */
+  function initResourceGarbageCollection() {
+    window.addEventListener('pagehide', () => {
+      // Pause all active video streams to release hardware decoder slots
+      document.querySelectorAll('video').forEach(vid => {
+        vid.pause();
+        vid.removeAttribute('src');
+        vid.load();
+      });
+
+      // Close AudioContext
+      if (window.livingArchiveAudio && window.livingArchiveAudio.ctx) {
+        window.livingArchiveAudio.ctx.close().catch(() => {});
+      }
+    }, { once: true });
+  }
+
+  /* ============================================================================
      USER PREFERENCE & LAST VIEWED WORLD PERSISTENCE (LOCALSTORAGE)
      ============================================================================ */
   function initStoragePersistence() {
@@ -1384,6 +1403,7 @@
     initVideoManager();
     initCountUpNumbers();
     initQuizEngine();
+    initResourceGarbageCollection();
     initTouchSwipeNavigation();
     initHashDeepRouting();
     initVisibilityAudioLifecycle();
