@@ -1,7 +1,7 @@
 {
   "name": "the-living-archive",
-  "version": "5.0.0",
-  "description": "An interactive deep-space celestial chronicle and 3D astronomical observatory with 8 distinct planetary video streams. Conceived, Designed & Architected by Tanmay (Adesh Srivastava).",
+  "version": "6.0.0",
+  "description": "An interactive deep-space celestial chronicle and 3D astronomical observatory showcasing the Sun, Moon, and all 8 planets in 4K UHD. Conceived, Designed & Architected by Tanmay (Adesh Srivastava).",
   "author": "Tanmay (Adesh Srivastava)",
   "license": "MIT"
 }
