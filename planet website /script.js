@@ -445,6 +445,7 @@
           prefetchAdjacentMedia(activeId);
           cullInactiveContexts();
           if (window.livingArchiveAudio) window.livingArchiveAudio.playPlanetaryResonance(activeId);
+          if (window.announceForScreenReader) window.announceForScreenReader(`Arrived at ${activeId}`);
 
           // Update active dot
           dotButtons.forEach(btn => {
@@ -1244,6 +1245,27 @@
   }
   window.startWarpStarStreaks = startWarpStarStreaks;
   window.stopWarpStarStreaks = stopWarpStarStreaks;
+
+  /* ============================================================================
+     SCREEN-READER ACCESSIBILITY LIVE REGION ANNOUNCER
+     ============================================================================ */
+  function announceForScreenReader(message) {
+    let announcer = document.getElementById('aria-live-announcer');
+    if (!announcer) {
+      announcer = document.createElement('div');
+      announcer.id = 'aria-live-announcer';
+      announcer.setAttribute('aria-live', 'polite');
+      announcer.setAttribute('role', 'status');
+      announcer.style.position = 'absolute';
+      announcer.style.width = '1px';
+      announcer.style.height = '1px';
+      announcer.style.clip = 'rect(0, 0, 0, 0)';
+      announcer.style.overflow = 'hidden';
+      document.body.appendChild(announcer);
+    }
+    announcer.textContent = message;
+  }
+  window.announceForScreenReader = announceForScreenReader;
 
   /* ============================================================================
      AUTOMATIC MEMORY & GPU RESOURCE GARBAGE COLLECTION ON PAGE UNLOAD
