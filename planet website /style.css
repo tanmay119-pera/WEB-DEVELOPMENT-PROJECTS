@@ -1605,3 +1605,17 @@ body {
     padding-bottom: env(safe-area-inset-bottom, 20px);
   }
 }
+
+/* ============================================================================
+   CSS CONTAINMENT & GPU MEMORY ISOLATION FOR SUB-SECOND FCP
+   ============================================================================ */
+section[data-chapter] {
+  contain: layout style paint;
+  content-visibility: auto;
+  contain-intrinsic-size: 100vh;
+}
+
+.chapter-video-element {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
