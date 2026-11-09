@@ -1286,7 +1286,7 @@
     warpCanvas.style.opacity = '0';
     warpCanvas.style.transition = 'opacity 0.25s ease';
     document.body.appendChild(warpCanvas);
-    warpCtx = warpCanvas.getContext('2d');
+    warpCtx = warpCanvas.getContext('2d', { alpha: true, desynchronized: true });
 
     function resize() {
       warpCanvas.width = window.innerWidth;
