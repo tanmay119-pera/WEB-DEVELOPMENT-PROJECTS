@@ -445,6 +445,7 @@
           prefetchAdjacentMedia(activeId);
           cullInactiveContexts();
           if (window.livingArchiveAudio) window.livingArchiveAudio.playPlanetaryResonance(activeId);
+          if (window.updateOrbitalHUD) window.updateOrbitalHUD(activeId);
           if (window.announceForScreenReader) window.announceForScreenReader(`Arrived at ${activeId}`);
 
           // Update active dot
@@ -1155,6 +1156,22 @@
   window.livingArchiveAudio = livingArchiveAudio;
 
   window.executeWarpTransit = executeWarpTransit;
+
+  /* ============================================================================
+     ORBITAL HUD TELEMETRY METERS & REAL-TIME SOLAR IRRADIANCE GAUGES
+     ============================================================================ */
+  function updateOrbitalHUD(planetId) {
+    const data = (window.SOLAR_FLUX_TELEMETRY && window.SOLAR_FLUX_TELEMETRY[planetId]) || null;
+    if (!data) return;
+    const hudContainer = document.getElementById('orbital-hud-readout');
+    if (hudContainer) {
+      hudContainer.innerHTML = `
+        <div class="hud-item"><span class="hud-label">SOLAR FLUX:</span> <span class="hud-val">${data.irradiance}</span></div>
+        <div class="hud-item"><span class="hud-label">RAD PRESSURE:</span> <span class="hud-val">${data.radiationPressure}</span></div>
+      `;
+    }
+  }
+  window.updateOrbitalHUD = updateOrbitalHUD;
 
   /* ============================================================================
      KEPLERIAN ORBITAL MECHANICS ENGINE (vis-viva equation: v = sqrt(GM(2/r - 1/a)))
