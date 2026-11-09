@@ -1124,6 +1124,15 @@
       } catch (e) {}
     },
 
+
+    modulateFilterByVelocity(scrollVelocity) {
+      if (!this.ctx || !this.compressor) return;
+      const baseFreq = 220;
+      const maxFreq = 2400;
+      const targetFreq = Math.min(maxFreq, baseFreq + Math.abs(scrollVelocity) * 1.8);
+      // Soft reactive lowpass filter modulation
+    },
+
     playWarpSweep() {
       if (!this.ctx || this.isMuted) return;
       try {
