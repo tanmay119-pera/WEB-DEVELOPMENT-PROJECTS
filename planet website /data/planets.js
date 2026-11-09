@@ -1,4 +1,14 @@
 
+// Sun-Earth and Earth-Moon Gravitational Lagrange Dossiers
+window.LAGRANGE_POINTS = {
+  L1: { name: "Lagrange L1", location: "1.5M km Sunward", use: "Continuous Solar Observation (SOHO, DSCOVR)" },
+  L2: { name: "Lagrange L2", location: "1.5M km Anti-Sunward", use: "Deep Space Infrared Astronomy (JWST, Gaia)" },
+  L3: { name: "Lagrange L3", location: "Opposite side of Sun", use: "Theoretical Solar Eclipse Shadow Horizon" },
+  L4: { name: "Lagrange L4", location: "60° Leading Orbit", use: "Gravitationally Stable Trojan Asteroid Oasis" },
+  L5: { name: "Lagrange L5", location: "60° Trailing Orbit", use: "Gravitationally Stable Trojan Asteroid Oasis" }
+};
+
+
 // Astronomical Solar Irradiance & Radiation Pressure Telemetry (1 AU = 1361 W/m²)
 window.SOLAR_FLUX_TELEMETRY = {
   sun: { irradiance: "63,200,000 W/m² (Surface)", radiationPressure: "21.0 µPa", solarConstantAU: 0.00465 },
