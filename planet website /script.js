@@ -1157,6 +1157,21 @@
   window.executeWarpTransit = executeWarpTransit;
 
   /* ============================================================================
+     KEPLERIAN ORBITAL MECHANICS ENGINE (vis-viva equation: v = sqrt(GM(2/r - 1/a)))
+     ============================================================================ */
+  function computeKeplerianOrbitalVelocity(semiMajorAU, eccentricity, trueAnomalyDeg = 0) {
+    const GM_SUN = 1.32712440018e20; // m^3 / s^2
+    const AU_TO_METERS = 149597870700; // m
+    const a = semiMajorAU * AU_TO_METERS;
+    const e = eccentricity;
+    const theta = (trueAnomalyDeg * Math.PI) / 180;
+    const r = (a * (1 - e * e)) / (1 + e * Math.cos(theta));
+    const v = Math.sqrt(GM_SUN * ((2 / r) - (1 / a)));
+    return (v / 1000).toFixed(2); // km/s
+  }
+  window.computeKeplerianOrbitalVelocity = computeKeplerianOrbitalVelocity;
+
+  /* ============================================================================
      RELATIVISTIC RADIAL STAR-STREAK CANVAS FX
      ============================================================================ */
   let warpCanvas = null;
