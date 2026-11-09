@@ -1,3 +1,18 @@
+
+// Astronomical Solar Irradiance & Radiation Pressure Telemetry (1 AU = 1361 W/m²)
+window.SOLAR_FLUX_TELEMETRY = {
+  sun: { irradiance: "63,200,000 W/m² (Surface)", radiationPressure: "21.0 µPa", solarConstantAU: 0.00465 },
+  moon: { irradiance: "1,361 W/m² (Subsolar)", radiationPressure: "4.54 µPa", solarConstantAU: 1.0 },
+  mercury: { irradiance: "9,126 W/m² (Perihelion)", radiationPressure: "30.4 µPa", solarConstantAU: 0.387 },
+  venus: { irradiance: "2,613 W/m² (Cloud Tops)", radiationPressure: "8.71 µPa", solarConstantAU: 0.723 },
+  earth: { irradiance: "1,361 W/m² (Top of Atmosphere)", radiationPressure: "4.54 µPa", solarConstantAU: 1.0 },
+  mars: { irradiance: "589 W/m² (Mean Orbit)", radiationPressure: "1.96 µPa", solarConstantAU: 1.524 },
+  jupiter: { irradiance: "50.3 W/m² (Cloud Tops)", radiationPressure: "0.168 µPa", solarConstantAU: 5.204 },
+  saturn: { irradiance: "15.0 W/m² (Ring Plane)", radiationPressure: "0.050 µPa", solarConstantAU: 9.582 },
+  uranus: { irradiance: "3.71 W/m² (Equinox)", radiationPressure: "0.012 µPa", solarConstantAU: 19.22 },
+  neptune: { irradiance: "1.51 W/m² (Mean Cloud Top)", radiationPressure: "0.005 µPa", solarConstantAU: 30.05 }
+};
+
 /**
  * The Living Archive — Celestial Data Architecture
  * Conceived & Architected by Tanmay (Adesh Srivastava)
