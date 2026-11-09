@@ -1188,6 +1188,24 @@
   window.executeWarpTransit = executeWarpTransit;
 
   /* ============================================================================
+     KIOSK PLANETARIUM CINEMATIC MODE (KEYBOARD: 'C' OR 'F')
+     ============================================================================ */
+  function toggleCinemaMode() {
+    const isCinema = document.body.classList.toggle('cinema-kiosk-mode');
+    if (window.announceForScreenReader) {
+      window.announceForScreenReader(isCinema ? 'Entered Cinema Mode' : 'Exited Cinema Mode');
+    }
+  }
+  window.toggleCinemaMode = toggleCinemaMode;
+
+  window.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'c' || e.key === 'C') {
+      toggleCinemaMode();
+    }
+  });
+
+  /* ============================================================================
      PROCEDURAL AURORAL OVAL LUMINESCENCE ENGINE
      ============================================================================ */
   function renderAuroralGlow(ctx, width, height, hue = 145) {
