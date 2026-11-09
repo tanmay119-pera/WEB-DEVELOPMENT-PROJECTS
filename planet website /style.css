@@ -1632,3 +1632,22 @@ section[data-chapter] {
 button:focus-visible, a:focus-visible, .dot-item:focus-visible {
   border-color: #e8c37d !important;
 }
+
+/* ============================================================================
+   HELIOSPHERIC MAGNETIC BOUNDARY & SOLAR WIND PARTICLES
+   ============================================================================ */
+.magnetosphere-shield {
+  position: absolute;
+  inset: -15%;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle at 25% 50%, rgba(56, 217, 169, 0.18) 0%, rgba(5, 5, 8, 0) 70%);
+  border-left: 2px solid rgba(56, 217, 169, 0.45);
+  filter: drop-shadow(0 0 16px rgba(56, 217, 169, 0.35));
+  animation: bowShockPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes bowShockPulse {
+  0% { transform: scale(0.98) translate(-4px, 0); opacity: 0.7; }
+  100% { transform: scale(1.02) translate(4px, 0); opacity: 1.0; }
+}
