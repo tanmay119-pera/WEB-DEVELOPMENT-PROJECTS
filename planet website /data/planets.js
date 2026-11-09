@@ -1,4 +1,17 @@
 
+// High-Resolution Atmospheric Absorption Spectroscopy Signatures
+window.PLANETARY_SPECTRA = {
+  mercury: "Exosphere: Trace Na (589 nm), K (766 nm), He (58.4 nm)",
+  venus: "Supercritical CO₂ (2.0 µm, 4.3 µm), SO₂ (280 nm), H₂SO₄ aerosol decks",
+  earth: "N₂ (Rayleigh), O₂ A-band (760 nm), H₂O vapor (940 nm, 1130 nm), O₃ Chappuis (600 nm)",
+  mars: "Thin CO₂ (15 µm, 4.3 µm), Airborne Fe₂O₃ dust scattering, seasonal CH₄ trace",
+  jupiter: "H₂ quadrupole, He (58.4 nm), NH₃ ice (1.5 µm, 2.0 µm), PH₃ chromophores",
+  saturn: "H₂-He envelope, NH₃ bands, CH₄ overtone (889 nm), C₂H₆ haze",
+  uranus: "CH₄ strong bands (619 nm, 725 nm, 889 nm) giving cyan tint, H₂ collision-induced",
+  neptune: "Deep CH₄ absorption (889 nm), H₂-He Rayleigh scattering, supersonic clouds"
+};
+
+
 // Galilean & Enceladus Tidal Heating & Orbital Resonance Matrix
 window.TIDAL_RESONANCE_DATA = {
   laplaceResonance: "Io : Europa : Ganymede locked in exact 4 : 2 : 1 mean-motion orbital resonance",
