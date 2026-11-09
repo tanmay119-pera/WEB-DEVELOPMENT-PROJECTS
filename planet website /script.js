@@ -1188,6 +1188,23 @@
   window.executeWarpTransit = executeWarpTransit;
 
   /* ============================================================================
+     EXPORT PLANETARY PHYSICAL MATRIX (JSON & CSV EXPORTER)
+     ============================================================================ */
+  function exportPlanetaryDataset(format = 'json') {
+    const data = window.PLANETS_DATA || [];
+    if (format === 'json') {
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'solar_system_living_archive.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  }
+  window.exportPlanetaryDataset = exportPlanetaryDataset;
+
+  /* ============================================================================
      KIOSK PLANETARIUM CINEMATIC MODE (KEYBOARD: 'C' OR 'F')
      ============================================================================ */
   function toggleCinemaMode() {
