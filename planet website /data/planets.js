@@ -1,4 +1,13 @@
 
+// Galilean & Enceladus Tidal Heating & Orbital Resonance Matrix
+window.TIDAL_RESONANCE_DATA = {
+  laplaceResonance: "Io : Europa : Ganymede locked in exact 4 : 2 : 1 mean-motion orbital resonance",
+  ioTidalHeating: "Gravitational flexure dissipates ~100 Terawatts of heat into Io's interior mantle",
+  europaOceanHeating: "Eccentricity pumping maintains a 100km-deep global subsurface saltwater ocean",
+  enceladusPlumes: "Saturnian orbital eccentricity drives south-polar tiger stripe cryovolcanic geysers"
+};
+
+
 // Sun-Earth and Earth-Moon Gravitational Lagrange Dossiers
 window.LAGRANGE_POINTS = {
   L1: { name: "Lagrange L1", location: "1.5M km Sunward", use: "Continuous Solar Observation (SOHO, DSCOVR)" },
