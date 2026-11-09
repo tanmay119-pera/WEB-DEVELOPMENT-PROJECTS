@@ -1133,6 +1133,27 @@
       // Soft reactive lowpass filter modulation
     },
 
+
+    playHarmonicChord(baseFreq = 220) {
+      if (!this.ctx || this.isMuted) return;
+      const intervals = [1, 1.25, 1.5]; // Major triad
+      intervals.forEach((ratio, i) => {
+        setTimeout(() => {
+          try {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.frequency.setValueAtTime(baseFreq * ratio, this.ctx.currentTime);
+            gain.gain.setValueAtTime(0.02, this.ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.6);
+            osc.connect(gain);
+            gain.connect(this.masterGain);
+            osc.start();
+            osc.stop(this.ctx.currentTime + 0.65);
+          } catch(e) {}
+        }, i * 60);
+      });
+    },
+
     playWarpSweep() {
       if (!this.ctx || this.isMuted) return;
       try {
