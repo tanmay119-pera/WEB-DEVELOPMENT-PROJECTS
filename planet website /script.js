@@ -1158,6 +1158,19 @@
   window.executeWarpTransit = executeWarpTransit;
 
   /* ============================================================================
+     PROCEDURAL AURORAL OVAL LUMINESCENCE ENGINE
+     ============================================================================ */
+  function renderAuroralGlow(ctx, width, height, hue = 145) {
+    const grad = ctx.createLinearGradient(0, 0, width, height * 0.4);
+    grad.addColorStop(0, `hsla(${hue}, 85%, 65%, 0.35)`);
+    grad.addColorStop(0.5, `hsla(${hue + 40}, 90%, 60%, 0.15)`);
+    grad.addColorStop(1, 'rgba(5, 5, 8, 0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, width, height * 0.4);
+  }
+  window.renderAuroralGlow = renderAuroralGlow;
+
+  /* ============================================================================
      ORBITAL HUD TELEMETRY METERS & REAL-TIME SOLAR IRRADIANCE GAUGES
      ============================================================================ */
   function updateOrbitalHUD(planetId) {
