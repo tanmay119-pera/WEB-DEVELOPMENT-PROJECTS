@@ -1,4 +1,13 @@
 
+// Interstellar Spacecraft Hyperbolic Escape Trajectories
+window.INTERSTELLAR_TRAJECTORIES = {
+  voyager1: { velocity: "16.9 km/s (3.6 AU/yr)", distance: "163 AU", heading: "Ophiuchus / Interstellar Medium", crossedHeliopause: "25 Aug 2012" },
+  voyager2: { velocity: "15.3 km/s (3.2 AU/yr)", distance: "136 AU", heading: "Pavo / Interstellar Space", crossedHeliopause: "05 Nov 2018" },
+  newHorizons: { velocity: "13.8 km/s (2.9 AU/yr)", distance: "58 AU", heading: "Sagittarius / Kuiper Belt Outskirts", crossedHeliopause: "En route (~2040)" },
+  pioneer10: { velocity: "11.9 km/s (2.5 AU/yr)", distance: "134 AU", heading: "Taurus (Aldebaran)", crossedHeliopause: "Est. 2004" }
+};
+
+
 // High-Resolution Atmospheric Absorption Spectroscopy Signatures
 window.PLANETARY_SPECTRA = {
   mercury: "Exosphere: Trace Na (589 nm), K (766 nm), He (58.4 nm)",
