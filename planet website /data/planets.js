@@ -1,4 +1,13 @@
 
+// Local Galactic Potential & Solar Orbital Vector
+window.GALACTIC_VECTOR = {
+  galactocentricDistance: "8.178 kpc (26,670 light-years) from Sagittarius A*",
+  circularVelocity: "220 km/s circular orbit around Galactic Core",
+  galacticYear: "230 Million Earth Years per complete revolution",
+  localDarkMatterDensity: "0.008 Solar Masses / pc³ (0.3 GeV/cm³ in Solar Neighborhood)"
+};
+
+
 // Trans-Neptunian Dwarf Worlds Matrix
 window.DWARF_PLANETS_DATA = [
   { name: "Pluto", diameter: "2,376 km", semiMajorAU: 39.48, anomaly: "Nitrogen heart glacier Sputnik Planitia & subsurface ocean" },
