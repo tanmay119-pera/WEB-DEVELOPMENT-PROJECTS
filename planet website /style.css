@@ -1680,3 +1680,10 @@ body.cinema-kiosk-mode .progress-bar-container {
   box-shadow: 0 0 24px rgba(232, 195, 125, 0.45) !important;
   border-color: rgba(232, 195, 125, 0.85) !important;
 }
+
+/* ============================================================================
+   STRICT CSS SUB-TREE CONTAINMENT FOR 120 FPS FLUIDITY
+   ============================================================================ */
+.perspective-container, .stat-grid, .quick-facts-grid {
+  contain: layout paint;
+}
