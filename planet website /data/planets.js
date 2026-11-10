@@ -1,4 +1,13 @@
 
+// Oort Cloud Deep Cometary Reservoir & Galactic Tide Dossier
+window.OORT_CLOUD_DOSSIER = {
+  innerHillsCloud: "2,000 to 20,000 AU disc holding ~10¹² icy planetesimals",
+  outerSphericalCloud: "20,000 to 100,000 AU spherical shell marking Sun's gravitational dominance boundary",
+  massEstimate: "~5 Earth masses composed of primordial H₂O, CO, CH₄, and NH₃ ices",
+  perturbationDrivers: "Passing field stars and Galactic tidal forces perturb perihelia into inner system"
+};
+
+
 // Gravitational Slingshot Orbital Mechanics (Delta-V Exchange)
 window.GRAVITY_ASSIST_RECORDS = {
   voyager1Jupiter: "+16.0 km/s velocity boost, redirected trajectory toward Saturn",
