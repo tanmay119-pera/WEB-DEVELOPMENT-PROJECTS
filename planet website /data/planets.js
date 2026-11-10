@@ -1,4 +1,13 @@
 
+// Comparative Exoplanetary Habitable Worlds Matrix
+window.EXOPLANET_BENCHMARKS = [
+  { name: "Proxima Centauri b", hostStar: "Red Dwarf M-type (4.24 ly)", mass: "1.17 Earths", orbitalPeriod: "11.2 Days", equilibriumTemp: "-39 °C", habitabilityIndex: 0.87 },
+  { name: "TRAPPIST-1e", hostStar: "Ultra-cool Dwarf (39.5 ly)", mass: "0.69 Earths", orbitalPeriod: "6.10 Days", equilibriumTemp: "-22 °C", habitabilityIndex: 0.95 },
+  { name: "Kepler-452b", hostStar: "Yellow G2V Sun-like (1,400 ly)", mass: "5.0 Earths", orbitalPeriod: "384.8 Days", equilibriumTemp: "-8 °C", habitabilityIndex: 0.83 },
+  { name: "LHS 1140 b", hostStar: "M4.5 Dwarf (48.8 ly)", mass: "5.6 Earths", orbitalPeriod: "24.7 Days", equilibriumTemp: "-43 °C", habitabilityIndex: 0.89 }
+];
+
+
 // Heliospheric Boundary Physics & Interstellar Plasma Density Jump
 window.HELIOSPHERE_PHYSICS = {
   terminationShock: "Solar wind drops abruptly from supersonic (400 km/s) to subsonic speeds (~85 AU)",
