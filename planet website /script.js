@@ -1154,6 +1154,29 @@
       });
     },
 
+
+    playInterstellarChorus() {
+      if (!this.ctx || this.isMuted) return;
+      try {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        // Downward whistler glide (3500 Hz down to 600 Hz)
+        osc.frequency.setValueAtTime(3500, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(600, this.ctx.currentTime + 1.2);
+
+        gain.gain.setValueAtTime(0.001, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.04, this.ctx.currentTime + 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 1.15);
+
+        osc.connect(gain);
+        gain.connect(this.masterGain);
+
+        osc.start();
+        osc.stop(this.ctx.currentTime + 1.25);
+      } catch (e) {}
+    },
+
     playWarpSweep() {
       if (!this.ctx || this.isMuted) return;
       try {
