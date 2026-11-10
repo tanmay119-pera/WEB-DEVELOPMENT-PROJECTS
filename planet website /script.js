@@ -1188,6 +1188,15 @@
   window.executeWarpTransit = executeWarpTransit;
 
   /* ============================================================================
+     RELATIVISTIC LORENTZ FACTOR (gamma = 1 / sqrt(1 - (v/c)^2))
+     ============================================================================ */
+  function computeLorentzGamma(velocityFractionOfC) {
+    const beta = Math.min(0.9999, Math.max(0, velocityFractionOfC));
+    return (1 / Math.sqrt(1 - beta * beta)).toFixed(4);
+  }
+  window.computeLorentzGamma = computeLorentzGamma;
+
+  /* ============================================================================
      CIRCUMSTELLAR HABITABLE ZONE (GOLDILOCKS) BOUNDARY CALCULATOR
      ============================================================================ */
   function calculateHabitableZone(stellarLuminositySunUnits = 1.0) {
