@@ -1,4 +1,13 @@
 
+// Heliospheric Boundary Physics & Interstellar Plasma Density Jump
+window.HELIOSPHERE_PHYSICS = {
+  terminationShock: "Solar wind drops abruptly from supersonic (400 km/s) to subsonic speeds (~85 AU)",
+  heliosheath: "Turbulent transition zone where solar plasma is compressed by interstellar interstellar wind",
+  heliopause: "True boundary of interstellar space where solar wind pressure equals interstellar magnetic pressure (~121 AU)",
+  plasmaDensityJump: "Voyager 1 detected electron plasma density jump from 0.002 cm⁻³ to 0.08 cm⁻³ upon interstellar entry"
+};
+
+
 // Interstellar Spacecraft Hyperbolic Escape Trajectories
 window.INTERSTELLAR_TRAJECTORIES = {
   voyager1: { velocity: "16.9 km/s (3.6 AU/yr)", distance: "163 AU", heading: "Ophiuchus / Interstellar Medium", crossedHeliopause: "25 Aug 2012" },
