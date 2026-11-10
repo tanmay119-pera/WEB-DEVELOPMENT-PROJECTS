@@ -1,4 +1,13 @@
 
+// Primordial Solar Nebula Accretion & Stellar Metallicity [Fe/H]
+window.SOLAR_METALLICITY = {
+  photosphericIronRatio: "[Fe/H] = 0.00 (Standard Cosmic Baseline)",
+  nebularCollapseAge: "4.567 Billion Years Ago (Calcium-Aluminum-Rich Inclusions)",
+  protoPlanetaryDiskMass: "~0.015 Solar Masses (Minimum Mass Solar Nebula)",
+  snowLineRadius: "2.7 AU (Separating rocky inner terrestrials from volatile-rich gas/ice giants)"
+};
+
+
 // Comparative Exoplanetary Habitable Worlds Matrix
 window.EXOPLANET_BENCHMARKS = [
   { name: "Proxima Centauri b", hostStar: "Red Dwarf M-type (4.24 ly)", mass: "1.17 Earths", orbitalPeriod: "11.2 Days", equilibriumTemp: "-39 °C", habitabilityIndex: 0.87 },
