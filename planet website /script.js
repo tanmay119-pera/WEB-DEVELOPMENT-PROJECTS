@@ -1188,6 +1188,18 @@
   window.executeWarpTransit = executeWarpTransit;
 
   /* ============================================================================
+     PHOTON MOMENTUM SOLAR SAIL THRUST (F = (1 + R) * (S/c) * A)
+     ============================================================================ */
+  function computeSolarSailThrust(sailAreaM2, distanceAU, reflectivity = 0.9) {
+    const SOLAR_CONSTANT_1AU = 1361; // W/m^2
+    const C = 299792458; // m/s
+    const S = SOLAR_CONSTANT_1AU / (distanceAU * distanceAU);
+    const forceNewtons = ((1 + reflectivity) * (S / C) * sailAreaM2);
+    return (forceNewtons * 1000).toFixed(2); // milliNewtons
+  }
+  window.computeSolarSailThrust = computeSolarSailThrust;
+
+  /* ============================================================================
      RELATIVISTIC LORENTZ FACTOR (gamma = 1 / sqrt(1 - (v/c)^2))
      ============================================================================ */
   function computeLorentzGamma(velocityFractionOfC) {
