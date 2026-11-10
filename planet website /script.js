@@ -1188,6 +1188,16 @@
   window.executeWarpTransit = executeWarpTransit;
 
   /* ============================================================================
+     CIRCUMSTELLAR HABITABLE ZONE (GOLDILOCKS) BOUNDARY CALCULATOR
+     ============================================================================ */
+  function calculateHabitableZone(stellarLuminositySunUnits = 1.0) {
+    const innerBoundAU = Math.sqrt(stellarLuminositySunUnits / 1.1).toFixed(2);
+    const outerBoundAU = Math.sqrt(stellarLuminositySunUnits / 0.53).toFixed(2);
+    return { innerBoundAU, outerBoundAU };
+  }
+  window.calculateHabitableZone = calculateHabitableZone;
+
+  /* ============================================================================
      EXPORT PLANETARY PHYSICAL MATRIX (JSON & CSV EXPORTER)
      ============================================================================ */
   function exportPlanetaryDataset(format = 'json') {
