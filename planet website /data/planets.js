@@ -1,4 +1,13 @@
 
+// Trans-Neptunian Dwarf Worlds Matrix
+window.DWARF_PLANETS_DATA = [
+  { name: "Pluto", diameter: "2,376 km", semiMajorAU: 39.48, anomaly: "Nitrogen heart glacier Sputnik Planitia & subsurface ocean" },
+  { name: "Eris", diameter: "2,326 km", semiMajorAU: 67.78, anomaly: "High albedo methane frost surface & extreme 44° inclination" },
+  { name: "Haumea", diameter: "1,632 km (ellipsoid)", semiMajorAU: 43.13, anomaly: "Ultra-fast 3.9-hour rotation stretching body into triaxial ellipsoid with rings" },
+  { name: "Makemake", diameter: "1,430 km", semiMajorAU: 45.79, anomaly: "Deep reddish hydrocarbon tholin coating with faint nitrogen atmosphere" }
+];
+
+
 // Oort Cloud Deep Cometary Reservoir & Galactic Tide Dossier
 window.OORT_CLOUD_DOSSIER = {
   innerHillsCloud: "2,000 to 20,000 AU disc holding ~10¹² icy planetesimals",
