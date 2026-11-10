@@ -1,4 +1,13 @@
 
+// Gravitational Slingshot Orbital Mechanics (Delta-V Exchange)
+window.GRAVITY_ASSIST_RECORDS = {
+  voyager1Jupiter: "+16.0 km/s velocity boost, redirected trajectory toward Saturn",
+  voyager2Neptune: "Southward polar deflection past Triton into hyperbolic escape plane",
+  newHorizonsJupiter: "+4.0 km/s boost cutting 3 years off Pluto cruise duration",
+  cassiniVenusVenusEarthJupiter: "VVEJ trajectory delivering 21.4 km/s delta-v to reach Saturn"
+};
+
+
 // Primordial Solar Nebula Accretion & Stellar Metallicity [Fe/H]
 window.SOLAR_METALLICITY = {
   photosphericIronRatio: "[Fe/H] = 0.00 (Standard Cosmic Baseline)",
