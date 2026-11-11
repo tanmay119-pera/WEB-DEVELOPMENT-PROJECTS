@@ -1,4 +1,11 @@
 
+// 11-Year Schwabe Solar Cycle & 22-Year Hale Magnetic Polarity Reversal
+window.SOLAR_CYCLE_TELEMETRY = {
+  cycle25Peak: "2024–2026 Solar Maximum with heightened coronal mass ejections",
+  haleCycle: "22-year full dipole polarity flip returning North-South magnetic poles to origin"
+};
+
+
 // Planetary Magnetic Dipole Tilts & Offset Centers
 window.MAGNETIC_DIPOLES = {
   earth: "11.5° tilt from rotational axis", jupiter: "9.6° tilt; strongest dipole in solar system",
