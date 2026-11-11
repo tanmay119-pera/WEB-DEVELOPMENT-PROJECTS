@@ -1212,6 +1212,14 @@
       return impulse;
     },
 
+
+    applySpatialPan(panValue = 0) {
+      if (!this.ctx || !this.ctx.createStereoPanner) return null;
+      const panner = this.ctx.createStereoPanner();
+      panner.pan.setValueAtTime(Math.max(-1, Math.min(1, panValue)), this.ctx.currentTime);
+      return panner;
+    },
+
     playWarpSweep() {
       if (!this.ctx || this.isMuted) return;
       try {
