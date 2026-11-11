@@ -1245,6 +1245,15 @@
 
   window.executeWarpTransit = executeWarpTransit;
 
+  // Schwarzschild Event Horizon Radius: r_s = 2GM / c^2
+  function computeSchwarzschildRadiusMM(massKg) {
+    const G = 6.67430e-11;
+    const C = 299792458;
+    const meters = (2 * G * massKg) / (C * C);
+    return (meters * 1000).toFixed(3); // millimeters (e.g. Earth ~ 8.87 mm)
+  }
+  window.computeSchwarzschildRadiusMM = computeSchwarzschildRadiusMM;
+
   // Orbital Resonance Phase Space Coordinate Helper
   function computeResonancePhase(periodA, periodB, tDays) {
     const thetaA = ((tDays % periodA) / periodA) * 2 * Math.PI;
