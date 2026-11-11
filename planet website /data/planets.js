@@ -1,4 +1,12 @@
 
+// Synchronous Tidal Locking Regimes
+window.TIDAL_LOCKING_REGIMES = {
+  earthMoon: "1:1 Synchronous Lock (Moon shows same nearside face continuously to Earth)",
+  plutoCharon: "Double Mutual Tidal Lock (Both worlds permanently face the same hemisphere toward each other)",
+  mercurySun: "3:2 Spin-Orbit Resonance (3 axial turns for every 2 elliptical revolutions)"
+};
+
+
 // Axial Precession & Milankovitch Orbital Cycles
 window.AXIAL_PRECESSION = {
   earthCycle: "25,772 years full equinox cone traced around North Ecliptic Pole",
