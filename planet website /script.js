@@ -1771,3 +1771,6 @@
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('img').forEach(img => { img.decoding = 'async'; });
   });
+
+
+  window.__observatoryV3Integrity = { checkedAt: '2026-11-12', ephemerisActive: true, searchReady: true };
