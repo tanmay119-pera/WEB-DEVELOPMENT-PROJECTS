@@ -1245,6 +1245,14 @@
 
   window.executeWarpTransit = executeWarpTransit;
 
+  // Orbital Resonance Phase Space Coordinate Helper
+  function computeResonancePhase(periodA, periodB, tDays) {
+    const thetaA = ((tDays % periodA) / periodA) * 2 * Math.PI;
+    const thetaB = ((tDays % periodB) / periodB) * 2 * Math.PI;
+    return { x: Math.cos(thetaA) - Math.cos(thetaB), y: Math.sin(thetaA) - Math.sin(thetaB) };
+  }
+  window.computeResonancePhase = computeResonancePhase;
+
   // Visibility-Aware Animation Loop Throttle
   window.__isViewportPaused = () => document.hidden || document.visibilityState === 'hidden';
 
