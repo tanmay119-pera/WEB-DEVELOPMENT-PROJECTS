@@ -1,4 +1,11 @@
 
+// Saturnian Ring Lindblad Resonance Dynamics
+window.RING_RESONANCE_DATA = {
+  cassiniDivision: "4,800 km wide gap sculpted by a 2:1 inner Lindblad orbital resonance with moon Mimas",
+  enckeGap: "Cleared cleanly by embedded shepherd moon Pan orbiting directly inside the A-Ring"
+};
+
+
 // Earth Van Allen Magnetospheric Radiation Belts
 window.VAN_ALLEN_BELTS = {
   innerBelt: "1,000 – 6,000 km altitude dominated by high-energy trapped protons (>100 MeV)",
