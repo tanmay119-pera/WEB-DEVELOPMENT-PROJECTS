@@ -1197,6 +1197,21 @@
       } catch(e) {}
     },
 
+
+    createCosmicImpulseBuffer(seconds = 2.0, decay = 2.5) {
+      if (!this.ctx) return null;
+      const rate = this.ctx.sampleRate;
+      const length = rate * seconds;
+      const impulse = this.ctx.createBuffer(2, length, rate);
+      for (let ch = 0; ch < 2; ch++) {
+        const data = impulse.getChannelData(ch);
+        for (let i = 0; i < length; i++) {
+          data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, decay);
+        }
+      }
+      return impulse;
+    },
+
     playWarpSweep() {
       if (!this.ctx || this.isMuted) return;
       try {
