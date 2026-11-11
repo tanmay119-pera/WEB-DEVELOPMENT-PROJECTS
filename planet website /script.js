@@ -1245,6 +1245,9 @@
 
   window.executeWarpTransit = executeWarpTransit;
 
+  // Visibility-Aware Animation Loop Throttle
+  window.__isViewportPaused = () => document.hidden || document.visibilityState === 'hidden';
+
   // Heliospheric Galactic Cosmic Ray (GCR) Modulation Estimator
   function estimateCosmicRayModulation(distanceAU) {
     return Math.min(100, (12 + distanceAU * 2.2)).toFixed(1) + '% Unshielded GCR Flux';
