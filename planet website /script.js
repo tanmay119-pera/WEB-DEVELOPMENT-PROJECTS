@@ -1177,6 +1177,26 @@
       } catch (e) {}
     },
 
+
+    triggerBinauralHarmonic(freq = 136.1, detuneHz = 1.5) {
+      if (!this.ctx || this.isMuted) return;
+      try {
+        [freq - detuneHz / 2, freq + detuneHz / 2].forEach(f => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(f, this.ctx.currentTime);
+          gain.gain.setValueAtTime(0.001, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.03, this.ctx.currentTime + 0.4);
+          gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 1.8);
+          osc.connect(gain);
+          gain.connect(this.masterGain);
+          osc.start();
+          osc.stop(this.ctx.currentTime + 1.9);
+        });
+      } catch(e) {}
+    },
+
     playWarpSweep() {
       if (!this.ctx || this.isMuted) return;
       try {
