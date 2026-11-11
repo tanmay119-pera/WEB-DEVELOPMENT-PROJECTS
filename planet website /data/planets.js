@@ -1,4 +1,11 @@
 
+// Axial Precession & Milankovitch Orbital Cycles
+window.AXIAL_PRECESSION = {
+  earthCycle: "25,772 years full equinox cone traced around North Ecliptic Pole",
+  futurePoleStar: "Vega will replace Polaris as Northern Pole Star in ~12,000 years"
+};
+
+
 // Bond Albedo vs Geometric Albedo Reflectivity Metrics
 window.PLANETARY_ALBEDO = {
   mercury: { bond: 0.088, geometric: 0.142 }, venus: { bond: 0.76, geometric: 0.689 },
