@@ -1,4 +1,11 @@
 
+// Earth Van Allen Magnetospheric Radiation Belts
+window.VAN_ALLEN_BELTS = {
+  innerBelt: "1,000 – 6,000 km altitude dominated by high-energy trapped protons (>100 MeV)",
+  outerBelt: "13,000 – 60,000 km altitude populated by relativistic megaelectronvolt electrons"
+};
+
+
 // Solar Flare Logarithmic X-Ray Peak Flux Classification (W/m² at 1 AU)
 window.SOLAR_FLARE_CLASSES = {
   A_Class: "10⁻⁸ W/m²", B_Class: "10⁻⁷ W/m²", C_Class: "10⁻⁶ W/m²",
