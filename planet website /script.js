@@ -1765,3 +1765,9 @@
     allWorldsBound: true,
     audioEngineActive: true
   };
+
+
+  // Async Non-Blocking Poster Decode Hinting
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('img').forEach(img => { img.decoding = 'async'; });
+  });
