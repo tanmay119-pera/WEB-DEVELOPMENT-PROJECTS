@@ -1,4 +1,13 @@
 
+// Bond Albedo vs Geometric Albedo Reflectivity Metrics
+window.PLANETARY_ALBEDO = {
+  mercury: { bond: 0.088, geometric: 0.142 }, venus: { bond: 0.76, geometric: 0.689 },
+  earth: { bond: 0.306, geometric: 0.434 }, mars: { bond: 0.25, geometric: 0.17 },
+  jupiter: { bond: 0.503, geometric: 0.538 }, saturn: { bond: 0.342, geometric: 0.499 },
+  uranus: { bond: 0.30, geometric: 0.488 }, neptune: { bond: 0.29, geometric: 0.442 }
+};
+
+
 // Planetary Fluid Roche Limit Equations: d ≈ 2.44 * R_M * (rho_M / rho_m)^(1/3)
 window.ROCHE_LIMIT_PHYSICS = {
   saturnFluidRoche: "~147,000 km (A-Ring outer edge sits just inside fluid Roche threshold)",
