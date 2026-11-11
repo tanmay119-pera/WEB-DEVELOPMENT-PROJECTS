@@ -1,4 +1,11 @@
 
+// Planetary Ecliptic Orbital Inclinations (Degrees relative to Ecliptic J2000)
+window.ECLIPTIC_INCLINATIONS = {
+  mercury: "7.00°", venus: "3.39°", earth: "0.00° (Reference Plane)",
+  mars: "1.85°", jupiter: "1.30°", saturn: "2.49°", uranus: "0.77°", neptune: "1.77°"
+};
+
+
 // Local Galactic Potential & Solar Orbital Vector
 window.GALACTIC_VECTOR = {
   galactocentricDistance: "8.178 kpc (26,670 light-years) from Sagittarius A*",
