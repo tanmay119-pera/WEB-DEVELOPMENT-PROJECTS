@@ -1253,6 +1253,18 @@
 
   window.executeWarpTransit = executeWarpTransit;
 
+  // Client-side Instant Celestial Dossier Search Index
+  function searchCelestialArchive(query) {
+    if (!query || !window.PLANETS_DATA) return [];
+    const q = query.toLowerCase().trim();
+    return window.PLANETS_DATA.filter(p =>
+      p.name.toLowerCase().includes(q) ||
+      p.tagline.toLowerCase().includes(q) ||
+      p.classification.toLowerCase().includes(q)
+    ).map(p => ({ id: p.id, name: p.name }));
+  }
+  window.searchCelestialArchive = searchCelestialArchive;
+
   // Exoplanet Transit Photometry Light-Curve Depth: Delta-F = (R_p / R_star)^2
   function computeTransitDepthPPM(planetRadiusKm, starRadiusKm) {
     const ratio = planetRadiusKm / starRadiusKm;
