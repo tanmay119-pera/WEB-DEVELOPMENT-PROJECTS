@@ -1245,6 +1245,14 @@
 
   window.executeWarpTransit = executeWarpTransit;
 
+  // Synodic Orbital Period Calculator Relative to Earth: 1/S = |1/P - 1/E|
+  function computeSynodicPeriodDays(siderealDays) {
+    const EARTH_YEAR = 365.256;
+    if (Math.abs(siderealDays - EARTH_YEAR) < 0.01) return Infinity;
+    return (1 / Math.abs((1 / siderealDays) - (1 / EARTH_YEAR))).toFixed(1);
+  }
+  window.computeSynodicPeriodDays = computeSynodicPeriodDays;
+
   // Schwarzschild Event Horizon Radius: r_s = 2GM / c^2
   function computeSchwarzschildRadiusMM(massKg) {
     const G = 6.67430e-11;
