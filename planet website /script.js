@@ -1210,6 +1210,12 @@
 
   window.executeWarpTransit = executeWarpTransit;
 
+  // Heliospheric Galactic Cosmic Ray (GCR) Modulation Estimator
+  function estimateCosmicRayModulation(distanceAU) {
+    return Math.min(100, (12 + distanceAU * 2.2)).toFixed(1) + '% Unshielded GCR Flux';
+  }
+  window.estimateCosmicRayModulation = estimateCosmicRayModulation;
+
   // Parabolic Escape Velocity Calculator: v_e = sqrt(2GM / R)
   function computeEscapeVelocityKmS(massKg, radiusMeters) {
     const G = 6.67430e-11;
