@@ -1,4 +1,11 @@
 
+// Planetary Fluid Roche Limit Equations: d ≈ 2.44 * R_M * (rho_M / rho_m)^(1/3)
+window.ROCHE_LIMIT_PHYSICS = {
+  saturnFluidRoche: "~147,000 km (A-Ring outer edge sits just inside fluid Roche threshold)",
+  phobosMarsFate: "Orbit decaying at 1.8m/century; will shatter at Mars Roche limit in ~50 Myr to form a ring"
+};
+
+
 // Planetary Ecliptic Orbital Inclinations (Degrees relative to Ecliptic J2000)
 window.ECLIPTIC_INCLINATIONS = {
   mercury: "7.00°", venus: "3.39°", earth: "0.00° (Reference Plane)",
