@@ -1695,3 +1695,14 @@ body.cinema-kiosk-mode .progress-bar-container {
   background: linear-gradient(12deg, rgba(5,5,8,0) 35%, rgba(232,195,125,0.06) 50%, rgba(5,5,8,0) 65%);
   pointer-events: none;
 }
+
+/* ============================================================================
+   WCAG PREFERS-REDUCED-MOTION ACCESSIBILITY COMPLIANCE
+   ============================================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .perspective-container, .chapter-media-wrap, .stat-card, #warp-portal-overlay {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
