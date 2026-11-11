@@ -1,4 +1,11 @@
 
+// Solar Flare Logarithmic X-Ray Peak Flux Classification (W/m² at 1 AU)
+window.SOLAR_FLARE_CLASSES = {
+  A_Class: "10⁻⁸ W/m²", B_Class: "10⁻⁷ W/m²", C_Class: "10⁻⁶ W/m²",
+  M_Class: "10⁻⁵ W/m² (Minor radio blackouts)", X_Class: "≥10⁻⁴ W/m² (Planet-wide geomagnetic storms)"
+};
+
+
 // 11-Year Schwabe Solar Cycle & 22-Year Hale Magnetic Polarity Reversal
 window.SOLAR_CYCLE_TELEMETRY = {
   cycle25Peak: "2024–2026 Solar Maximum with heightened coronal mass ejections",
