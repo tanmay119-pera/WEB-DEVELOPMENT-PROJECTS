@@ -1211,6 +1211,18 @@
   window.executeWarpTransit = executeWarpTransit;
 
   /* ============================================================================
+     J2000.0 EPHEMERIS & REAL-TIME JULIAN DATE ENGINE
+     ============================================================================ */
+  function getCurrentJulianDate() {
+    return (Date.now() / 86400000) + 2440587.5;
+  }
+  function getDaysSinceJ2000() {
+    return getCurrentJulianDate() - 2451545.0;
+  }
+  window.getCurrentJulianDate = getCurrentJulianDate;
+  window.getDaysSinceJ2000 = getDaysSinceJ2000;
+
+  /* ============================================================================
      PHOTON MOMENTUM SOLAR SAIL THRUST (F = (1 + R) * (S/c) * A)
      ============================================================================ */
   function computeSolarSailThrust(sailAreaM2, distanceAU, reflectivity = 0.9) {
