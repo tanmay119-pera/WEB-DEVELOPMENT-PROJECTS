@@ -1245,6 +1245,13 @@
 
   window.executeWarpTransit = executeWarpTransit;
 
+  // Exoplanet Transit Photometry Light-Curve Depth: Delta-F = (R_p / R_star)^2
+  function computeTransitDepthPPM(planetRadiusKm, starRadiusKm) {
+    const ratio = planetRadiusKm / starRadiusKm;
+    return Math.round(ratio * ratio * 1e6); // parts per million (ppm)
+  }
+  window.computeTransitDepthPPM = computeTransitDepthPPM;
+
   // Synodic Orbital Period Calculator Relative to Earth: 1/S = |1/P - 1/E|
   function computeSynodicPeriodDays(siderealDays) {
     const EARTH_YEAR = 365.256;
