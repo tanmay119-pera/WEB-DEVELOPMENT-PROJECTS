@@ -1,4 +1,11 @@
 
+// Titan Cryogenic Hydrological Cycle (Methane-Ethane Lakes)
+window.TITAN_HYDROLOGY = {
+  surfacePressure: "1.45 bar Nitrogen-Methane dense smog atmosphere",
+  seas: "Kraken Mare, Ligeia Mare, and Punga Mare filled with liquid CH₄ and C₂H₆ at -179 °C"
+};
+
+
 // Saturnian Ring Lindblad Resonance Dynamics
 window.RING_RESONANCE_DATA = {
   cassiniDivision: "4,800 km wide gap sculpted by a 2:1 inner Lindblad orbital resonance with moon Mimas",
