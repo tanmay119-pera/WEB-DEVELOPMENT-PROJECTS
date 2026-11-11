@@ -1,4 +1,12 @@
 
+// Planetary Magnetic Dipole Tilts & Offset Centers
+window.MAGNETIC_DIPOLES = {
+  earth: "11.5° tilt from rotational axis", jupiter: "9.6° tilt; strongest dipole in solar system",
+  saturn: "< 0.1° extraordinary axisymmetric alignment", uranus: "59° tilt & offset by 1/3 planetary radius",
+  neptune: "47° tilt & offset by 0.55 planetary radii (convecting ionic water-ammonia mantle)"
+};
+
+
 // Synchronous Tidal Locking Regimes
 window.TIDAL_LOCKING_REGIMES = {
   earthMoon: "1:1 Synchronous Lock (Moon shows same nearside face continuously to Earth)",
