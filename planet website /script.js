@@ -1210,6 +1210,13 @@
 
   window.executeWarpTransit = executeWarpTransit;
 
+  // Parabolic Escape Velocity Calculator: v_e = sqrt(2GM / R)
+  function computeEscapeVelocityKmS(massKg, radiusMeters) {
+    const G = 6.67430e-11;
+    return (Math.sqrt((2 * G * massKg) / radiusMeters) / 1000).toFixed(2);
+  }
+  window.computeEscapeVelocityKmS = computeEscapeVelocityKmS;
+
   /* ============================================================================
      J2000.0 EPHEMERIS & REAL-TIME JULIAN DATE ENGINE
      ============================================================================ */
