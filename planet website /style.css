@@ -89,135 +89,146 @@ body {
 }
 
 /* ==========================================================================
-   1. BOUNDED TOP OBSERVATORY BAR (INSET & BORDERED, NOT FULL-BLEED)
+   1. FLOATING EDITORIAL TOP OBSERVATORY BAR (NO BACKGROUND BOX)
    ========================================================================== */
 .bounded-topbar {
   position: fixed;
   top: 16px;
-  left: 24px;
-  right: 24px;
+  left: 28px;
+  right: 28px;
   max-width: 1560px;
-  height: 48px;
+  height: 44px;
   margin: 0 auto;
-  padding: 0 14px;
+  padding: 0;
   z-index: 900;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  background: rgba(7, 9, 13, 0.84);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 8px;
+  gap: 14px;
+  background: transparent;
+  border: none;
   transition: opacity 0.3s ease, transform 0.3s var(--ease-out);
 }
 
 .topbar-left, .topbar-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   min-width: 0;
 }
 
 .brand-btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 9px;
   background: transparent;
   border: none;
   color: #fff;
   cursor: pointer;
-  padding: 4px;
+  padding: 2px 0;
   flex-shrink: 0;
+}
+.brand-logo {
+  display: block;
+  filter: drop-shadow(0 1px 8px rgba(0, 0, 0, 0.92));
 }
 .brand-name {
   font-family: var(--font-heading);
-  font-size: 1.05rem;
+  font-size: 1.24rem;
   font-weight: 600;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   white-space: nowrap;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.95), 0 0 4px rgba(0, 0, 0, 0.96);
 }
 
 .topbar-sep {
   width: 1px;
-  height: 16px;
-  background: var(--line-subtle);
+  height: 14px;
+  background: rgba(255, 255, 255, 0.24);
   flex-shrink: 0;
 }
+.topbar-right .topbar-sep { display: none; }
 
 .topbar-active-context {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   color: var(--accent);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.95), 0 0 4px rgba(0, 0, 0, 0.96);
 }
 
 .topbar-modes {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 20px;
 }
 
 .mode-tab {
-  padding: 5px 11px;
+  padding: 3px 1px;
   background: transparent;
-  border: 1px solid transparent;
-  border-radius: 5px;
-  color: var(--text-muted);
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  border: none;
+  border-bottom: 1px solid transparent;
+  color: rgba(245, 246, 248, 0.78);
+  font-family: var(--font-heading);
+  font-size: 1.24rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
   cursor: pointer;
-  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.95), 0 0 4px rgba(0, 0, 0, 0.96);
+  transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s var(--ease-out);
 }
-.mode-tab:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
+.mode-tab:hover {
+  color: #ffffff;
+  transform: translateY(-1px);
+}
 .mode-tab.active {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.08);
-  border-color: var(--line-strong);
+  color: #ffffff;
+  font-style: italic;
+  font-weight: 600;
+  border-bottom-color: var(--accent);
 }
 
 .tool-icon-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   background: transparent;
-  border: 1px solid transparent;
-  border-radius: 5px;
-  color: var(--text-secondary);
+  border: none;
+  color: rgba(245, 246, 248, 0.78);
+  filter: drop-shadow(0 1px 8px rgba(0, 0, 0, 0.95));
   cursor: pointer;
-  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 .tool-icon-btn:hover {
-  color: #fff;
-  border-color: var(--line-strong);
-  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 .tool-icon-btn.is-active {
   color: var(--accent);
-  border-color: var(--accent);
 }
 
 .mobile-sidebar-toggle {
   display: none;
   flex-shrink: 0;
-  padding: 4px 10px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--line-strong);
-  border-radius: 5px;
-  color: #fff;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  text-transform: uppercase;
+  padding: 2px 1px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(232, 195, 125, 0.5);
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.95);
   cursor: pointer;
 }
 
@@ -330,7 +341,7 @@ body.cinema-kiosk-mode .chapter-stage-overlay {
 body.cinema-kiosk-mode .exit-cinema-pill { display: inline-flex; }
 
 @media (max-width: 960px) {
-  .bounded-topbar { left: 10px; right: 10px; top: 10px; padding: 0 10px; gap: 6px; }
+  .bounded-topbar { left: 16px; right: 16px; top: 10px; padding: 0; gap: 8px; }
   .brand-name, .topbar-active-context, .topbar-left .topbar-sep { display: none; }
   .mobile-sidebar-toggle { display: inline-flex; align-items: center; }
 
@@ -352,25 +363,23 @@ body.cinema-kiosk-mode .exit-cinema-pill { display: inline-flex; }
 }
 
 @media (max-width: 640px) {
-  .bounded-topbar { height: 44px; padding: 0 8px; }
-  .topbar-right { gap: 4px; }
-  .topbar-right .topbar-sep { display: none; }
-  .topbar-modes { gap: 2px; }
+  .bounded-topbar { left: 14px; right: 14px; height: 42px; padding: 0; }
+  .topbar-right { gap: 8px; }
+  .topbar-modes { gap: 11px; }
   .mode-tab {
-    padding: 4px 7px;
-    font-size: 0.64rem;
-    letter-spacing: 0.04em;
+    padding: 2px 1px;
+    font-size: 1.05rem;
+    letter-spacing: 0.01em;
     flex-shrink: 0;
   }
   .tool-icon-btn {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
     flex-shrink: 0;
   }
   .mobile-sidebar-toggle {
-    padding: 4px 8px;
-    font-size: 0.64rem;
-    letter-spacing: 0.04em;
+    padding: 2px 1px;
+    font-size: 1.05rem;
   }
 }
 
