@@ -221,6 +221,18 @@ window.PLANETS_DATA = [
     glowColor: "rgba(245, 158, 11, 0.45)",
     videoSrc: "videos/sun.mp4",
     posterSrc: "videos/sun_3d_cinema.jpg",
+    physics: {
+      massKg: 1.989e30,
+      radiusKm: 696340,
+      gravityMS2: 274.0,
+      semiMajorAU: 0,
+      eccentricity: 0,
+      siderealDays: 0,
+      meanTempC: 5500,
+      soundHz: 126.22,
+      moonsCount: 0,
+      lightTimeFromSunMin: 0
+    },
     keyChips: [
       { label: "Mass Share", val: "99.86% System Mass" },
       { label: "Core Temp", val: "15,000,000 °C" },
@@ -276,6 +288,18 @@ window.PLANETS_DATA = [
     glowColor: "rgba(226, 232, 240, 0.45)",
     videoSrc: "videos/moon.mp4",
     posterSrc: "videos/moon_3d_cinema.jpg",
+    physics: {
+      massKg: 7.342e22,
+      radiusKm: 1737.4,
+      gravityMS2: 1.62,
+      semiMajorAU: 1.0,
+      eccentricity: 0.0549,
+      siderealDays: 27.32,
+      meanTempC: -23,
+      soundHz: 210.42,
+      moonsCount: 0,
+      lightTimeFromSunMin: 8.32
+    },
     keyChips: [
       { label: "Surface Gravity", val: "1.62 m/s² (0.166g)" },
       { label: "Orbital Period", val: "27.3 Days (Tidal Lock)" },
@@ -331,6 +355,18 @@ window.PLANETS_DATA = [
     glowColor: "rgba(148, 163, 184, 0.45)",
     videoSrc: "videos/mercury.mp4",
     posterSrc: "videos/mercury_3d_cinema.jpg",
+    physics: {
+      massKg: 3.301e23,
+      radiusKm: 2439.7,
+      gravityMS2: 3.70,
+      semiMajorAU: 0.387,
+      eccentricity: 0.2056,
+      siderealDays: 87.97,
+      meanTempC: 167,
+      soundHz: 141.27,
+      moonsCount: 0,
+      lightTimeFromSunMin: 3.22
+    },
     keyChips: [
       { label: "Orbital Speed", val: "47.4 km/s" },
       { label: "Thermal Range", val: "-180°C to 430°C" },
@@ -386,6 +422,18 @@ window.PLANETS_DATA = [
     glowColor: "rgba(249, 115, 22, 0.45)",
     videoSrc: "videos/venus.mp4",
     posterSrc: "videos/venus_3d_cinema.jpg",
+    physics: {
+      massKg: 4.867e24,
+      radiusKm: 6051.8,
+      gravityMS2: 8.87,
+      semiMajorAU: 0.723,
+      eccentricity: 0.0067,
+      siderealDays: 224.7,
+      meanTempC: 465,
+      soundHz: 221.23,
+      moonsCount: 0,
+      lightTimeFromSunMin: 6.02
+    },
     keyChips: [
       { label: "Global Surface Temp", val: "465 °C" },
       { label: "Surface Pressure", val: "92× Earth" },
@@ -442,6 +490,18 @@ window.PLANETS_DATA = [
     glowColor: "rgba(6, 182, 212, 0.45)",
     videoSrc: "videos/earth.mp4",
     posterSrc: "videos/earth_3d_cinema.jpg",
+    physics: {
+      massKg: 5.972e24,
+      radiusKm: 6371.0,
+      gravityMS2: 9.81,
+      semiMajorAU: 1.0,
+      eccentricity: 0.0167,
+      siderealDays: 365.256,
+      meanTempC: 15,
+      soundHz: 136.10,
+      moonsCount: 1,
+      lightTimeFromSunMin: 8.32
+    },
     keyChips: [
       { label: "Ocean Cover", val: "71% Surface Water" },
       { label: "Atmosphere", val: "78% N₂ • 21% O₂" },
@@ -497,6 +557,18 @@ window.PLANETS_DATA = [
     glowColor: "rgba(239, 68, 68, 0.45)",
     videoSrc: "videos/mars.mp4",
     posterSrc: "videos/mars_3d_cinema.jpg",
+    physics: {
+      massKg: 6.417e23,
+      radiusKm: 3389.5,
+      gravityMS2: 3.72,
+      semiMajorAU: 1.524,
+      eccentricity: 0.0934,
+      siderealDays: 686.98,
+      meanTempC: -63,
+      soundHz: 144.72,
+      moonsCount: 2,
+      lightTimeFromSunMin: 12.67
+    },
     keyChips: [
       { label: "Surface Gravity", val: "0.38g (3.72 m/s²)" },
       { label: "Tallest Volcano", val: "22 km • Olympus Mons" },
@@ -552,6 +624,18 @@ window.PLANETS_DATA = [
     glowColor: "rgba(217, 119, 6, 0.45)",
     videoSrc: "videos/jupiter.mp4",
     posterSrc: "videos/jupiter_3d_cinema.jpg",
+    physics: {
+      massKg: 1.898e27,
+      radiusKm: 69911,
+      gravityMS2: 24.79,
+      semiMajorAU: 5.204,
+      eccentricity: 0.0489,
+      siderealDays: 4332.59,
+      meanTempC: -110,
+      soundHz: 183.58,
+      moonsCount: 95,
+      lightTimeFromSunMin: 43.27
+    },
     keyChips: [
       { label: "Planetary Mass", val: "318× Earth Mass" },
       { label: "Shortest Day", val: "9h 55m Rotation" },
@@ -607,6 +691,18 @@ window.PLANETS_DATA = [
     glowColor: "rgba(234, 179, 8, 0.45)",
     videoSrc: "videos/saturn.mp4",
     posterSrc: "videos/saturn_3d_cinema.jpg",
+    physics: {
+      massKg: 5.683e26,
+      radiusKm: 58232,
+      gravityMS2: 10.44,
+      semiMajorAU: 9.582,
+      eccentricity: 0.0565,
+      siderealDays: 10759.22,
+      meanTempC: -140,
+      soundHz: 147.85,
+      moonsCount: 146,
+      lightTimeFromSunMin: 79.67
+    },
     keyChips: [
       { label: "Ring System", val: "282,000 km Wide" },
       { label: "Low Density", val: "0.687 g/cm³ (Floats)" },
@@ -662,6 +758,18 @@ window.PLANETS_DATA = [
     glowColor: "rgba(20, 184, 166, 0.45)",
     videoSrc: "videos/uranus.mp4",
     posterSrc: "videos/uranus_3d_cinema.jpg",
+    physics: {
+      massKg: 8.681e25,
+      radiusKm: 25362,
+      gravityMS2: 8.69,
+      semiMajorAU: 19.22,
+      eccentricity: 0.0457,
+      siderealDays: 30688.5,
+      meanTempC: -195,
+      soundHz: 207.36,
+      moonsCount: 28,
+      lightTimeFromSunMin: 159.8
+    },
     keyChips: [
       { label: "Axial Obliquity", val: "97.8° Sideways" },
       { label: "Lowest Temp", val: "-224 °C Record" },
@@ -717,6 +825,18 @@ window.PLANETS_DATA = [
     glowColor: "rgba(59, 130, 246, 0.45)",
     videoSrc: "videos/neptune.mp4",
     posterSrc: "videos/neptune_3d_cinema.jpg",
+    physics: {
+      massKg: 1.024e26,
+      radiusKm: 24622,
+      gravityMS2: 11.15,
+      semiMajorAU: 30.05,
+      eccentricity: 0.0113,
+      siderealDays: 60195,
+      meanTempC: -201,
+      soundHz: 211.44,
+      moonsCount: 16,
+      lightTimeFromSunMin: 249.8
+    },
     keyChips: [
       { label: "Wind Velocities", val: "2,100+ km/h" },
       { label: "Orbital Orbit", val: "164.8 Earth Yrs" },
