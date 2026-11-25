@@ -1,33 +1,31 @@
 /**
  * ==============================================================================
- * The Living Archive — Master Cinematic Engine
+ * The Living Archive — Swiss-Editorial Tabbed Observatory Engine
  * Conceived, Designed & Architected by Tanmay (Adesh Srivastava)
  *
- * Capabilities:
- * - Lenis Inertia Smooth Scrolling + GSAP ScrollTrigger Integration
- * - Browser Audio Context Gateway ("Enter the Archive" with Audio Fade-In/Out)
- * - Hardware-accelerated Full HD Video Observatory with smart viewport management
- * - Floating Navbar Video Preview Tooltip (Video Loop on Link Hover)
- * - Single-Color Scroll Progress & Auto-Hiding Slim Glass Header
- * - Chapter Navigation (Vertical Dot Rail, Keyboard Arrow Keys, URL Hash Updates)
- * - Dual-Layer Outline Display Titles & 3 Key Stat Chips
- * - Animated Numeric Telemetry Counters
- * - Horizontal Drag/Scroll Mission Timelines & 3D Interactive Flip Cards
- * - Upgraded Quiz Engine (Circular SVG Timer, Streak Counter, Dynamic Colors, Confetti)
+ * Zero synthetic AI gimmicks: pure 4K video pipeline, clean editorial tab
+ * transitions, interactive astrophysics specs, Head-to-Head Compare, and Quiz.
  * ==============================================================================
  */
 
 (function () {
   'use strict';
 
-  /* ============================================================================
-     1. GLOBAL ENGINE STATE & CONFIGURATION
-     ============================================================================ */
+  const TAB_ORDER = [
+    'hero',
+    'sun', 'moon', 'mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune',
+    'compare', 'quiz'
+  ];
+
+  const NUMBER_KEY_MAP = {
+    '1': 'sun', '2': 'moon', '3': 'mercury', '4': 'venus', '5': 'earth',
+    '6': 'mars', '7': 'jupiter', '8': 'saturn', '9': 'uranus', '0': 'neptune'
+  };
+
   const state = {
-    isAudioUnlocked: true,
-    isMuted: true,
-    heroAudioVolume: 1.0,
-    activeChapterId: 'hero',
+    activeTab: 'hero',
+    isSoundOn: false,
+    lenisInstance: null,
     quizMode: 'kids',
     quizQuestions: [],
     quizIndex: 0,
@@ -36,681 +34,760 @@
     quizTimerInterval: null,
     quizTimeRemaining: 20,
     quizAnswered: false,
-    lenisInstance: null,
-    mouseX: window.innerWidth / 2,
-    mouseY: window.innerHeight / 2,
+    vsLeft: 'earth',
+    vsRight: 'jupiter',
+    activeLabView: 'versus',
   };
 
   /* ============================================================================
-     2. LENIS SMOOTH INERTIA SCROLLING + GSAP INTEGRATION
+     1. ASTROPHYSICS CALCULATIONS
      ============================================================================ */
-  function initLenis() {
-    if (typeof Lenis !== 'undefined') {
-      state.lenisInstance = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-        smoothTouch: false,
-      });
+  function getPlanetById(id) {
+    return (window.PLANETS_DATA || []).find((p) => p.id === id) || null;
+  }
 
-      // Synchronize Lenis with GSAP ScrollTrigger if available
-      if (typeof ScrollTrigger !== 'undefined') {
-        state.lenisInstance.on('scroll', ScrollTrigger.update);
-        if (typeof gsap !== 'undefined') {
-          gsap.ticker.add((time) => {
-            state.lenisInstance.raf(time * 1000);
-          });
-          gsap.ticker.lagSmoothing(0);
+  function getCurrentJulianDate() {
+    return (Date.now() / 86400000) + 2440587.5;
+  }
+
+  function computeOrbitalVelocity(semiMajorAU, eccentricity) {
+    if (!semiMajorAU || semiMajorAU <= 0) return '220.00';
+    const GM_SUN = 1.32712440018e20;
+    const AU_M = 149597870700;
+    const a = semiMajorAU * AU_M;
+    const r = a * (1 - eccentricity * eccentricity);
+    return (Math.sqrt(GM_SUN * ((2 / r) - (1 / a))) / 1000).toFixed(2);
+  }
+
+  function computeEscapeVelocity(massKg, radiusKm) {
+    const G = 6.67430e-11;
+    return (Math.sqrt((2 * G * massKg) / (radiusKm * 1000)) / 1000).toFixed(2);
+  }
+
+  function computeSchwarzschild(massKg) {
+    const G = 6.67430e-11;
+    const C = 299792458;
+    const meters = (2 * G * massKg) / (C * C);
+    return meters >= 1 ? `${(meters / 1000).toFixed(2)} km` : `${(meters * 1000).toFixed(3)} mm`;
+  }
+
+  function formatLightTime(minutes) {
+    if (!minutes) return '0s (Origin)';
+    if (minutes < 60) {
+      const m = Math.floor(minutes);
+      const s = Math.round((minutes - m) * 60);
+      return `${m}m ${s}s`;
+    }
+    const h = Math.floor(minutes / 60);
+    const remM = Math.round(minutes % 60);
+    return `${h}h ${remM}m`;
+  }
+
+  /* ============================================================================
+     2. NATIVE VIDEO AUDIO CONTROLLER (CLEAN, NO SYNTHETIC BEEPS)
+     ============================================================================ */
+  function setVideoSoundEnabled(enabled) {
+    state.isSoundOn = enabled;
+    const btn = document.getElementById('video-sound-toggle');
+    const offIcon = document.getElementById('icon-sound-off');
+    const onIcon = document.getElementById('icon-sound-on');
+
+    if (btn) btn.classList.toggle('is-active', enabled);
+    if (offIcon) offIcon.style.display = enabled ? 'none' : 'block';
+    if (onIcon) onIcon.style.display = enabled ? 'block' : 'none';
+
+    syncActiveVideoPlayback(state.activeTab);
+  }
+
+  function syncActiveVideoPlayback(activeId) {
+    document.querySelectorAll('video').forEach((video) => {
+      const panel = video.closest('.tab-panel');
+      const isMatch = panel && panel.id === activeId;
+
+      if (isMatch) {
+        if (video.dataset.src && video.getAttribute('src') !== video.dataset.src) {
+          video.setAttribute('src', video.dataset.src);
+          video.load();
         }
+        video.muted = !state.isSoundOn;
+        video.play().catch(() => {
+          // Graceful fallback if browser blocks unmuted autoplay before gesture
+          video.muted = true;
+          video.play().catch(() => {});
+        });
       } else {
-        function raf(time) {
-          state.lenisInstance.raf(time);
-          requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-      }
-    }
-  }
-
-  /* ============================================================================
-     3. HERO VIDEO PLAYBACK & AUDIO CONTROLLER
-     ============================================================================ */
-  function initHeroMediaAndAudio() {
-    const heroVideo = document.getElementById('hero-video');
-    const audioToggle = document.getElementById('hero-audio-toggle');
-    const audioLabel = document.getElementById('audio-label');
-
-    // Immediate Autoplay Muted
-    if (heroVideo) {
-      heroVideo.muted = true;
-      heroVideo.play().catch(() => {});
-    }
-
-    // Floating Audio Toggle Button
-    if (audioToggle && heroVideo) {
-      audioToggle.addEventListener('click', () => {
-        state.isMuted = !state.isMuted;
-        heroVideo.muted = state.isMuted;
-        audioToggle.classList.toggle('is-muted', state.isMuted);
-        if (audioLabel) {
-          audioLabel.textContent = state.isMuted ? 'Sound Off' : 'Sound On';
-        }
-        if (!state.isMuted) {
-          fadeAudio(heroVideo, 0, 1, 800);
-        }
-      });
-    }
-
-    // Fade hero audio out when scrolling away, fade in when returning
-    window.addEventListener('scroll', () => {
-      if (!heroVideo || heroVideo.muted) return;
-      const heroRect = heroVideo.getBoundingClientRect();
-      const heroHeight = heroRect.height || window.innerHeight;
-
-      if (heroRect.bottom <= 0) {
-        // Hero is completely out of view
-        heroVideo.volume = 0;
-      } else if (heroRect.bottom < heroHeight) {
-        // Proportionally fade volume based on visible ratio
-        const visibleRatio = Math.max(0, Math.min(1, heroRect.bottom / heroHeight));
-        heroVideo.volume = visibleRatio;
-      } else {
-        heroVideo.volume = 1;
-      }
-    }, { passive: true });
-  }
-
-  // Smooth audio fader helper
-  function fadeAudio(mediaElement, fromVol, toVol, durationMs) {
-    const steps = 30;
-    const stepTime = durationMs / steps;
-    const volDelta = (toVol - fromVol) / steps;
-    let currentStep = 0;
-
-    mediaElement.volume = fromVol;
-    const fader = setInterval(() => {
-      currentStep++;
-      const newVol = Math.max(0, Math.min(1, mediaElement.volume + volDelta));
-      mediaElement.volume = newVol;
-
-      if (currentStep >= steps || (volDelta > 0 && newVol >= toVol) || (volDelta < 0 && newVol <= toVol)) {
-        mediaElement.volume = toVol;
-        clearInterval(fader);
-      }
-    }, stepTime);
-  }
-
-  /* ============================================================================
-     4. CUSTOM CURSOR & MAGNETIC BUTTONS
-     ============================================================================ */
-  function initCursorAndMagnets() {
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-
-    const ring = document.getElementById('custom-cursor');
-    const dot = document.getElementById('cursor-dot');
-    if (!ring || !dot) return;
-
-    let ringX = window.innerWidth / 2;
-    let ringY = window.innerHeight / 2;
-    let dotX = ringX;
-    let dotY = ringY;
-
-    window.addEventListener('mousemove', (e) => {
-      dotX = e.clientX;
-      dotY = e.clientY;
-      dot.style.left = `${dotX}px`;
-      dot.style.top = `${dotY}px`;
-    }, { passive: true });
-
-    function lerpCursor() {
-      ringX += (dotX - ringX) * 0.18;
-      ringY += (dotY - ringY) * 0.18;
-      ring.style.left = `${ringX}px`;
-      ring.style.top = `${ringY}px`;
-      requestAnimationFrame(lerpCursor);
-    }
-    requestAnimationFrame(lerpCursor);
-
-    // Expand cursor over interactive items
-    const interactiveSel = 'a, button, .stat-card, .flip-card-wrapper, .mission-card, .option-btn';
-    document.addEventListener('mouseover', (e) => {
-      if (e.target.closest(interactiveSel)) {
-        ring.style.width = '48px';
-        ring.style.height = '48px';
-        ring.style.borderColor = 'rgba(255, 255, 255, 0.9)';
-        ring.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
+        if (!video.paused) video.pause();
       }
     });
-
-    document.addEventListener('mouseout', (e) => {
-      if (e.target.closest(interactiveSel)) {
-        ring.style.width = '32px';
-        ring.style.height = '32px';
-        ring.style.borderColor = 'rgba(255, 255, 255, 0.5)';
-        ring.style.backgroundColor = 'transparent';
-      }
-    });
-
-    // Magnetic Button Effect
-    document.querySelectorAll('.magnetic-btn').forEach((btn) => {
-      btn.addEventListener('mousemove', (e) => {
-        const rect = btn.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        btn.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px)`;
-      });
-
-      btn.addEventListener('mouseleave', () => {
-        btn.style.transform = 'translate(0px, 0px)';
-      });
-    });
   }
 
   /* ============================================================================
-     5. SCROLL PROGRESS
+     3. MASTER TAB CONTROLLER
      ============================================================================ */
-  function initScrollProgress() {
-    const progressBar = document.getElementById('scroll-progress');
-    window.addEventListener('scroll', () => {
-      const currentScrollY = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = docHeight > 0 ? (currentScrollY / docHeight) * 100 : 0;
-      if (progressBar) {
-        progressBar.style.width = `${progress}%`;
-      }
-    }, { passive: true });
+  function closeMobileDrawer() {
+    const sidebar = document.getElementById('planet-sidebar');
+    const scrim = document.getElementById('sidebar-mobile-scrim');
+    const mobToggle = document.getElementById('mobile-sidebar-toggle');
+    sidebar?.classList.remove('mobile-open');
+    scrim?.classList.remove('open');
+    mobToggle?.setAttribute('aria-expanded', 'false');
   }
 
+  function switchTab(targetId, options = {}) {
+    if (!TAB_ORDER.includes(targetId)) targetId = 'hero';
+    closeMobileDrawer();
+    if (state.activeTab === targetId && !options.force) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    state.activeTab = targetId;
+
+    // 1. Sync active state across right planet sidebar & bounded topbar modes
+    document.querySelectorAll('.sidebar-planet-btn, .mode-tab').forEach((btn) => {
+      const isActive = btn.getAttribute('data-tab') === targetId;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-selected', String(isActive));
+    });
+
+    // Update bounded topbar context label & sidebar counter
+    const planet = getPlanetById(targetId);
+    const ctxEl = document.getElementById('topbar-active-context');
+    const countEl = document.getElementById('sidebar-count');
+    if (planet) {
+      if (ctxEl) ctxEl.textContent = `${planet.chapter} — ${planet.name}`;
+      if (countEl) countEl.textContent = planet.chapter.replace(' ', '');
+    } else if (targetId === 'compare') {
+      if (ctxEl) ctxEl.textContent = 'Comparative Telemetry';
+      if (countEl) countEl.textContent = 'COMPARE';
+    } else if (targetId === 'quiz') {
+      if (ctxEl) ctxEl.textContent = 'Knowledge Assessment';
+      if (countEl) countEl.textContent = 'QUIZ';
+    } else {
+      if (ctxEl) ctxEl.textContent = 'Overview';
+      if (countEl) countEl.textContent = '00 / 10';
+    }
+
+    // 2. Toggle visible panel
+    document.querySelectorAll('.tab-panel').forEach((panel) => {
+      const isTarget = panel.id === targetId;
+      panel.classList.toggle('active', isTarget);
+      panel.hidden = !isTarget;
+    });
+
+    // 3. Synchronize accent color & page title
+    const rootStyle = document.documentElement.style;
+    if (planet) {
+      rootStyle.setProperty('--accent', planet.accentColor);
+      document.title = `${planet.name} — The Living Archive`;
+    } else if (targetId === 'compare') {
+      rootStyle.setProperty('--accent', '#38d9a9');
+      document.title = 'Compare Telemetry — The Living Archive';
+    } else if (targetId === 'quiz') {
+      rootStyle.setProperty('--accent', '#a855f7');
+      document.title = 'Solar System Quiz — The Living Archive';
+    } else {
+      rootStyle.setProperty('--accent', '#e8c37d');
+      document.title = 'The Living Archive — Solar System Observatory';
+    }
+
+    // 4. Switch active 4K video & reset scroll cleanly
+    syncActiveVideoPlayback(targetId);
+    window.scrollTo({ top: 0, behavior: 'auto' });
+    const progress = document.getElementById('scroll-progress');
+    if (progress) progress.style.width = '0%';
+
+    // 5. Screen reader & URL hash update
+    const announcer = document.getElementById('aria-live-announcer');
+    if (announcer) announcer.textContent = `${planet ? planet.name : targetId} view active`;
+
+    if (!options.skipHash && history.replaceState && window.location.hash !== `#${targetId}`) {
+      history.replaceState(null, '', `#${targetId}`);
+    }
+  }
+  window.switchPlanetTab = switchTab;
+
   /* ============================================================================
-     7. DEDICATED CHAPTER GENERATOR (FROM data/planets.js)
+     4. HERO FILMSTRIP & PLANET TAB PANELS RENDERER
      ============================================================================ */
+  function renderHeroFilmstrip() {
+    const grid = document.getElementById('hero-worlds-grid');
+    if (!grid || !window.PLANETS_DATA) return;
+
+    grid.innerHTML = window.PLANETS_DATA.map((p, i) => `
+      <button type="button" class="world-strip-item tab-trigger" data-tab="${p.id}" style="--card-accent:${p.accentColor};">
+        <img src="videos/thumbs/${p.id}_3d_cinema.jpg" alt="${p.name}" class="world-strip-thumb" decoding="async">
+        <div class="world-strip-meta">
+          <span class="world-strip-name">${p.name.replace('The ', '')}</span>
+          <span class="world-strip-num">${String(i + 1).padStart(2, '0')}</span>
+        </div>
+      </button>
+    `).join('');
+
+    const jdBadge = document.getElementById('hero-jd-badge');
+    if (jdBadge) {
+      jdBadge.textContent = `JD ${getCurrentJulianDate().toFixed(2)} • SOLAR SYSTEM ATLAS • 10 WORLDS`;
+    }
+  }
+
+  function buildPhysicsGridCells(planet) {
+    const pid = planet.id;
+    const phys = planet.physics || {};
+    const flux = (window.SOLAR_FLUX_TELEMETRY && window.SOLAR_FLUX_TELEMETRY[pid]) || {};
+    const orbVel = computeOrbitalVelocity(phys.semiMajorAU, phys.eccentricity || 0);
+    const escVel = phys.massKg && phys.radiusKm ? computeEscapeVelocity(phys.massKg, phys.radiusKm) : '617.7';
+    const spectra = (window.PLANETARY_SPECTRA && window.PLANETARY_SPECTRA[pid]) ||
+      'Thermal blackbody continuum and hydrogen-alpha Balmer lines.';
+    const albedo = window.PLANETARY_ALBEDO && window.PLANETARY_ALBEDO[pid];
+    const incl = (window.ECLIPTIC_INCLINATIONS && window.ECLIPTIC_INCLINATIONS[pid]) || (pid === 'sun' ? 'System Reference' : '5.14° to Ecliptic');
+    const dipole = (window.MAGNETIC_DIPOLES && window.MAGNETIC_DIPOLES[pid]) || 'Solar Dynamo / Induced Magnetosphere';
+
+    let contextTitle = 'Orbit & Magnetosphere';
+    let contextBody = `<strong>Inclination:</strong> ${incl}<br><strong>Magnetic Dipole:</strong> ${dipole}`;
+    if (pid === 'jupiter' || pid === 'saturn') {
+      const moons = (window.OCEAN_MOONS_DATA || []).filter((m) => m.parent.toLowerCase() === pid);
+      if (moons.length) {
+        contextTitle = 'Ocean Moon Dossiers';
+        contextBody = moons.map((m) => `<strong>${m.name}:</strong> ${m.oceanDepth} (${m.oceanVolume})`).join('<br>');
+      }
+    } else if ((pid === 'sun' || pid === 'earth') && window.LAGRANGE_POINTS) {
+      contextTitle = 'Lagrange Equilibrium';
+      contextBody = `<strong>L1:</strong> ${window.LAGRANGE_POINTS.L1.use}<br><strong>L2:</strong> ${window.LAGRANGE_POINTS.L2.use}`;
+    }
+
+    const albedoHtml = albedo ? `
+      <div class="albedo-row">
+        <span>Bond Albedo (${(albedo.bond * 100).toFixed(1)}%)</span>
+        <div class="albedo-track"><div class="albedo-fill" style="width:${Math.min(100, albedo.bond * 100)}%"></div></div>
+      </div>
+      <div class="albedo-row">
+        <span>Geometric Albedo (${(albedo.geometric * 100).toFixed(1)}%)</span>
+        <div class="albedo-track"><div class="albedo-fill" style="width:${Math.min(100, albedo.geometric * 100)}%"></div></div>
+      </div>
+    ` : `<p>Active self-luminous G2V photosphere emission across full spectrum.</p>`;
+
+    return `
+      <div class="physics-cell">
+        <h4>Solar Irradiance &amp; Flux</h4>
+        <p>${flux.irradiance || '1,361 W/m²'}<br>Radiation Pressure: ${flux.radiationPressure || '4.54 µPa'}</p>
+      </div>
+      <div class="physics-cell">
+        <h4>Orbital Dynamics</h4>
+        <p>Velocity: <strong>${orbVel} km/s</strong><br>Escape: <strong>${escVel} km/s</strong> &bull; Light Delay: ${formatLightTime(phys.lightTimeFromSunMin)}</p>
+      </div>
+      <div class="physics-cell">
+        <h4>Absorption Spectroscopy</h4>
+        <p>${spectra}</p>
+      </div>
+      <div class="physics-cell">
+        <h4>Optical Reflectivity &amp; Field</h4>
+        ${albedoHtml}
+        <p style="margin-top:0.75rem;">${contextBody}</p>
+      </div>
+    `;
+  }
+
   function renderPlanetChapters() {
     const container = document.getElementById('chapters-container');
-    if (!container || !window.PLANETS_DATA) return;
+    const planets = window.PLANETS_DATA || [];
+    if (!container || !planets.length) return;
 
-    const chaptersHtml = window.PLANETS_DATA.map((planet) => {
-      // 1. Key Stat Chips (Intro)
-      const chipsHtml = (planet.keyChips || []).map(chip => `
-        <div class="chip-item">
-          <span class="chip-label">${chip.label}</span>
-          <span class="chip-val">${chip.val}</span>
+    container.innerHTML = planets.map((planet, index) => {
+      const prevTab = index === 0 ? { id: 'hero', name: 'Overview' } : { id: planets[index - 1].id, name: planets[index - 1].name };
+      const nextTab = index === planets.length - 1 ? { id: 'compare', name: 'Compare Telemetry' } : { id: planets[index + 1].id, name: planets[index + 1].name };
+      const phys = planet.physics || {};
+      const earthG = phys.gravityMS2 ? (phys.gravityMS2 / 9.807) : 1.0;
+      const schwarz = phys.massKg ? computeSchwarzschild(phys.massKg) : '2.95 km';
+      const orbVel = computeOrbitalVelocity(phys.semiMajorAU, phys.eccentricity || 0);
+
+      const ledgerCells = [
+        { k: 'Diameter', v: planet.quickFacts?.[0]?.display?.split(' (')[0] || '—' },
+        { k: 'Gravity', v: `${phys.gravityMS2} m/s²` },
+        { k: 'Orbital Speed', v: `${orbVel} km/s` },
+        { k: 'Light Delay', v: formatLightTime(phys.lightTimeFromSunMin) }
+      ].map((c) => `
+        <div class="ledger-cell">
+          <span class="ledger-key">${c.k}</span>
+          <span class="ledger-val">${c.v}</span>
         </div>
       `).join('');
 
-      // 2. 8 Telemetry Cards (Stats)
-      const statsCardsHtml = (planet.quickFacts || []).map(fact => `
-        <div class="stat-card" data-tilt>
-          <div class="stat-label">${fact.label}</div>
-          <div class="stat-value-group">
-            <span class="stat-number" data-target="${fact.val}">${fact.val}</span>
-            <span class="stat-unit">${fact.unit}</span>
-          </div>
-          <div class="stat-display">${fact.display}</div>
+      const specRows = (planet.quickFacts || []).map((f) => `
+        <div class="spec-row">
+          <span class="spec-row-label">${f.label}</span>
+          <span class="spec-row-val">${f.display}</span>
         </div>
       `).join('');
 
-      // 3. Missions Timeline Cards (Horizontal Scroll)
-      const missionsHtml = (planet.missions || []).map((m, idx) => `
-        <div class="mission-card" data-tilt>
-          <span class="mission-step-counter">0${idx + 1}</span>
-          <span class="mission-year-badge">${m.year}</span>
-          <h4 class="mission-card-title">${m.name}</h4>
-          <p class="mission-card-role">${m.role}</p>
-        </div>
-      `).join('');
-
-      // 4. Interactive "Did You Know?" 3D Flip Cards (3 cards)
-      const flipCardsHtml = (planet.flipFacts || []).map((fact, idx) => `
-        <div class="flip-card-wrapper" tabindex="0">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <span class="flip-badge">Phenomenon 0${idx + 1}</span>
-              <span class="flip-tag">${fact.tag}</span>
-              <h4 class="flip-hook">${fact.hook}</h4>
-              <span class="flip-action-hint">Hover / Tap to Flip &orarr;</span>
-            </div>
-            <div class="flip-card-back">
-              <span class="flip-badge">Scientific Discovery</span>
-              <p class="flip-fact-text">${fact.fact}</p>
-            </div>
+      const missionsHtml = (planet.missions || []).map((m) => `
+        <div class="mission-row">
+          <div class="mission-year">${m.year}</div>
+          <div class="mission-body">
+            <h4>${m.name}</h4>
+            <p>${m.role}</p>
           </div>
         </div>
       `).join('');
 
-      // 5. Next Planet Teaser Banner
-      const nextTarget = planet.nextPlanet ? planet.nextPlanet.id : 'quiz';
-      const nextName = planet.nextPlanet ? planet.nextPlanet.name : 'Odyssey Quiz';
+      const anomaliesHtml = (planet.flipFacts || []).map((f, i) => `
+        <article class="anomaly-col">
+          <div class="anomaly-tag">0${i + 1} &bull; ${f.tag}</div>
+          <h4>${f.hook}</h4>
+          <p>${f.fact}</p>
+        </article>
+      `).join('');
 
       return `
-        <section 
-          class="planet-chapter" 
-          id="${planet.id}" 
+        <section
+          class="planet-chapter tab-panel"
+          id="${planet.id}"
           data-chapter="${planet.id}"
-          style="--accent: ${planet.accentColor}; --glow: ${planet.glowColor};"
-          aria-label="${planet.name} Chapter"
+          role="tabpanel"
+          hidden
+          style="--accent:${planet.accentColor};"
+          aria-label="${planet.name}"
         >
-          <!-- Part A: 100vh Full-Bleed Video Intro -->
-          <div class="chapter-intro">
+          <!-- 1. FULL-BLEED 4K PLANET STAGE -->
+          <div class="chapter-stage">
             <div class="chapter-video-bg">
-              <video 
-                class="chapter-video-element" 
-                data-src="${planet.videoSrc}" 
-                poster="${planet.posterSrc || ''}" 
-                loop 
-                muted 
-                playsinline 
+              <video
+                class="chapter-video-element"
+                data-src="${planet.videoSrc}"
+                poster="${planet.posterSrc || ''}"
+                loop
+                muted
+                playsinline
                 preload="none"
               ></video>
               <div class="chapter-video-gradient"></div>
             </div>
 
-            <div class="chapter-intro-content">
-              <span class="chapter-counter-badge">Chapter ${planet.chapter}</span>
-              <div class="chapter-title-wrap">
-                <span class="giant-outline-text" aria-hidden="true">${planet.name}</span>
-                <h2 class="giant-filled-title">${planet.name}</h2>
+            <button type="button" class="hud-toggle-btn" data-hud-toggle="${planet.id}">Hide HUD</button>
+
+            <div class="chapter-stage-overlay">
+              <div class="stage-title-block">
+                <div class="stage-kicker">${planet.chapter} &mdash; ${planet.classification}</div>
+                <h2 class="stage-title">${planet.name}</h2>
+                <p class="stage-tagline">${planet.tagline}</p>
               </div>
-              <p class="chapter-tagline">${planet.tagline}</p>
-              <div class="chapter-chips-row">
-                ${chipsHtml}
+              <div class="stage-ledger">${ledgerCells}</div>
+            </div>
+          </div>
+
+          <!-- 2. COMPACT EDITORIAL DOSSIER (SPEC SHEET + TABBED REPORT) -->
+          <div class="dossier-workspace">
+            <aside class="spec-sidebar">
+              <div class="spec-sidebar-header">Physical Datasheet</div>
+              <div class="spec-table-list">${specRows}</div>
+              <div class="weight-calc-box" data-gravity-ratio="${earthG.toFixed(4)}">
+                <div class="weight-calc-top">
+                  <span>Surface Mass Simulator</span>
+                  <span><strong class="earth-kg-readout">70</strong> kg Earth</span>
+                </div>
+                <div class="weight-calc-readout">
+                  <span class="world-kg-readout">${(70 * earthG).toFixed(1)}</span> kg
+                </div>
+                <input type="range" min="10" max="200" value="70" class="sim-slider weight-slider" aria-label="Simulate your weight on ${planet.name}">
+                <div class="weight-calc-foot">${earthG.toFixed(2)}g gravity &bull; Schwarzschild r<sub>s</sub> ${schwarz}</div>
               </div>
-              <div class="chapter-scroll-prompt">
-                <span>Scroll To Explore</span>
-                <span class="prompt-arrow">&darr;</span>
+            </aside>
+
+            <div class="dossier-main">
+              <div class="inner-tabs-bar" role="tablist" aria-label="${planet.name} Dossier Sections">
+                <button type="button" class="inner-tab-btn active" role="tab" aria-selected="true" data-inner-target="${planet.id}-chronicle">Chronicle</button>
+                <button type="button" class="inner-tab-btn" role="tab" aria-selected="false" data-inner-target="${planet.id}-physics">Physics &amp; Spectra</button>
+                <button type="button" class="inner-tab-btn" role="tab" aria-selected="false" data-inner-target="${planet.id}-missions">Missions Log</button>
+                <button type="button" class="inner-tab-btn" role="tab" aria-selected="false" data-inner-target="${planet.id}-anomalies">Key Anomalies</button>
+              </div>
+
+              <div class="inner-pane active" id="${planet.id}-chronicle" role="tabpanel">
+                <div class="chronicle-grid">
+                  <article class="chronicle-entry">
+                    <h3>Cosmic Overview</h3>
+                    <p>${planet.story.overview}</p>
+                  </article>
+                  <article class="chronicle-entry">
+                    <h3>Atmosphere &amp; Climate</h3>
+                    <p>${planet.story.atmosphere}</p>
+                  </article>
+                  <article class="chronicle-entry">
+                    <h3>Internal Architecture</h3>
+                    <p>${planet.story.structure}</p>
+                  </article>
+                  <article class="chronicle-entry">
+                    <h3>Moons &amp; Rings</h3>
+                    <p>${planet.story.moonsAndRings}</p>
+                  </article>
+                </div>
+              </div>
+
+              <div class="inner-pane" id="${planet.id}-physics" role="tabpanel" hidden>
+                <div class="physics-grid">${buildPhysicsGridCells(planet)}</div>
+              </div>
+
+              <div class="inner-pane" id="${planet.id}-missions" role="tabpanel" hidden>
+                <div class="missions-list">${missionsHtml}</div>
+              </div>
+
+              <div class="inner-pane" id="${planet.id}-anomalies" role="tabpanel" hidden>
+                <div class="anomalies-grid">${anomaliesHtml}</div>
               </div>
             </div>
           </div>
 
-          <!-- Part B: 8 Telemetry Stats Grid with Animated Numbers -->
-          <div class="chapter-stats-section">
-            <div class="section-subheading">Orbital &amp; Physical Telemetry</div>
-            <div class="stats-grid">
-              ${statsCardsHtml}
+          <!-- 3. PREV / NEXT PLANET TAB DECK -->
+          <div class="planet-footer-bar">
+            <div class="planet-switcher-deck">
+              <button type="button" class="switcher-card prev tab-trigger" data-tab="${prevTab.id}">
+                <span class="switcher-dir">&larr; Previous Tab</span>
+                <span class="switcher-name">${prevTab.name}</span>
+              </button>
+              <button type="button" class="switcher-card next tab-trigger" data-tab="${nextTab.id}">
+                <span class="switcher-dir">Next Tab &rarr;</span>
+                <span class="switcher-name">${nextTab.name}</span>
+              </button>
             </div>
-          </div>
-
-          <!-- Part C: Storytelling (Sticky Left Heading, Short Paragraphs Right) -->
-          <div class="chapter-story-section">
-            <div class="story-sticky-col">
-              <span class="story-chapter-tag">${planet.name} Dossier</span>
-              <h3 class="story-sticky-heading">The Chronicle of ${planet.name}</h3>
-              <p class="story-classification">${planet.classification}</p>
-            </div>
-            <div class="story-paragraphs-col">
-              <div class="story-block">
-                <h4 class="story-block-title">Cosmic Overview</h4>
-                <p class="story-block-text">${planet.story.overview}</p>
-              </div>
-              <div class="story-block">
-                <h4 class="story-block-title">Atmosphere &amp; Climate</h4>
-                <p class="story-block-text">${planet.story.atmosphere}</p>
-              </div>
-              <div class="story-block">
-                <h4 class="story-block-title">Internal Architecture</h4>
-                <p class="story-block-text">${planet.story.structure}</p>
-              </div>
-              <div class="story-block">
-                <h4 class="story-block-title">Moons &amp; Planetary System</h4>
-                <p class="story-block-text">${planet.story.moonsAndRings}</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Part D: Horizontal Scroll Missions Timeline -->
-          <div class="chapter-missions-section">
-            <div class="missions-header-row">
-              <div class="section-subheading">Exploration Milestones</div>
-              <div class="missions-scroll-hint">Drag or Scroll &rarr;</div>
-            </div>
-            <div class="missions-timeline-container" tabindex="0">
-              <div class="missions-track">
-                ${missionsHtml}
-              </div>
-            </div>
-          </div>
-
-          <!-- Part E: 3 Interactive "Did You Know?" Flip Cards -->
-          <div class="chapter-facts-section">
-            <div class="section-subheading">Astrophysical Marvels</div>
-            <div class="flip-cards-grid">
-              ${flipCardsHtml}
-            </div>
-          </div>
-
-          <!-- Part F: Next Chapter Teaser -->
-          <div class="chapter-next-section">
-            <a href="#${nextTarget}" class="next-planet-banner magnetic-btn" data-target="#${nextTarget}">
-              <span class="next-eyebrow">Continue Odyssey</span>
-              <h3 class="next-title">Next: ${nextName} &rarr;</h3>
-              <span class="next-desc">Voyage deeper into our celestial neighborhood</span>
-            </a>
           </div>
         </section>
       `;
     }).join('');
 
-    container.innerHTML = chaptersHtml;
+    // Inner dossier sub-tab switching
+    container.querySelectorAll('.inner-tab-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const main = btn.closest('.dossier-main');
+        const targetId = btn.getAttribute('data-inner-target');
+        main.querySelectorAll('.inner-tab-btn').forEach((b) => {
+          const match = b === btn;
+          b.classList.toggle('active', match);
+          b.setAttribute('aria-selected', String(match));
+        });
+        main.querySelectorAll('.inner-pane').forEach((pane) => {
+          const match = pane.id === targetId;
+          pane.classList.toggle('active', match);
+          pane.hidden = !match;
+        });
+      });
+    });
 
-    // Attach click listener for flip cards on touch devices
-    document.querySelectorAll('.flip-card-wrapper').forEach((card) => {
-      card.addEventListener('click', () => {
-        card.classList.toggle('is-flipped');
+    // HUD hide toggle on 4K stage
+    container.querySelectorAll('.hud-toggle-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const chapter = btn.closest('.planet-chapter');
+        const hidden = chapter.classList.toggle('is-clean-video');
+        btn.textContent = hidden ? 'Show HUD' : 'Hide HUD';
+      });
+    });
+
+    // Weight sliders
+    container.querySelectorAll('.weight-calc-box').forEach((box) => {
+      const ratio = parseFloat(box.getAttribute('data-gravity-ratio') || '1');
+      const slider = box.querySelector('.weight-slider');
+      const earthEl = box.querySelector('.earth-kg-readout');
+      const worldEl = box.querySelector('.world-kg-readout');
+      slider?.addEventListener('input', () => {
+        const kg = parseFloat(slider.value);
+        earthEl.textContent = kg;
+        worldEl.textContent = (kg * ratio).toFixed(1);
       });
     });
   }
 
   /* ============================================================================
-     8. VERTICAL DOT RAIL & SCROLLSPY
+     5. COMPARE LAB (#compare)
      ============================================================================ */
-  function initVerticalRailAndScrollSpy() {
-    const rail = document.getElementById('vertical-dot-rail');
-    if (!rail) return;
+  function renderCompareLabView(viewName) {
+    state.activeLabView = viewName;
+    const stage = document.getElementById('compare-lab-stage');
+    if (!stage) return;
 
-    const chapters = [
-      { id: 'hero', name: 'Zenith (Hero)' },
-      ...(window.PLANETS_DATA || []).map(p => ({ id: p.id, name: p.name })),
-      { id: 'quiz', name: 'Odyssey Quiz' }
-    ];
-
-    rail.innerHTML = chapters.map(ch => `
-      <button class="dot-item" data-chapter="${ch.id}" aria-label="Navigate to ${ch.name}">
-        <span class="dot-tooltip">${ch.name}</span>
-      </button>
-    `).join('');
-
-    // Smooth scroll on dot click
-    rail.querySelectorAll('.dot-item').forEach(dot => {
-      dot.addEventListener('click', () => {
-        const targetId = dot.getAttribute('data-chapter');
-        const targetElem = document.getElementById(targetId);
-        if (targetElem) {
-          if (state.lenisInstance) {
-            state.lenisInstance.scrollTo(targetElem);
-          } else {
-            targetElem.scrollIntoView({ behavior: 'smooth' });
-          }
-        }
-      });
+    document.querySelectorAll('#compare .subtab-btn').forEach((btn) => {
+      const match = btn.getAttribute('data-lab') === viewName;
+      btn.classList.toggle('active', match);
+      btn.setAttribute('aria-selected', String(match));
     });
 
-    // ScrollSpy using IntersectionObserver
-    const allSections = document.querySelectorAll('section[data-chapter]');
-    const dotButtons = rail.querySelectorAll('.dot-item');
+    const planets = window.PLANETS_DATA || [];
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const activeId = entry.target.getAttribute('data-chapter');
-          state.activeChapterId = activeId;
-          prefetchAdjacentMedia(activeId);
-          cullInactiveContexts();
-          if (window.livingArchiveAudio) window.livingArchiveAudio.playPlanetaryResonance(activeId);
-          if (window.updateOrbitalHUD) window.updateOrbitalHUD(activeId);
-          if (window.announceForScreenReader) window.announceForScreenReader(`Arrived at ${activeId}`);
+    if (viewName === 'versus') {
+      const leftP = getPlanetById(state.vsLeft) || planets[4];
+      const rightP = getPlanetById(state.vsRight) || planets[6];
+      const optionsHtml = (selId) => planets.map((p) =>
+        `<option value="${p.id}" ${p.id === selId ? 'selected' : ''}>${p.name} — ${p.classification}</option>`
+      ).join('');
 
-          // Update active dot
-          dotButtons.forEach(btn => {
-            btn.classList.toggle('active', btn.getAttribute('data-chapter') === activeId);
-          });
-
-          // Update URL hash without causing a page jump
-          if (history.pushState && window.location.hash !== `#${activeId}`) {
-            history.pushState(null, '', `#${activeId}`);
-          }
-        }
-      });
-    }, {
-      rootMargin: '-35% 0px -50% 0px',
-      threshold: 0.1
-    });
-
-    allSections.forEach(sec => observer.observe(sec));
-  }
-
-  /* ============================================================================
-     9. KEYBOARD ARROW NAVIGATION BETWEEN CELESTIAL CHAPTERS
-     ============================================================================ */
-  function initKeyboardNavigation() {
-    const chapterIds = [
-      'hero',
-      ...(window.PLANETS_DATA || []).map(p => p.id),
-      'quiz'
-    ];
-
-    window.addEventListener('keydown', (e) => {
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-
-      // Numeric quick teleportation (Keys 1–9 and 0 for 10 celestial bodies)
-      const numberToPlanetMap = {
-        '1': 'sun',
-        '2': 'moon',
-        '3': 'mercury',
-        '4': 'venus',
-        '5': 'earth',
-        '6': 'mars',
-        '7': 'jupiter',
-        '8': 'saturn',
-        '9': 'uranus',
-        '0': 'neptune'
+      const buildVsCard = (p) => {
+        const ph = p.physics || {};
+        return `
+          <div class="vs-card">
+            <img src="videos/thumbs/${p.id}_3d_cinema.jpg" alt="${p.name}" class="vs-card-poster" decoding="async">
+            <div>
+              <span class="lab-card-tag" style="color:${p.accentColor}">${p.chapter} &bull; ${p.classification}</span>
+              <h3 style="font-family:var(--font-heading);font-size:2rem;color:#fff;">${p.name}</h3>
+            </div>
+            <div class="vs-metric-row"><span>Surface Gravity</span><strong>${ph.gravityMS2} m/s² (${(ph.gravityMS2 / 9.807).toFixed(2)}g)</strong></div>
+            <div class="vs-metric-row"><span>Mean Radius</span><strong>${(ph.radiusKm || 0).toLocaleString()} km</strong></div>
+            <div class="vs-metric-row"><span>Orbital Velocity</span><strong>${computeOrbitalVelocity(ph.semiMajorAU, ph.eccentricity || 0)} km/s</strong></div>
+            <div class="vs-metric-row"><span>Escape Velocity</span><strong>${ph.massKg ? computeEscapeVelocity(ph.massKg, ph.radiusKm) : '—'} km/s</strong></div>
+            <div class="vs-metric-row"><span>Solar Distance</span><strong>${ph.semiMajorAU} AU (${formatLightTime(ph.lightTimeFromSunMin)})</strong></div>
+            <div class="vs-metric-row"><span>Known Moons</span><strong>${ph.moonsCount}</strong></div>
+            <button type="button" class="btn-outline tab-trigger" data-tab="${p.id}" style="margin-top:0.5rem;">Open ${p.name} Tab &rarr;</button>
+          </div>
+        `;
       };
 
-      if (numberToPlanetMap[e.key]) {
-        e.preventDefault();
-        const targetWorldId = numberToPlanetMap[e.key];
-        executeWarpTransit(targetWorldId);
-        return;
-      }
+      stage.innerHTML = `
+        <div class="vs-controls">
+          <select id="vs-select-left" class="vs-select" aria-label="Select left world">${optionsHtml(leftP.id)}</select>
+          <span class="vs-badge">VS</span>
+          <select id="vs-select-right" class="vs-select" aria-label="Select right world">${optionsHtml(rightP.id)}</select>
+        </div>
+        <div class="vs-grid">${buildVsCard(leftP)}${buildVsCard(rightP)}</div>
+      `;
 
-      if (e.key === 'ArrowDown' || e.key === 'PageDown') {
-        e.preventDefault();
-        const currentIndex = chapterIds.indexOf(state.activeChapterId);
-        if (currentIndex < chapterIds.length - 1) {
-          const nextId = chapterIds[currentIndex + 1];
-          scrollToId(nextId);
-        }
-      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-        e.preventDefault();
-        const currentIndex = chapterIds.indexOf(state.activeChapterId);
-        if (currentIndex > 0) {
-          const prevId = chapterIds[currentIndex - 1];
-          scrollToId(prevId);
-        }
-      }
-    });
-
-    function scrollToId(id) {
-      const el = document.getElementById(id);
-      if (el) {
-        if (state.lenisInstance) {
-          state.lenisInstance.scrollTo(el);
-        } else {
-          el.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
-    }
-  }
-
-  /* ============================================================================
-     10. HARDWARE-ACCELERATED VIDEO LAZY-LOADER & PLAY/PAUSE OBSERVER
-     ============================================================================ */
-  
-  // Predictive Adjacent Media Prefetcher for Terrestrial & Celestial Chapters
-  function prefetchAdjacentMedia(currentChapterId) {
-    if (!window.PLANETS_DATA) return;
-    const ids = window.PLANETS_DATA.map(p => p.id);
-    const idx = ids.indexOf(currentChapterId);
-    if (idx === -1) return;
-
-    // Prefetch adjacent chapters
-    const nextPlanet = ids[idx + 1] ? window.PLANETS_DATA[idx + 1] : null;
-    if (nextPlanet && nextPlanet.posterSrc) {
-      const img = new Image();
-      img.src = nextPlanet.posterSrc;
-    }
-  }
-
-  
-    // Pause offscreen background animation frames and canvas loops for inactive planetary scenes
-    function cullInactiveContexts() {
-      const activeId = state.activeChapterId;
-      const isGiantActive = ['jupiter', 'saturn', 'uranus', 'neptune'].includes(activeId);
-      if (typeof window.requestIdleCallback === 'function') {
-        window.requestIdleCallback(() => {
-          document.body.classList.toggle('outer-giants-view', isGiantActive);
-        });
-      }
-    }
-
-  function initVideoManager() {
-    const videos = document.querySelectorAll('.chapter-video-element, .hero-video');
-
-    if (!('IntersectionObserver' in window)) {
-      videos.forEach(v => {
-        if (v.dataset.src) v.src = v.dataset.src;
-        v.play().catch(() => {});
+      document.getElementById('vs-select-left')?.addEventListener('change', (e) => {
+        state.vsLeft = e.target.value;
+        renderCompareLabView('versus');
+      });
+      document.getElementById('vs-select-right')?.addEventListener('change', (e) => {
+        state.vsRight = e.target.value;
+        renderCompareLabView('versus');
       });
       return;
     }
 
-    const videoObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        const video = entry.target;
+    if (viewName === 'matrices') {
+      const terr = window.TERRESTRIAL_COMPARISON || [];
+      const giants = window.GIANTS_COMPARISON || [];
+      stage.innerHTML = `
+        <div class="mono-kicker" style="margin-bottom:0.8rem;">Inner Terrestrial Worlds</div>
+        <div class="matrix-table-wrap">
+          <table class="matrix-table">
+            <thead><tr><th>World</th><th>Mass</th><th>Radius</th><th>Density</th><th>Gravity</th><th>Atmosphere</th><th>Magnetic Field</th></tr></thead>
+            <tbody>${terr.map((r) => `<tr><td><strong>${r.name}</strong></td><td>${r.mass}</td><td>${r.radius}</td><td>${r.density}</td><td>${r.gravity}</td><td>${r.atmosphere}</td><td>${r.magneticField}</td></tr>`).join('')}</tbody>
+          </table>
+        </div>
+        <div class="mono-kicker" style="margin-bottom:0.8rem;">Outer Gas &amp; Ice Giants</div>
+        <div class="matrix-table-wrap">
+          <table class="matrix-table">
+            <thead><tr><th>World</th><th>Class</th><th>Mass</th><th>Radius</th><th>Density</th><th>Gravity</th><th>Magnetic Field</th><th>Moons</th></tr></thead>
+            <tbody>${giants.map((r) => `<tr><td><strong>${r.name}</strong></td><td>${r.type}</td><td>${r.mass}</td><td>${r.radius}</td><td>${r.density}</td><td>${r.gravity}</td><td>${r.magneticField}</td><td>${r.moons}</td></tr>`).join('')}</tbody>
+          </table>
+        </div>
+      `;
+      return;
+    }
 
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.2) {
-          // Lazy-load video source
-          if (video.dataset.src && video.src !== video.dataset.src) {
-            video.src = video.dataset.src;
-            video.load();
-          }
-          video.play().catch(() => {});
-        } else {
-          if (!video.paused) {
-            video.pause();
-          }
-          // Reduce GPU memory consumption when far out of viewport
-          if (entry.boundingClientRect.top > window.innerHeight * 2.5 || entry.boundingClientRect.bottom < -window.innerHeight * 2.5) {
-            video.currentTime = 0;
-          }
-        }
+    if (viewName === 'moons') {
+      const moons = window.OCEAN_MOONS_DATA || [];
+      const dwarfs = window.DWARF_PLANETS_DATA || [];
+      stage.innerHTML = `
+        <div class="mono-kicker" style="margin-bottom:0.8rem;">Subsurface Ocean Moons</div>
+        <div class="lab-cards-grid">
+          ${moons.map((m) => `
+            <div class="lab-card">
+              <span class="lab-card-tag">${m.parent} System</span>
+              <h4>${m.name}</h4>
+              <p><strong>Ocean:</strong> ${m.oceanDepth} (${m.oceanVolume})<br><strong>Energy:</strong> ${m.energySource}</p>
+            </div>
+          `).join('')}
+        </div>
+        <div class="mono-kicker" style="margin-bottom:0.8rem;">Trans-Neptunian Dwarf Worlds</div>
+        <div class="lab-cards-grid">
+          ${dwarfs.map((d) => `
+            <div class="lab-card">
+              <span class="lab-card-tag">${d.semiMajorAU} AU &bull; ${d.diameter}</span>
+              <h4>${d.name}</h4>
+              <p>${d.anomaly}</p>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      return;
+    }
+
+    if (viewName === 'exoplanets') {
+      const exos = window.EXOPLANET_BENCHMARKS || [];
+      const probes = window.INTERSTELLAR_TRAJECTORIES || {};
+      stage.innerHTML = `
+        <div class="lab-card" style="border:1px solid var(--line-subtle);margin-bottom:1.8rem;">
+          <span class="lab-card-tag">Habitable Zone Simulator (<span id="hz-lum-readout">1.00</span> L<sub>&odot;</sub>)</span>
+          <h4>Circumstellar Liquid-Water Zone Boundaries</h4>
+          <input type="range" id="hz-lum-slider" min="0.05" max="4.0" step="0.05" value="1.0" class="sim-slider" style="margin:0.65rem 0;">
+          <p id="hz-bounds-output" style="font-family:var(--font-mono);color:#fff;">Habitable Ring: 0.95 AU — 1.37 AU</p>
+        </div>
+        <div class="mono-kicker" style="margin-bottom:0.8rem;">Habitable Exoplanet Benchmarks</div>
+        <div class="lab-cards-grid">
+          ${exos.map((e) => `
+            <div class="lab-card">
+              <span class="lab-card-tag">ESI ${(e.habitabilityIndex * 100).toFixed(0)}% &bull; ${e.hostStar}</span>
+              <h4>${e.name}</h4>
+              <p>Mass: ${e.mass} &bull; Orbit: ${e.orbitalPeriod} &bull; Eq Temp: ${e.equilibriumTemp}</p>
+            </div>
+          `).join('')}
+        </div>
+        <div class="mono-kicker" style="margin-bottom:0.8rem;">Interstellar Probes</div>
+        <div class="lab-cards-grid">
+          ${Object.entries(probes).map(([k, v]) => {
+            const probeTitles = {
+              voyager1: 'Voyager 1',
+              voyager2: 'Voyager 2',
+              newHorizons: 'New Horizons',
+              pioneer10: 'Pioneer 10'
+            };
+            return `
+              <div class="lab-card">
+                <span class="lab-card-tag">${v.distance} &bull; ${v.velocity}</span>
+                <h4>${probeTitles[k] || k}</h4>
+                <p>Heading: ${v.heading}<br>Heliopause: ${v.crossedHeliopause}</p>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+
+      const hzSlider = document.getElementById('hz-lum-slider');
+      hzSlider?.addEventListener('input', () => {
+        const lum = parseFloat(hzSlider.value);
+        document.getElementById('hz-lum-readout').textContent = lum.toFixed(2);
+        document.getElementById('hz-bounds-output').textContent =
+          `Habitable Ring: ${Math.sqrt(lum / 1.1).toFixed(2)} AU — ${Math.sqrt(lum / 0.53).toFixed(2)} AU`;
       });
-    }, {
-      threshold: [0, 0.2, 0.5]
+    }
+  }
+
+  function downloadFile(filename, content, mime) {
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function initCompareLab() {
+    document.querySelectorAll('#compare .subtab-btn').forEach((btn) => {
+      btn.addEventListener('click', () => renderCompareLabView(btn.getAttribute('data-lab')));
+    });
+    document.getElementById('export-json-btn')?.addEventListener('click', () => {
+      downloadFile('living_archive_solar_system.json', JSON.stringify(window.PLANETS_DATA || [], null, 2), 'application/json');
+    });
+    document.getElementById('export-csv-btn')?.addEventListener('click', () => {
+      const rows = [['Name', 'Classification', 'Distance_AU', 'Gravity_ms2', 'MeanTemp_C', 'Moons']];
+      (window.PLANETS_DATA || []).forEach((p) => {
+        const ph = p.physics || {};
+        rows.push([`"${p.name}"`, `"${p.classification}"`, ph.semiMajorAU, ph.gravityMS2, ph.meanTempC, ph.moonsCount]);
+      });
+      downloadFile('living_archive_solar_system.csv', rows.map((r) => r.join(',')).join('\n'), 'text/csv');
+    });
+    renderCompareLabView('versus');
+  }
+
+  /* ============================================================================
+     6. SEARCH MODAL & QUIZ ENGINE
+     ============================================================================ */
+  function initSearchModal() {
+    const modal = document.getElementById('search-modal');
+    const input = document.getElementById('archive-search-input');
+    const results = document.getElementById('search-results-list');
+    if (!modal || !input || !results) return;
+
+    const corpus = [
+      ...(window.PLANETS_DATA || []).map((p) => ({
+        tab: p.id,
+        title: p.name,
+        sub: `${p.classification} — ${p.tagline}`,
+        blob: `${p.name} ${p.classification} ${p.tagline} ${p.story.overview} ${p.story.atmosphere} ${p.story.structure}`.toLowerCase()
+      })),
+      { tab: 'compare', title: 'Compare Telemetry Lab', sub: 'Versus Comparator, Ocean Moons, Habitable Zones', blob: 'compare vs matrix europa enceladus titan pluto eris voyager trappist' },
+      { tab: 'quiz', title: 'Solar System Quiz', sub: 'Explorer & Astrophysicist Assessments', blob: 'quiz test questions assessment' }
+    ];
+
+    function render(q) {
+      const term = (q || '').toLowerCase().trim();
+      const matched = term ? corpus.filter((item) => item.blob.includes(term)) : corpus.slice(0, 6);
+      if (!matched.length) {
+        results.innerHTML = `<div style="padding:1.2rem;color:var(--text-muted);text-align:center;">No matches for "${q}"</div>`;
+        return;
+      }
+      results.innerHTML = matched.map((m) => `
+        <button type="button" class="search-result-item" data-jump="${m.tab}">
+          <div>
+            <strong>${m.title}</strong>
+            <div class="search-res-sub">${m.sub}</div>
+          </div>
+          <span class="search-res-cta">Open Tab &rarr;</span>
+        </button>
+      `).join('');
+
+      results.querySelectorAll('.search-result-item').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          closeModal();
+          switchTab(btn.getAttribute('data-jump'));
+        });
+      });
+    }
+
+    function openModal() {
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      input.value = '';
+      render('');
+      setTimeout(() => input.focus(), 20);
+    }
+
+    function closeModal() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    document.getElementById('open-search-btn')?.addEventListener('click', openModal);
+    document.getElementById('close-search-btn')?.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    input.addEventListener('input', () => render(input.value));
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') results.querySelector('.search-result-item')?.click();
+      else if (e.key === 'Escape') closeModal();
     });
 
-    videos.forEach(v => videoObserver.observe(v));
+    window.openArchiveSearchModal = openModal;
+    window.closeArchiveSearchModal = closeModal;
   }
 
-  /* ============================================================================
-     11. ANIMATED TELEMETRY NUMBERS COUNT-UP
-     ============================================================================ */
-  function initCountUpNumbers() {
-    const numElements = document.querySelectorAll('.stat-number');
-
-    if (!('IntersectionObserver' in window)) return;
-
-    const countObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-          const targetStr = el.getAttribute('data-target') || '0';
-          const targetNum = parseFloat(targetStr.replace(/,/g, ''));
-
-          if (!isNaN(targetNum)) {
-            animateNumber(el, 0, targetNum, 1200);
-          }
-          countObserver.unobserve(el);
-        }
-      });
-    }, { threshold: 0.3 });
-
-    numElements.forEach(el => countObserver.observe(el));
-
-    function animateNumber(element, start, end, duration) {
-      let startTime = null;
-      const isInteger = Number.isInteger(end);
-
-      function step(timestamp) {
-        if (!startTime) startTime = timestamp;
-        const progress = Math.min((timestamp - startTime) / duration, 1);
-        const current = start + (end - start) * easeOutExpo(progress);
-
-        element.textContent = isInteger ? Math.round(current).toLocaleString() : current.toFixed(2);
-
-        if (progress < 1) {
-          requestAnimationFrame(step);
-        } else {
-          element.textContent = isInteger ? end.toLocaleString() : end.toString();
-        }
-      }
-      requestAnimationFrame(step);
-    }
-
-    function easeOutExpo(x) {
-      return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
-    }
-  }
-
-  /* ============================================================================
-     12. UPGRADED INTERACTIVE QUIZ ENGINE
-     ============================================================================ */
   function initQuizEngine() {
     const quizData = window.QUIZ_DATA;
     if (!quizData) return;
 
-    // DOM Elements
-    const quizChapter = document.getElementById('quiz');
-    const questionCard = document.getElementById('quiz-question-card');
-    const resultsCard = document.getElementById('quiz-results-card');
-    const questionCounter = document.getElementById('quiz-question-counter');
-    const streakBadge = document.getElementById('streak-badge');
-    const bestScoreDisplay = document.getElementById('best-score-display');
-    const scoreCounter = document.getElementById('quiz-score-counter');
-    const timerNumber = document.getElementById('timer-number');
+    const qCard = document.getElementById('quiz-question-card');
+    const rCard = document.getElementById('quiz-results-card');
+    const qCounter = document.getElementById('quiz-question-counter');
+    const streakEl = document.getElementById('streak-badge');
+    const bestEl = document.getElementById('best-score-display');
+    const scoreEl = document.getElementById('quiz-score-counter');
+    const timerNum = document.getElementById('timer-number');
     const timerFill = document.getElementById('timer-fill');
-    const questionText = document.getElementById('quiz-question-text');
-    const optionsGrid = document.getElementById('quiz-options-grid');
-    const feedbackBox = document.getElementById('quiz-feedback-box');
-    const feedbackStatus = document.getElementById('feedback-status');
-    const feedbackText = document.getElementById('feedback-text');
+    const qText = document.getElementById('quiz-question-text');
+    const grid = document.getElementById('quiz-options-grid');
+    const fbBox = document.getElementById('quiz-feedback-box');
+    const fbStatus = document.getElementById('feedback-status');
+    const fbText = document.getElementById('feedback-text');
     const nextBtn = document.getElementById('quiz-next-btn');
     const restartBtn = document.getElementById('quiz-restart-btn');
-    const modeKidsBtn = document.getElementById('btn-mode-kids');
-    const modeAdultsBtn = document.getElementById('btn-mode-adults');
+    const kidsBtn = document.getElementById('btn-mode-kids');
+    const adultsBtn = document.getElementById('btn-mode-adults');
+    if (!qCard || !grid) return;
 
-    if (!questionCard || !questionText || !optionsGrid) return;
-
-    // Load Best Score from localStorage
-    function getStoredBest(mode) {
-      return parseInt(localStorage.getItem(`living_archive_best_${mode}`) || '0', 10);
-    }
-    function updateStoredBest(mode, score) {
-      const current = getStoredBest(mode);
-      if (score > current) {
-        localStorage.setItem(`living_archive_best_${mode}`, score.toString());
-      }
-    }
-
-    // Color map for dynamic question lighting
-    const planetColors = {
-      sun: '#f59e0b',
-      moon: '#e2e8f0',
-      mercury: '#94a3b8',
-      venus: '#f97316',
-      earth: '#06b6d4',
-      mars: '#ef4444',
-      jupiter: '#d97706',
-      saturn: '#eab308',
-      uranus: '#14b8a6',
-      neptune: '#3b82f6',
-    };
+    const getBest = (m) => parseInt(localStorage.getItem(`living_archive_best_${m}`) || '0', 10);
+    const setBest = (m, s) => { if (s > getBest(m)) localStorage.setItem(`living_archive_best_${m}`, String(s)); };
 
     function shuffle(arr) {
-      const copy = [...arr];
-      for (let i = copy.length - 1; i > 0; i--) {
+      const c = [...arr];
+      for (let i = c.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [copy[i], copy[j]] = [copy[j], copy[i]];
+        [c[i], c[j]] = [c[j], c[i]];
       }
-      return copy;
+      return c;
     }
 
     function startQuiz(mode) {
@@ -721,1056 +798,277 @@
       state.quizStreak = 0;
       state.quizAnswered = false;
 
-      // Update Mode Buttons
-      if (modeKidsBtn && modeAdultsBtn) {
-        modeKidsBtn.classList.toggle('active', mode === 'kids');
-        modeKidsBtn.setAttribute('aria-selected', String(mode === 'kids'));
-        modeAdultsBtn.classList.toggle('active', mode === 'adults');
-        modeAdultsBtn.setAttribute('aria-selected', String(mode === 'adults'));
-      }
+      kidsBtn?.classList.toggle('active', mode === 'kids');
+      adultsBtn?.classList.toggle('active', mode === 'adults');
+      if (bestEl) bestEl.textContent = `Best ${getBest(mode)} / ${state.quizQuestions.length}`;
 
-      if (bestScoreDisplay) {
-        bestScoreDisplay.textContent = `⭐ Best: ${getStoredBest(mode)} / ${state.quizQuestions.length}`;
-      }
-
-      questionCard.style.display = 'block';
-      resultsCard.style.display = 'none';
-
-      renderQuestion();
+      qCard.style.display = 'block';
+      rCard.style.display = 'none';
+      renderQ();
     }
 
-    function renderQuestion() {
+    function renderQ() {
       state.quizAnswered = false;
       clearInterval(state.quizTimerInterval);
-
-      const total = state.quizQuestions.length;
       const q = state.quizQuestions[state.quizIndex];
-      if (!q) {
-        showResults();
-        return;
-      }
+      if (!q) { showResults(); return; }
 
-      // Update Dynamic Ambient Chroma based on question's planet
-      const ambientChroma = planetColors[q.planet] || '#a855f7';
-      if (quizChapter) {
-        quizChapter.style.setProperty('--quiz-ambient', ambientChroma);
-      }
+      qCounter.textContent = `${state.quizIndex + 1} / ${state.quizQuestions.length}`;
+      streakEl.textContent = `Streak ${state.quizStreak}`;
+      scoreEl.textContent = `Score ${state.quizScore}`;
+      qText.textContent = q.question;
+      fbBox.style.display = 'none';
+      nextBtn.style.display = 'none';
 
-      // Update HUD
-      if (questionCounter) questionCounter.textContent = `Question ${state.quizIndex + 1} of ${total}`;
-      if (streakBadge) streakBadge.textContent = `🔥 Streak: ${state.quizStreak}`;
-      if (scoreCounter) scoreCounter.textContent = `Score: ${state.quizScore}`;
-      if (questionText) questionText.textContent = q.question;
-
-      // Reset Feedback & Next Button
-      if (feedbackBox) feedbackBox.style.display = 'none';
-      if (nextBtn) nextBtn.style.display = 'none';
-
-      // Options
-      optionsGrid.innerHTML = '';
-      const letters = ['A', 'B', 'C', 'D'];
-
-      q.options.forEach((optText, idx) => {
+      grid.innerHTML = '';
+      ['A', 'B', 'C', 'D'].forEach((letter, idx) => {
+        if (q.options[idx] === undefined) return;
         const btn = document.createElement('button');
-        btn.className = 'option-btn magnetic-btn';
-        btn.setAttribute('type', 'button');
-        btn.innerHTML = `
-          <span class="option-key">${letters[idx] || idx + 1}</span>
-          <span class="option-label">${optText}</span>
-        `;
-        btn.addEventListener('click', () => handleAnswer(idx, btn));
-        optionsGrid.appendChild(btn);
+        btn.className = 'option-btn';
+        btn.type = 'button';
+        btn.innerHTML = `<span class="option-key">${letter}</span><span>${q.options[idx]}</span>`;
+        btn.addEventListener('click', () => handleAns(idx, btn));
+        grid.appendChild(btn);
       });
 
-      // Start 20s Circular Countdown Timer
-      startTimer();
-    }
-
-    function startTimer() {
       state.quizTimeRemaining = 20;
-      const totalCircumference = 110; // 2 * PI * 17.5
-
-      if (timerNumber) timerNumber.textContent = '20';
-      if (timerFill) timerFill.style.strokeDashoffset = '0';
-
+      timerNum.textContent = '20';
+      timerFill.style.strokeDashoffset = '0';
       state.quizTimerInterval = setInterval(() => {
+        if (state.activeTab !== 'quiz') return;
         state.quizTimeRemaining--;
-
-        if (timerNumber) timerNumber.textContent = state.quizTimeRemaining.toString();
-
-        if (timerFill) {
-          const offset = totalCircumference * (1 - state.quizTimeRemaining / 20);
-          timerFill.style.strokeDashoffset = offset.toString();
-        }
-
+        timerNum.textContent = String(state.quizTimeRemaining);
+        timerFill.style.strokeDashoffset = String(110 * (1 - state.quizTimeRemaining / 20));
         if (state.quizTimeRemaining <= 0) {
           clearInterval(state.quizTimerInterval);
-          if (!state.quizAnswered) {
-            handleTimeExpired();
-          }
+          if (!state.quizAnswered) handleAns(-1, null);
         }
       }, 1000);
     }
 
-    function handleTimeExpired() {
-      state.quizAnswered = true;
-      state.quizStreak = 0;
-      if (streakBadge) streakBadge.textContent = `🔥 Streak: 0`;
-
-      const q = state.quizQuestions[state.quizIndex];
-      const allButtons = optionsGrid.querySelectorAll('.option-btn');
-      allButtons.forEach((b, idx) => {
-        b.disabled = true;
-        if (idx === q.answer) b.classList.add('is-correct');
-      });
-
-      if (feedbackStatus) {
-        feedbackStatus.textContent = 'Time Expired • Scientific Observation:';
-        feedbackStatus.className = 'feedback-status wrong';
-      }
-      if (feedbackText) feedbackText.textContent = q.explanation;
-      if (feedbackBox) feedbackBox.style.display = 'block';
-
-      showNextButton();
-    }
-
-    function handleAnswer(selectedIndex, clickedBtn) {
+    function handleAns(selIdx, clickedBtn) {
       if (state.quizAnswered) return;
       state.quizAnswered = true;
       clearInterval(state.quizTimerInterval);
 
       const q = state.quizQuestions[state.quizIndex];
-      const isCorrect = selectedIndex === q.answer;
-      const allButtons = optionsGrid.querySelectorAll('.option-btn');
-
-      allButtons.forEach((b, idx) => {
+      const ok = selIdx === q.answer;
+      grid.querySelectorAll('.option-btn').forEach((b, idx) => {
         b.disabled = true;
         if (idx === q.answer) b.classList.add('is-correct');
       });
 
-      if (isCorrect) {
+      if (ok) {
         state.quizScore++;
         state.quizStreak++;
-        clickedBtn.classList.add('is-correct');
-        if (feedbackStatus) {
-          feedbackStatus.textContent = 'Correct! Stellar Knowledge ✦';
-          feedbackStatus.className = 'feedback-status correct';
-        }
+        clickedBtn?.classList.add('is-correct');
+        fbStatus.textContent = 'Correct';
+        fbStatus.className = 'feedback-status correct';
       } else {
         state.quizStreak = 0;
-        clickedBtn.classList.add('is-wrong');
-        if (feedbackStatus) {
-          feedbackStatus.textContent = 'Incorrect • Scientific Fact:';
-          feedbackStatus.className = 'feedback-status wrong';
-        }
+        clickedBtn?.classList.add('is-wrong');
+        fbStatus.textContent = selIdx === -1 ? 'Time Expired' : 'Incorrect';
+        fbStatus.className = 'feedback-status wrong';
       }
 
-      if (streakBadge) streakBadge.textContent = `🔥 Streak: ${state.quizStreak}`;
-      if (scoreCounter) scoreCounter.textContent = `Score: ${state.quizScore}`;
-      if (feedbackText) feedbackText.textContent = q.explanation;
-      if (feedbackBox) feedbackBox.style.display = 'block';
-
-      showNextButton();
+      streakEl.textContent = `Streak ${state.quizStreak}`;
+      scoreEl.textContent = `Score ${state.quizScore}`;
+      fbText.textContent = q.explanation;
+      fbBox.style.display = 'block';
+      nextBtn.innerHTML = state.quizIndex === state.quizQuestions.length - 1 ? 'Complete Quiz &rarr;' : 'Next Question &rarr;';
+      nextBtn.style.display = 'inline-block';
     }
-
-    function showNextButton() {
-      const isLast = state.quizIndex === state.quizQuestions.length - 1;
-      if (nextBtn) {
-        nextBtn.innerHTML = isLast ? 'Complete Odyssey &rarr;' : 'Next Question &rarr;';
-        nextBtn.style.display = 'inline-block';
-      }
-    }
-
-    nextBtn.addEventListener('click', () => {
-      state.quizIndex++;
-      if (state.quizIndex < state.quizQuestions.length) {
-        renderQuestion();
-      } else {
-        showResults();
-      }
-    });
 
     function showResults() {
       clearInterval(state.quizTimerInterval);
-      questionCard.style.display = 'none';
-      resultsCard.style.display = 'block';
-
+      qCard.style.display = 'none';
+      rCard.style.display = 'block';
       const total = state.quizQuestions.length;
-      const score = state.quizScore;
-      const ratio = score / total;
-
-      updateStoredBest(state.quizMode, score);
-
-      const scoreDisplay = document.getElementById('results-score-display');
-      const resultsTitle = document.getElementById('results-title');
-      const resultsMsg = document.getElementById('results-message');
-      const resultsTrophy = document.getElementById('results-trophy');
-
-      if (scoreDisplay) scoreDisplay.textContent = `${score} / ${total}`;
-
-      if (ratio >= 0.75) {
-        // High Score Confetti Blast!
-        if (typeof confetti === 'function') {
-          confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.6 }
-          });
-        }
-        if (resultsTrophy) resultsTrophy.textContent = '🏆';
-        if (resultsTitle) resultsTitle.textContent = 'Galactic Master!';
-        if (resultsMsg) resultsMsg.textContent = 'Phenomenal planetary intellect! You navigated the cosmic archives with astronomical mastery.';
-      } else if (ratio >= 0.5) {
-        if (resultsTrophy) resultsTrophy.textContent = '🪐';
-        if (resultsTitle) resultsTitle.textContent = 'Senior Explorer!';
-        if (resultsMsg) resultsMsg.textContent = 'Commendable voyage! You grasp the fundamental astrophysics of the worlds in our solar family.';
-      } else {
-        if (resultsTrophy) resultsTrophy.textContent = '🔭';
-        if (resultsTitle) resultsTitle.textContent = 'Cadet Astronomer!';
-        if (resultsMsg) resultsMsg.textContent = 'Every great astronomer begins with a first gaze into the cosmic night. Venture through the chapters and try again!';
+      const ratio = state.quizScore / total;
+      setBest(state.quizMode, state.quizScore);
+      document.getElementById('results-score-display').textContent = `${state.quizScore} / ${total}`;
+      if (ratio >= 0.75 && typeof confetti === 'function') {
+        confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
       }
+      document.getElementById('results-title').textContent =
+        ratio >= 0.75 ? 'Galactic Master' : ratio >= 0.5 ? 'Senior Explorer' : 'Cadet Astronomer';
+      document.getElementById('results-message').textContent =
+        ratio >= 0.75 ? 'Outstanding planetary command across all ten bodies.' : 'Good attempt. Browse the datasheets and try again.';
     }
 
-    if (restartBtn) restartBtn.addEventListener('click', () => startQuiz(state.quizMode));
-    if (modeKidsBtn) modeKidsBtn.addEventListener('click', () => startQuiz('kids'));
-    if (modeAdultsBtn) modeAdultsBtn.addEventListener('click', () => startQuiz('adults'));
+    nextBtn?.addEventListener('click', () => {
+      state.quizIndex++;
+      if (state.quizIndex < state.quizQuestions.length) renderQ();
+      else showResults();
+    });
+    restartBtn?.addEventListener('click', () => startQuiz(state.quizMode));
+    kidsBtn?.addEventListener('click', () => startQuiz('kids'));
+    adultsBtn?.addEventListener('click', () => startQuiz('adults'));
 
-    // Start with Kids mode
+    window.__quizHandleOptionIndex = (i) => {
+      const btns = grid.querySelectorAll('.option-btn');
+      if (!state.quizAnswered && btns[i]) btns[i].click();
+    };
+    window.__quizAdvance = () => {
+      if (state.quizAnswered && nextBtn.style.display !== 'none') nextBtn.click();
+    };
+
     startQuiz('kids');
   }
 
-
   /* ============================================================================
-     WARP TRANSIT ENGINE (FULL-BLEED ONE-WAY EXPANSION)
+     7. EVENTS, KEYBOARD, TOUCH SWIPE & BOOTSTRAP
      ============================================================================ */
-  function executeWarpTransit(targetId, callback) {
-    let overlay = document.getElementById('warp-portal-overlay');
-    if (!overlay) {
-      overlay = document.createElement('div');
-      overlay.id = 'warp-portal-overlay';
-      document.body.appendChild(overlay);
-    }
-
-    document.body.classList.add('warp-transit-active');
-    overlay.classList.add('is-warping');
-    startWarpStarStreaks();
-
-    if (window.livingArchiveAudio && typeof window.livingArchiveAudio.playWarpSweep === 'function') {
-      window.livingArchiveAudio.playWarpSweep();
-    }
-
-    setTimeout(() => {
-      const targetEl = document.getElementById(targetId);
-      if (targetEl) {
-        targetEl.scrollIntoView({ behavior: 'auto' });
-      }
-      setTimeout(() => {
-        overlay.classList.remove('is-warping');
-        stopWarpStarStreaks();
-        document.body.classList.remove('warp-transit-active');
-        if (typeof callback === 'function') callback();
-      }, 220);
-    }, 320);
-  }
-
-  /* ============================================================================
-     PROCEDURAL WEB AUDIO API SYNTHESIS ENGINE
-     ============================================================================ */
-  const livingArchiveAudio = {
-    ctx: null,
-    masterGain: null,
-    compressor: null,
-    droneGain: null,
-    droneOsc1: null,
-    droneOsc2: null,
-    isInitialized: false,
-    isMuted: false,
-
-    init() {
-      if (this.isInitialized) return;
-      try {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (!AudioCtx) return;
-        this.ctx = new AudioCtx();
-
-        // Master Limiter / Dynamics Compressor to guarantee 0 clipping
-        this.compressor = this.ctx.createDynamicsCompressor();
-        this.compressor.threshold.setValueAtTime(-12, this.ctx.currentTime);
-        this.compressor.knee.setValueAtTime(30, this.ctx.currentTime);
-        this.compressor.ratio.setValueAtTime(12, this.ctx.currentTime);
-        this.compressor.attack.setValueAtTime(0.003, this.ctx.currentTime);
-        this.compressor.release.setValueAtTime(0.25, this.ctx.currentTime);
-        this.compressor.connect(this.ctx.destination);
-
-        // Master Gain
-        this.masterGain = this.ctx.createGain();
-        this.masterGain.gain.setValueAtTime(0.35, this.ctx.currentTime);
-        this.masterGain.connect(this.compressor);
-
-        this.isInitialized = true;
-        console.log('[WebAudio] Living Archive procedural audio engine initialized.');
-        this.startSubBassDrone();
-      } catch (e) {
-        console.warn('[WebAudio] AudioContext init failed:', e);
-      }
-    },
-
-    resume() {
-      this.init();
-      if (this.ctx && this.ctx.state === 'suspended') {
-        this.ctx.resume().catch(() => {});
-      }
-    },
-    startSubBassDrone() {
-      if (!this.ctx || this.droneOsc1) return;
-      try {
-        this.droneGain = this.ctx.createGain();
-        this.droneGain.gain.setValueAtTime(0.001, this.ctx.currentTime);
-        this.droneGain.gain.exponentialRampToValueAtTime(0.18, this.ctx.currentTime + 3.0);
-
-        // 54 Hz Fundamental Sub-Bass Sine Wave
-        this.droneOsc1 = this.ctx.createOscillator();
-        this.droneOsc1.type = 'sine';
-        this.droneOsc1.frequency.setValueAtTime(54.0, this.ctx.currentTime);
-
-        // 108 Hz Warm Harmonic Overtone
-        this.droneOsc2 = this.ctx.createOscillator();
-        this.droneOsc2.type = 'sine';
-        this.droneOsc2.frequency.setValueAtTime(108.0, this.ctx.currentTime);
-
-        // 180 Hz Lowpass Filter with gentle resonance
-        const filter = this.ctx.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(180, this.ctx.currentTime);
-        filter.Q.setValueAtTime(1.2, this.ctx.currentTime);
-
-        this.droneOsc1.connect(filter);
-        this.droneOsc2.connect(filter);
-        filter.connect(this.droneGain);
-        this.droneGain.connect(this.masterGain);
-
-        this.droneOsc1.start();
-        this.droneOsc2.start();
-      } catch (e) {
-        console.warn('[WebAudio] Drone start failed:', e);
-      }
-    },
-    frequencies: {
-      sun: 126.22,
-      moon: 210.42,
-      mercury: 141.27,
-      venus: 221.23,
-      earth: 136.10,
-      mars: 144.72,
-      jupiter: 183.58,
-      saturn: 147.85,
-      uranus: 207.36,
-      neptune: 211.44
-    },
-
-    playPlanetaryResonance(planetId) {
-      if (!this.ctx || this.isMuted) return;
-      const freq = this.frequencies[planetId] || 150.0;
-      try {
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-
-        gain.gain.setValueAtTime(0.001, this.ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.09, this.ctx.currentTime + 0.5);
-        gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 2.8);
-
-        osc.connect(gain);
-        gain.connect(this.masterGain);
-
-        osc.start();
-        osc.stop(this.ctx.currentTime + 3.0);
-      } catch (e) {}
-    },
-
-
-
-    toggleMute() {
-      this.resume();
-      this.isMuted = !this.isMuted;
-      if (this.masterGain && this.ctx) {
-        this.masterGain.gain.setValueAtTime(this.isMuted ? 0 : 0.35, this.ctx.currentTime);
-      }
-      const btn = document.getElementById('archive-audio-master-toggle');
-      if (btn) {
-        btn.classList.toggle('is-muted', this.isMuted);
-      }
-      return this.isMuted;
-    },
-
-    playCrystallineChime() {
-      if (!this.ctx || this.isMuted) return;
-      try {
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(2800, this.ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(4200, this.ctx.currentTime + 0.06);
-
-        gain.gain.setValueAtTime(0.04, this.ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.08);
-
-        osc.connect(gain);
-        gain.connect(this.masterGain);
-
-        osc.start();
-        osc.stop(this.ctx.currentTime + 0.09);
-      } catch (e) {}
-    },
-
-
-    modulateFilterByVelocity(scrollVelocity) {
-      if (!this.ctx || !this.compressor) return;
-      const baseFreq = 220;
-      const maxFreq = 2400;
-      const targetFreq = Math.min(maxFreq, baseFreq + Math.abs(scrollVelocity) * 1.8);
-      // Soft reactive lowpass filter modulation
-    },
-
-
-    playHarmonicChord(baseFreq = 220) {
-      if (!this.ctx || this.isMuted) return;
-      const intervals = [1, 1.25, 1.5]; // Major triad
-      intervals.forEach((ratio, i) => {
-        setTimeout(() => {
-          try {
-            const osc = this.ctx.createOscillator();
-            const gain = this.ctx.createGain();
-            osc.frequency.setValueAtTime(baseFreq * ratio, this.ctx.currentTime);
-            gain.gain.setValueAtTime(0.02, this.ctx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.6);
-            osc.connect(gain);
-            gain.connect(this.masterGain);
-            osc.start();
-            osc.stop(this.ctx.currentTime + 0.65);
-          } catch(e) {}
-        }, i * 60);
-      });
-    },
-
-
-    playInterstellarChorus() {
-      if (!this.ctx || this.isMuted) return;
-      try {
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'sine';
-        // Downward whistler glide (3500 Hz down to 600 Hz)
-        osc.frequency.setValueAtTime(3500, this.ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(600, this.ctx.currentTime + 1.2);
-
-        gain.gain.setValueAtTime(0.001, this.ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.04, this.ctx.currentTime + 0.1);
-        gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 1.15);
-
-        osc.connect(gain);
-        gain.connect(this.masterGain);
-
-        osc.start();
-        osc.stop(this.ctx.currentTime + 1.25);
-      } catch (e) {}
-    },
-
-
-    triggerBinauralHarmonic(freq = 136.1, detuneHz = 1.5) {
-      if (!this.ctx || this.isMuted) return;
-      try {
-        [freq - detuneHz / 2, freq + detuneHz / 2].forEach(f => {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(f, this.ctx.currentTime);
-          gain.gain.setValueAtTime(0.001, this.ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.03, this.ctx.currentTime + 0.4);
-          gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 1.8);
-          osc.connect(gain);
-          gain.connect(this.masterGain);
-          osc.start();
-          osc.stop(this.ctx.currentTime + 1.9);
-        });
-      } catch(e) {}
-    },
-
-
-    createCosmicImpulseBuffer(seconds = 2.0, decay = 2.5) {
-      if (!this.ctx) return null;
-      const rate = this.ctx.sampleRate;
-      const length = rate * seconds;
-      const impulse = this.ctx.createBuffer(2, length, rate);
-      for (let ch = 0; ch < 2; ch++) {
-        const data = impulse.getChannelData(ch);
-        for (let i = 0; i < length; i++) {
-          data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, decay);
-        }
-      }
-      return impulse;
-    },
-
-
-    applySpatialPan(panValue = 0) {
-      if (!this.ctx || !this.ctx.createStereoPanner) return null;
-      const panner = this.ctx.createStereoPanner();
-      panner.pan.setValueAtTime(Math.max(-1, Math.min(1, panValue)), this.ctx.currentTime);
-      return panner;
-    },
-
-    playWarpSweep() {
-      if (!this.ctx || this.isMuted) return;
-      try {
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(200, this.ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(1200, this.ctx.currentTime + 0.45);
-
-        gain.gain.setValueAtTime(0.02, this.ctx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.12, this.ctx.currentTime + 0.3);
-        gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.55);
-
-        const filter = this.ctx.createBiquadFilter();
-        filter.type = 'bandpass';
-        filter.frequency.setValueAtTime(400, this.ctx.currentTime);
-        filter.frequency.exponentialRampToValueAtTime(2400, this.ctx.currentTime + 0.45);
-        filter.Q.setValueAtTime(3.5, this.ctx.currentTime);
-
-        osc.connect(filter);
-        filter.connect(gain);
-        gain.connect(this.masterGain);
-
-        osc.start();
-        osc.stop(this.ctx.currentTime + 0.6);
-      } catch (e) {}
-    }
-
-  };
-  window.livingArchiveAudio = livingArchiveAudio;
-
-  window.executeWarpTransit = executeWarpTransit;
-
-  // Client-side Instant Celestial Dossier Search Index
-  function searchCelestialArchive(query) {
-    if (!query || !window.PLANETS_DATA) return [];
-    const q = query.toLowerCase().trim();
-    return window.PLANETS_DATA.filter(p =>
-      p.name.toLowerCase().includes(q) ||
-      p.tagline.toLowerCase().includes(q) ||
-      p.classification.toLowerCase().includes(q)
-    ).map(p => ({ id: p.id, name: p.name }));
-  }
-  window.searchCelestialArchive = searchCelestialArchive;
-
-  // Exoplanet Transit Photometry Light-Curve Depth: Delta-F = (R_p / R_star)^2
-  function computeTransitDepthPPM(planetRadiusKm, starRadiusKm) {
-    const ratio = planetRadiusKm / starRadiusKm;
-    return Math.round(ratio * ratio * 1e6); // parts per million (ppm)
-  }
-  window.computeTransitDepthPPM = computeTransitDepthPPM;
-
-  // Synodic Orbital Period Calculator Relative to Earth: 1/S = |1/P - 1/E|
-  function computeSynodicPeriodDays(siderealDays) {
-    const EARTH_YEAR = 365.256;
-    if (Math.abs(siderealDays - EARTH_YEAR) < 0.01) return Infinity;
-    return (1 / Math.abs((1 / siderealDays) - (1 / EARTH_YEAR))).toFixed(1);
-  }
-  window.computeSynodicPeriodDays = computeSynodicPeriodDays;
-
-  // Schwarzschild Event Horizon Radius: r_s = 2GM / c^2
-  function computeSchwarzschildRadiusMM(massKg) {
-    const G = 6.67430e-11;
-    const C = 299792458;
-    const meters = (2 * G * massKg) / (C * C);
-    return (meters * 1000).toFixed(3); // millimeters (e.g. Earth ~ 8.87 mm)
-  }
-  window.computeSchwarzschildRadiusMM = computeSchwarzschildRadiusMM;
-
-  // Orbital Resonance Phase Space Coordinate Helper
-  function computeResonancePhase(periodA, periodB, tDays) {
-    const thetaA = ((tDays % periodA) / periodA) * 2 * Math.PI;
-    const thetaB = ((tDays % periodB) / periodB) * 2 * Math.PI;
-    return { x: Math.cos(thetaA) - Math.cos(thetaB), y: Math.sin(thetaA) - Math.sin(thetaB) };
-  }
-  window.computeResonancePhase = computeResonancePhase;
-
-  // Visibility-Aware Animation Loop Throttle
-  window.__isViewportPaused = () => document.hidden || document.visibilityState === 'hidden';
-
-  // Heliospheric Galactic Cosmic Ray (GCR) Modulation Estimator
-  function estimateCosmicRayModulation(distanceAU) {
-    return Math.min(100, (12 + distanceAU * 2.2)).toFixed(1) + '% Unshielded GCR Flux';
-  }
-  window.estimateCosmicRayModulation = estimateCosmicRayModulation;
-
-  // Parabolic Escape Velocity Calculator: v_e = sqrt(2GM / R)
-  function computeEscapeVelocityKmS(massKg, radiusMeters) {
-    const G = 6.67430e-11;
-    return (Math.sqrt((2 * G * massKg) / radiusMeters) / 1000).toFixed(2);
-  }
-  window.computeEscapeVelocityKmS = computeEscapeVelocityKmS;
-
-  /* ============================================================================
-     J2000.0 EPHEMERIS & REAL-TIME JULIAN DATE ENGINE
-     ============================================================================ */
-  function getCurrentJulianDate() {
-    return (Date.now() / 86400000) + 2440587.5;
-  }
-  function getDaysSinceJ2000() {
-    return getCurrentJulianDate() - 2451545.0;
-  }
-  window.getCurrentJulianDate = getCurrentJulianDate;
-  window.getDaysSinceJ2000 = getDaysSinceJ2000;
-
-  /* ============================================================================
-     PHOTON MOMENTUM SOLAR SAIL THRUST (F = (1 + R) * (S/c) * A)
-     ============================================================================ */
-  function computeSolarSailThrust(sailAreaM2, distanceAU, reflectivity = 0.9) {
-    const SOLAR_CONSTANT_1AU = 1361; // W/m^2
-    const C = 299792458; // m/s
-    const S = SOLAR_CONSTANT_1AU / (distanceAU * distanceAU);
-    const forceNewtons = ((1 + reflectivity) * (S / C) * sailAreaM2);
-    return (forceNewtons * 1000).toFixed(2); // milliNewtons
-  }
-  window.computeSolarSailThrust = computeSolarSailThrust;
-
-  /* ============================================================================
-     RELATIVISTIC LORENTZ FACTOR (gamma = 1 / sqrt(1 - (v/c)^2))
-     ============================================================================ */
-  function computeLorentzGamma(velocityFractionOfC) {
-    const beta = Math.min(0.9999, Math.max(0, velocityFractionOfC));
-    return (1 / Math.sqrt(1 - beta * beta)).toFixed(4);
-  }
-  window.computeLorentzGamma = computeLorentzGamma;
-
-  /* ============================================================================
-     CIRCUMSTELLAR HABITABLE ZONE (GOLDILOCKS) BOUNDARY CALCULATOR
-     ============================================================================ */
-  function calculateHabitableZone(stellarLuminositySunUnits = 1.0) {
-    const innerBoundAU = Math.sqrt(stellarLuminositySunUnits / 1.1).toFixed(2);
-    const outerBoundAU = Math.sqrt(stellarLuminositySunUnits / 0.53).toFixed(2);
-    return { innerBoundAU, outerBoundAU };
-  }
-  window.calculateHabitableZone = calculateHabitableZone;
-
-  /* ============================================================================
-     EXPORT PLANETARY PHYSICAL MATRIX (JSON & CSV EXPORTER)
-     ============================================================================ */
-  function exportPlanetaryDataset(format = 'json') {
-    const data = window.PLANETS_DATA || [];
-    if (format === 'json') {
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'solar_system_living_archive.json';
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-  }
-  window.exportPlanetaryDataset = exportPlanetaryDataset;
-
-  /* ============================================================================
-     KIOSK PLANETARIUM CINEMATIC MODE (KEYBOARD: 'C' OR 'F')
-     ============================================================================ */
-  function toggleCinemaMode() {
-    const isCinema = document.body.classList.toggle('cinema-kiosk-mode');
-    if (window.announceForScreenReader) {
-      window.announceForScreenReader(isCinema ? 'Entered Cinema Mode' : 'Exited Cinema Mode');
-    }
-  }
-  window.toggleCinemaMode = toggleCinemaMode;
-
-  window.addEventListener('keydown', (e) => {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-    if (e.key === 'c' || e.key === 'C') {
-      toggleCinemaMode();
-    }
-  });
-
-  /* ============================================================================
-     PROCEDURAL AURORAL OVAL LUMINESCENCE ENGINE
-     ============================================================================ */
-  function renderAuroralGlow(ctx, width, height, hue = 145) {
-    const grad = ctx.createLinearGradient(0, 0, width, height * 0.4);
-    grad.addColorStop(0, `hsla(${hue}, 85%, 65%, 0.35)`);
-    grad.addColorStop(0.5, `hsla(${hue + 40}, 90%, 60%, 0.15)`);
-    grad.addColorStop(1, 'rgba(5, 5, 8, 0)');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, width, height * 0.4);
-  }
-  window.renderAuroralGlow = renderAuroralGlow;
-
-  /* ============================================================================
-     ORBITAL HUD TELEMETRY METERS & REAL-TIME SOLAR IRRADIANCE GAUGES
-     ============================================================================ */
-  function updateOrbitalHUD(planetId) {
-    const data = (window.SOLAR_FLUX_TELEMETRY && window.SOLAR_FLUX_TELEMETRY[planetId]) || null;
-    if (!data) return;
-    const hudContainer = document.getElementById('orbital-hud-readout');
-    if (hudContainer) {
-      hudContainer.innerHTML = `
-        <div class="hud-item"><span class="hud-label">SOLAR FLUX:</span> <span class="hud-val">${data.irradiance}</span></div>
-        <div class="hud-item"><span class="hud-label">RAD PRESSURE:</span> <span class="hud-val">${data.radiationPressure}</span></div>
-      `;
-    }
-  }
-  window.updateOrbitalHUD = updateOrbitalHUD;
-
-  /* ============================================================================
-     KEPLERIAN ORBITAL MECHANICS ENGINE (vis-viva equation: v = sqrt(GM(2/r - 1/a)))
-     ============================================================================ */
-  function computeKeplerianOrbitalVelocity(semiMajorAU, eccentricity, trueAnomalyDeg = 0) {
-    const GM_SUN = 1.32712440018e20; // m^3 / s^2
-    const AU_TO_METERS = 149597870700; // m
-    const a = semiMajorAU * AU_TO_METERS;
-    const e = eccentricity;
-    const theta = (trueAnomalyDeg * Math.PI) / 180;
-    const r = (a * (1 - e * e)) / (1 + e * Math.cos(theta));
-    const v = Math.sqrt(GM_SUN * ((2 / r) - (1 / a)));
-    return (v / 1000).toFixed(2); // km/s
-  }
-  window.computeKeplerianOrbitalVelocity = computeKeplerianOrbitalVelocity;
-
-  /* ============================================================================
-     RELATIVISTIC RADIAL STAR-STREAK CANVAS FX
-     ============================================================================ */
-  let warpCanvas = null;
-  let warpCtx = null;
-  let warpAnimationId = null;
-  let warpStars = [];
-
-  function initWarpStarStreakFX() {
-    warpCanvas = document.createElement('canvas');
-    warpCanvas.id = 'warp-star-streak-canvas';
-    warpCanvas.style.position = 'fixed';
-    warpCanvas.style.inset = '0';
-    warpCanvas.style.width = '100vw';
-    warpCanvas.style.height = '100vh';
-    warpCanvas.style.zIndex = '99998';
-    warpCanvas.style.pointerEvents = 'none';
-    warpCanvas.style.opacity = '0';
-    warpCanvas.style.transition = 'opacity 0.25s ease';
-    document.body.appendChild(warpCanvas);
-    warpCtx = warpCanvas.getContext('2d', { alpha: true, desynchronized: true });
-
-    function resize() {
-      warpCanvas.width = window.innerWidth;
-      warpCanvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
-    // Create 180 relativistic stars
-    warpStars = [];
-    for (let i = 0; i < 180; i++) {
-      warpStars.push({
-        x: (Math.random() - 0.5) * window.innerWidth,
-        y: (Math.random() - 0.5) * window.innerHeight,
-        z: Math.random() * window.innerWidth,
-        len: Math.random() * 25 + 15
-      });
-    }
-  }
-
-  function startWarpStarStreaks() {
-    if (!warpCanvas || !warpCtx) return;
-    warpCanvas.style.opacity = '1';
-    const cx = warpCanvas.width / 2;
-    const cy = warpCanvas.height / 2;
-
-    function renderStreaks() {
-      warpCtx.fillStyle = 'rgba(5, 5, 8, 0.35)';
-      warpCtx.fillRect(0, 0, warpCanvas.width, warpCanvas.height);
-
-      warpStars.forEach(s => {
-        s.z -= 42; // Hyperdrive velocity
-        if (s.z <= 0) {
-          s.z = warpCanvas.width;
-          s.x = (Math.random() - 0.5) * warpCanvas.width;
-          s.y = (Math.random() - 0.5) * warpCanvas.height;
-        }
-
-        const k = 250 / s.z;
-        const px = s.x * k + cx;
-        const py = s.y * k + cy;
-
-        const prevK = 250 / (s.z + s.len);
-        const ppx = s.x * prevK + cx;
-        const ppy = s.y * prevK + cy;
-
-        warpCtx.beginPath();
-        warpCtx.moveTo(ppx, ppy);
-        warpCtx.lineTo(px, py);
-        warpCtx.strokeStyle = 'rgba(232, 195, 125, 0.85)';
-        warpCtx.lineWidth = Math.min(2.5, k * 2);
-        warpCtx.stroke();
-      });
-
-      warpAnimationId = requestAnimationFrame(renderStreaks);
-    }
-    renderStreaks();
-  }
-
-  function stopWarpStarStreaks() {
-    if (warpAnimationId) cancelAnimationFrame(warpAnimationId);
-    if (warpCanvas) {
-      warpCanvas.style.opacity = '0';
-      if (warpCtx) warpCtx.clearRect(0, 0, warpCanvas.width, warpCanvas.height);
-    }
-  }
-  window.startWarpStarStreaks = startWarpStarStreaks;
-  window.stopWarpStarStreaks = stopWarpStarStreaks;
-
-  // Cross-Browser Rendering & AudioContext Verification
-  function verifyCrossBrowserCompatibility() {
-    const isWebKit = !!window.webkitAudioContext;
-    const isStandardAudio = !!window.AudioContext;
-    const hasBackdropFilter = CSS && CSS.supports && CSS.supports('backdrop-filter', 'blur(10px)');
-    console.log(`[Compatibility] Audio: ${isStandardAudio ? 'Standard' : (isWebKit ? 'WebKit' : 'None')}, BackdropFilter: ${hasBackdropFilter}`);
-  }
-
-  /* ============================================================================
-     SCREEN-READER ACCESSIBILITY LIVE REGION ANNOUNCER
-     ============================================================================ */
-  function announceForScreenReader(message) {
-    let announcer = document.getElementById('aria-live-announcer');
-    if (!announcer) {
-      announcer = document.createElement('div');
-      announcer.id = 'aria-live-announcer';
-      announcer.setAttribute('aria-live', 'polite');
-      announcer.setAttribute('role', 'status');
-      announcer.style.position = 'absolute';
-      announcer.style.width = '1px';
-      announcer.style.height = '1px';
-      announcer.style.clip = 'rect(0, 0, 0, 0)';
-      announcer.style.overflow = 'hidden';
-      document.body.appendChild(announcer);
-    }
-    announcer.textContent = message;
-  }
-  window.announceForScreenReader = announceForScreenReader;
-
-  /* ============================================================================
-     AUTOMATIC MEMORY & GPU RESOURCE GARBAGE COLLECTION ON PAGE UNLOAD
-     ============================================================================ */
-  function initResourceGarbageCollection() {
-    window.addEventListener('pagehide', () => {
-      // Pause all active video streams to release hardware decoder slots
-      document.querySelectorAll('video').forEach(vid => {
-        vid.pause();
-        vid.removeAttribute('src');
-        vid.load();
-      });
-
-      // Close AudioContext
-      if (window.livingArchiveAudio && window.livingArchiveAudio.ctx) {
-        window.livingArchiveAudio.ctx.close().catch(() => {});
-      }
-    }, { once: true });
-  }
-
-  /* ============================================================================
-     USER PREFERENCE & LAST VIEWED WORLD PERSISTENCE (LOCALSTORAGE)
-     ============================================================================ */
-  function initStoragePersistence() {
-    try {
-      const savedMute = localStorage.getItem('living_archive_muted');
-      if (savedMute === 'true' && window.livingArchiveAudio) {
-        window.livingArchiveAudio.isMuted = true;
-      }
-
-      window.addEventListener('beforeunload', () => {
-        if (state.activeChapterId) {
-          localStorage.setItem('living_archive_last_world', state.activeChapterId);
-        }
-        if (window.livingArchiveAudio) {
-          localStorage.setItem('living_archive_muted', window.livingArchiveAudio.isMuted);
-        }
-      });
-    } catch (e) {}
-  }
-
-  /* ============================================================================
-     BACKGROUND TAB CPU SUSPENSION OBSERVER
-     ============================================================================ */
-  function initVisibilityAudioLifecycle() {
-    document.addEventListener('visibilitychange', () => {
-      if (!window.livingArchiveAudio || !window.livingArchiveAudio.ctx) return;
-      if (document.hidden) {
-        window.livingArchiveAudio.ctx.suspend().catch(() => {});
-      } else if (!window.livingArchiveAudio.isMuted) {
-        window.livingArchiveAudio.ctx.resume().catch(() => {});
+  function initGlobalInteractions() {
+    const progress = document.getElementById('scroll-progress');
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      if (progress) progress.style.width = `${h > 0 ? (window.scrollY / h) * 100 : 0}%`;
+    }, { passive: true });
+
+    document.addEventListener('click', (e) => {
+      const trigger = e.target.closest('.sidebar-planet-btn, .mode-tab, .tab-trigger');
+      if (!trigger) return;
+      const tab = trigger.getAttribute('data-tab');
+      if (tab) {
+        e.preventDefault();
+        switchTab(tab);
       }
     });
-  }
 
-  /* ============================================================================
-     HASH-BASED DEEP URL ROUTING ENGINE (#sun, #moon, #mercury, etc.)
-     ============================================================================ */
-  function initHashDeepRouting() {
-    function handleHashJump() {
-      const hash = window.location.hash.replace('#', '').trim().toLowerCase();
-      if (!hash) return;
-      const target = document.getElementById(hash);
-      if (target) {
-        setTimeout(() => {
-          executeWarpTransit(hash);
-        }, 150);
+    // Right sidebar Prev / Next buttons & Mobile Drawer toggle
+    document.getElementById('sidebar-prev-btn')?.addEventListener('click', () => {
+      const i = TAB_ORDER.indexOf(state.activeTab);
+      switchTab(TAB_ORDER[i > 0 ? i - 1 : 0]);
+    });
+    document.getElementById('sidebar-next-btn')?.addEventListener('click', () => {
+      const i = TAB_ORDER.indexOf(state.activeTab);
+      switchTab(TAB_ORDER[i < TAB_ORDER.length - 1 ? i + 1 : TAB_ORDER.length - 1]);
+    });
+
+    const mobToggle = document.getElementById('mobile-sidebar-toggle');
+    const sidebarEl = document.getElementById('planet-sidebar');
+    const scrimEl = document.getElementById('sidebar-mobile-scrim');
+    const toggleMobileDrawer = (e) => {
+      e?.stopPropagation();
+      const open = sidebarEl?.classList.toggle('mobile-open');
+      scrimEl?.classList.toggle('open', !!open);
+      mobToggle?.setAttribute('aria-expanded', String(!!open));
+    };
+    mobToggle?.addEventListener('click', toggleMobileDrawer);
+    scrimEl?.addEventListener('click', closeMobileDrawer);
+
+    document.getElementById('video-sound-toggle')?.addEventListener('click', () => {
+      setVideoSoundEnabled(!state.isSoundOn);
+    });
+
+    const toggleCinema = () => document.body.classList.toggle('cinema-kiosk-mode');
+    document.getElementById('cinema-mode-btn')?.addEventListener('click', toggleCinema);
+    document.getElementById('exit-cinema-pill')?.addEventListener('click', () => {
+      document.body.classList.remove('cinema-kiosk-mode');
+    });
+
+    document.getElementById('back-to-top-btn')?.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    window.addEventListener('keydown', (e) => {
+      const searchOpen = document.getElementById('search-modal')?.classList.contains('open');
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        window.openArchiveSearchModal?.();
+        return;
       }
-    }
+      if (e.key === 'Escape') {
+        if (searchOpen) window.closeArchiveSearchModal?.();
+        else {
+          document.body.classList.remove('cinema-kiosk-mode');
+          closeMobileDrawer();
+        }
+        return;
+      }
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) || searchOpen) return;
 
-    window.addEventListener('hashchange', handleHashJump);
-    if (window.location.hash) {
-      window.addEventListener('load', handleHashJump, { once: true });
-    }
-  }
+      if (e.key === '/') {
+        e.preventDefault();
+        window.openArchiveSearchModal?.();
+        return;
+      }
+      if (e.key.toLowerCase() === 'c') {
+        toggleCinema();
+        return;
+      }
+      if (e.key === 'ArrowRight') {
+        const i = TAB_ORDER.indexOf(state.activeTab);
+        if (i < TAB_ORDER.length - 1) switchTab(TAB_ORDER[i + 1]);
+        return;
+      }
+      if (e.key === 'ArrowLeft') {
+        const i = TAB_ORDER.indexOf(state.activeTab);
+        if (i > 0) switchTab(TAB_ORDER[i - 1]);
+        return;
+      }
 
-  /* ============================================================================
-     TOUCH SWIPE GESTURE NAVIGATION FOR MOBILE & TABLET DEVICES
-     ============================================================================ */
-  function initTouchSwipeNavigation() {
-    let startY = 0;
-    let startX = 0;
-    const threshold = 65;
+      if (state.activeTab === 'quiz') {
+        if (['1', '2', '3', '4'].includes(e.key)) {
+          window.__quizHandleOptionIndex?.(parseInt(e.key, 10) - 1);
+          return;
+        }
+        if (e.key === 'Enter') {
+          window.__quizAdvance?.();
+          return;
+        }
+      }
 
+      if (NUMBER_KEY_MAP[e.key]) {
+        e.preventDefault();
+        switchTab(NUMBER_KEY_MAP[e.key]);
+      }
+    });
+
+    // Horizontal swipe tab switching on mobile
+    let touchX = 0;
+    let touchY = 0;
     window.addEventListener('touchstart', (e) => {
-      if (e.touches.length !== 1) return;
-      startY = e.touches[0].clientY;
-      startX = e.touches[0].clientX;
+      if (e.touches.length !== 1 || e.target.closest('#planet-sidebar, .hero-worlds-strip, input')) return;
+      touchX = e.touches[0].clientX;
+      touchY = e.touches[0].clientY;
     }, { passive: true });
 
     window.addEventListener('touchend', (e) => {
-      if (e.changedTouches.length !== 1) return;
-      const deltaY = e.changedTouches[0].clientY - startY;
-      const deltaX = e.changedTouches[0].clientX - startX;
-
-      if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > threshold) {
-        const chapterIds = ['hero', ...(window.PLANETS_DATA || []).map(p => p.id), 'quiz'];
-        const currentIndex = chapterIds.indexOf(state.activeChapterId);
-
-        if (deltaY < 0 && currentIndex < chapterIds.length - 1) {
-          const nextId = chapterIds[currentIndex + 1];
-          executeWarpTransit(nextId);
-        } else if (deltaY > 0 && currentIndex > 0) {
-          const prevId = chapterIds[currentIndex - 1];
-          executeWarpTransit(prevId);
-        }
+      if (!touchX || e.changedTouches.length !== 1) return;
+      const dx = e.changedTouches[0].clientX - touchX;
+      const dy = e.changedTouches[0].clientY - touchY;
+      touchX = 0;
+      if (Math.abs(dx) > 85 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        const i = TAB_ORDER.indexOf(state.activeTab);
+        if (dx < 0 && i < TAB_ORDER.length - 1) switchTab(TAB_ORDER[i + 1]);
+        else if (dx > 0 && i > 0) switchTab(TAB_ORDER[i - 1]);
       }
     }, { passive: true });
-  }
 
-  /* ============================================================================
-     3D POINTER PERSPECTIVE TRACKING WITH SMOOTH CUBIC EASING
-     ============================================================================ */
-  function initPerspectivePointerTracking() {
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-    const cards = document.querySelectorAll('.perspective-container, .chapter-media-wrap, .stat-card');
-
-    let mouseX = 0;
-    let mouseY = 0;
-    let currentX = 0;
-    let currentY = 0;
-
-    window.addEventListener('mousemove', (e) => {
-      mouseX = (e.clientX / window.innerWidth) - 0.5;
-      mouseY = (e.clientY / window.innerHeight) - 0.5;
-    }, { passive: true });
-
-    function renderTilt() {
-      currentX += (mouseX - currentX) * 0.08;
-      currentY += (mouseY - currentY) * 0.08;
-
-      const tiltX = -currentY * 9;
-      const tiltY = currentX * 12;
-
-      cards.forEach(card => {
-        if (card.classList.contains('in-viewport')) {
-          card.style.transform = `perspective(1000px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translateZ(8px)`;
-        }
-      });
-
-      requestAnimationFrame(renderTilt);
-    }
-    renderTilt();
-  }
-
-  /* ============================================================================
-     12. MASTER INITIALIZATION CONTROLLER
-     ============================================================================ */
-  document.addEventListener('DOMContentLoaded', () => {
-    initLenis();
-    initHeroMediaAndAudio();
-    initCursorAndMagnets();
-    initScrollProgress();
-    renderPlanetChapters();
-    initVerticalRailAndScrollSpy();
-    initKeyboardNavigation();
-    initVideoManager();
-    initCountUpNumbers();
-    initQuizEngine();
-    initResourceGarbageCollection();
-    verifyCrossBrowserCompatibility();
-    initTouchSwipeNavigation();
-    initHashDeepRouting();
-    initVisibilityAudioLifecycle();
-    initStoragePersistence();
-
-    // Crystalline chime audio feedback on navigational dots and buttons
-    document.querySelectorAll('.dot-item, .option-btn, .action-link').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        if (window.livingArchiveAudio) window.livingArchiveAudio.playCrystallineChime();
-      }, { passive: true });
+    window.addEventListener('hashchange', () => {
+      const h = window.location.hash.replace('#', '').trim().toLowerCase();
+      if (TAB_ORDER.includes(h)) switchTab(h);
     });
-
-    initWarpStarStreakFX();
-    initPerspectivePointerTracking();
-
-    // Resume Web Audio on first meaningful user interaction
-    const audioResumeHandler = () => {
-      livingArchiveAudio.resume();
-      window.removeEventListener('pointerdown', audioResumeHandler);
-      window.removeEventListener('keydown', audioResumeHandler);
-    };
-    window.addEventListener('pointerdown', audioResumeHandler);
-    window.addEventListener('keydown', audioResumeHandler);
-
-  });
-
-})();
-
-  // Day 5 Web Audio & Transit Compliance Verification
-  if (typeof window !== 'undefined') {
-    window.__livingArchiveAudit = {
-      version: '5.0.0',
-      milestone: 'Day 5 — Warp Transit & Procedural Audio Landscape',
-      audioLimiterVerified: true,
-      subBassFrequency: 54.0,
-      starStreakCanvasActive: true,
-      touchSwipeGestureSupported: true,
-      teleportKeysSupported: '1-0 (10 celestial bodies)',
-      zeroClippingEnforced: true
-    };
   }
 
-  // Strict Production Syntax & DOM Validation Stamp
-  window.__productionValidationV6 = {
-    release: '6.0.0',
-    buildStatus: 'VERIFIED_CLEAN',
-    html5Valid: true,
-    jsValid: true,
-    allWorldsBound: true,
-    audioEngineActive: true
-  };
-
-
-  // Async Non-Blocking Poster Decode Hinting
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('img').forEach(img => { img.decoding = 'async'; });
+    renderHeroFilmstrip();
+    renderPlanetChapters();
+    initCompareLab();
+    initSearchModal();
+    initQuizEngine();
+    initGlobalInteractions();
+
+    if (typeof Lenis !== 'undefined') {
+      state.lenisInstance = new Lenis({ duration: 1.0, smoothWheel: true, smoothTouch: false });
+      const raf = (t) => { state.lenisInstance.raf(t); requestAnimationFrame(raf); };
+      requestAnimationFrame(raf);
+    }
+
+    const hash = window.location.hash.replace('#', '').trim().toLowerCase();
+    const initialTab = TAB_ORDER.includes(hash) ? hash : 'hero';
+    switchTab(initialTab, { skipHash: !hash, force: true });
   });
-
-
-  window.__observatoryV3Integrity = { checkedAt: '2026-11-12', ephemerisActive: true, searchReady: true };
+})();

@@ -2,204 +2,301 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' blob: data: https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.jsdelivr.net; media-src 'self' blob: data:; img-src 'self' blob: data: https:; font-src 'self' https://fonts.gstatic.com data:;">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' blob: data: https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; media-src 'self' blob: data:; img-src 'self' blob: data: https:; font-src 'self' https://fonts.gstatic.com data:;">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Living Archive — Solar System Odyssey</title>
+  <title>The Living Archive — Solar System Observatory</title>
 
-  <!-- Primary Meta Tags -->
-  <meta name="title" content="The Living Archive — Solar System Odyssey">
-  <meta name="description" content="A cinematic, award-winning educational archive celebrating the Sun, the Moon, and all eight planets of our Solar System. Architected by Tanmay (Adesh Srivastava).">
+  <meta name="description" content="Editorial 4K interactive solar system archive covering the Sun, Moon, and eight planets. Designed & Architected by Tanmay (Adesh Srivastava).">
   <meta name="author" content="Tanmay (Adesh Srivastava)">
-  <meta name="theme-color" content="#05060a">
+  <meta name="theme-color" content="#050608">
+  <link rel="icon" type="image/svg+xml" href="logo.svg?v=2">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="logo.svg">
-
-  <!-- Google Fonts: Humanist, Curated Editorial Trio (NO Generic AI Fonts) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-
-  <!-- Master Cinematic Stylesheet -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- 1. Minimalist Single-Color Scroll Progress Bar (Top) -->
   <div id="scroll-progress" aria-hidden="true"></div>
+  <div id="aria-live-announcer" class="sr-only" aria-live="polite" role="status"></div>
 
-  <!-- 2. Subtle Cinematic Film-Grain Texture -->
-  <div class="film-grain" aria-hidden="true"></div>
+  <!-- ======================================================================
+       BOUNDED TOP OBSERVATORY BAR
+       ====================================================================== -->
+  <header class="bounded-topbar" id="observatory-header">
+    <div class="topbar-left">
+      <button type="button" class="brand-btn tab-trigger" data-tab="hero" aria-label="Observatory Overview">
+        <img src="logo.svg?v=2" alt="" class="brand-logo" width="22" height="22">
+        <span class="brand-name">Living Archive</span>
+      </button>
+      <span class="topbar-sep" aria-hidden="true"></span>
+      <span class="topbar-active-context" id="topbar-active-context">Overview</span>
+    </div>
 
-  <!-- 3. Custom Orbital Cursor Follower -->
-  <div id="custom-cursor" aria-hidden="true"></div>
-  <div id="cursor-dot" aria-hidden="true"></div>
+    <div class="topbar-right">
+      <nav class="topbar-modes" role="tablist" aria-label="Observatory Views">
+        <button type="button" class="mode-tab active" role="tab" aria-selected="true" data-tab="hero">Overview</button>
+        <button type="button" class="mode-tab" role="tab" aria-selected="false" data-tab="compare">Compare</button>
+        <button type="button" class="mode-tab" role="tab" aria-selected="false" data-tab="quiz">Quiz</button>
+      </nav>
+      <span class="topbar-sep" aria-hidden="true"></span>
+      <button type="button" class="tool-icon-btn" id="open-search-btn" aria-label="Search Archive (/)" title="Search Archive (/)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      </button>
+      <button type="button" class="tool-icon-btn" id="video-sound-toggle" aria-label="Toggle Video Audio" title="Toggle Video Sound">
+        <svg id="icon-sound-off" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+        <svg id="icon-sound-on" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="display:none;" aria-hidden="true"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+      </button>
+      <button type="button" class="tool-icon-btn" id="cinema-mode-btn" aria-label="Toggle Fullscreen Cinema View (C)" title="Cinema View (C)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+      </button>
+      <button type="button" class="mobile-sidebar-toggle" id="mobile-sidebar-toggle" aria-expanded="false" aria-controls="planet-sidebar">
+        Worlds
+      </button>
+    </div>
+  </header>
 
-  <!-- 4. Vertical Dot Rail (Desktop side navigation) -->
-  <nav class="vertical-dot-rail" id="vertical-dot-rail" aria-label="Celestial Chapter Navigation">
-    <!-- Populated dynamically by script.js -->
-  </nav>
+  <!-- ======================================================================
+       RIGHT-SIDE BOUNDED PLANETARY SIDEBAR (EACH PLANET)
+       ====================================================================== -->
+  <aside class="planet-sidebar" id="planet-sidebar" aria-label="Celestial Body Index">
+    <div class="sidebar-header">
+      <span>Worlds</span>
+      <span class="sidebar-count" id="sidebar-count">00 / 10</span>
+    </div>
 
-  <!-- Main Cinematic Document Flow -->
-  <main id="main-content">
+    <div class="sidebar-list" id="planet-tabs-track" role="tablist" aria-orientation="vertical">
+      <button type="button" class="sidebar-planet-btn active" role="tab" aria-selected="true" data-tab="hero" style="--tab-accent:#e8c37d;">
+        <span class="sp-index">00</span>
+        <span class="sp-name">Overview</span>
+      </button>
+      <button type="button" class="sidebar-planet-btn" role="tab" aria-selected="false" data-tab="sun" style="--tab-accent:#f59e0b;">
+        <span class="sp-index">01</span>
+        <span class="sp-name">Sun</span>
+      </button>
+      <button type="button" class="sidebar-planet-btn" role="tab" aria-selected="false" data-tab="moon" style="--tab-accent:#e2e8f0;">
+        <span class="sp-index">02</span>
+        <span class="sp-name">Moon</span>
+      </button>
+      <button type="button" class="sidebar-planet-btn" role="tab" aria-selected="false" data-tab="mercury" style="--tab-accent:#94a3b8;">
+        <span class="sp-index">03</span>
+        <span class="sp-name">Mercury</span>
+      </button>
+      <button type="button" class="sidebar-planet-btn" role="tab" aria-selected="false" data-tab="venus" style="--tab-accent:#f97316;">
+        <span class="sp-index">04</span>
+        <span class="sp-name">Venus</span>
+      </button>
+      <button type="button" class="sidebar-planet-btn" role="tab" aria-selected="false" data-tab="earth" style="--tab-accent:#06b6d4;">
+        <span class="sp-index">05</span>
+        <span class="sp-name">Earth</span>
+      </button>
+      <button type="button" class="sidebar-planet-btn" role="tab" aria-selected="false" data-tab="mars" style="--tab-accent:#ef4444;">
+        <span class="sp-index">06</span>
+        <span class="sp-name">Mars</span>
+      </button>
+      <button type="button" class="sidebar-planet-btn" role="tab" aria-selected="false" data-tab="jupiter" style="--tab-accent:#d97706;">
+        <span class="sp-index">07</span>
+        <span class="sp-name">Jupiter</span>
+      </button>
+      <button type="button" class="sidebar-planet-btn" role="tab" aria-selected="false" data-tab="saturn" style="--tab-accent:#eab308;">
+        <span class="sp-index">08</span>
+        <span class="sp-name">Saturn</span>
+      </button>
+      <button type="button" class="sidebar-planet-btn" role="tab" aria-selected="false" data-tab="uranus" style="--tab-accent:#14b8a6;">
+        <span class="sp-index">09</span>
+        <span class="sp-name">Uranus</span>
+      </button>
+      <button type="button" class="sidebar-planet-btn" role="tab" aria-selected="false" data-tab="neptune" style="--tab-accent:#3b82f6;">
+        <span class="sp-index">10</span>
+        <span class="sp-name">Neptune</span>
+      </button>
+    </div>
 
-    <!-- HERO SECTION: True 4K UHD Crisp Video, Sound Toggle, Editorial Masthead (Top-Left) -->
-    <section class="hero-section" id="hero" data-chapter="hero" aria-label="Hero Introduction">
+    <div class="sidebar-footer">
+      <button type="button" class="sidebar-step-btn" id="sidebar-prev-btn" aria-label="Previous World">&larr; Prev</button>
+      <button type="button" class="sidebar-step-btn" id="sidebar-next-btn" aria-label="Next World">Next &rarr;</button>
+    </div>
+  </aside>
+
+  <div class="sidebar-mobile-scrim" id="sidebar-mobile-scrim"></div>
+  <button type="button" class="exit-cinema-pill" id="exit-cinema-pill">Exit Cinema View (C)</button>
+
+  <!-- ======================================================================
+       MAIN TABBED OBSERVATORY STAGE
+       ====================================================================== -->
+  <main id="main-content" class="observatory-main">
+
+    <!-- OVERVIEW TAB -->
+    <section class="hero-section tab-panel active" id="hero" data-chapter="hero" role="tabpanel" aria-label="Observatory Overview">
       <div class="hero-video-wrap">
-        <!-- Native 4K UHD 3840x2160 Master Video (Direct GPU Metal acceleration, unsharp-sharpened, zero watermark) -->
-        <video 
-          class="hero-video" 
-          id="hero-video" 
+        <video
+          class="hero-video"
+          id="hero-video"
           autoplay
           muted
-          loop 
+          loop
           playsinline
-          preload="auto" 
-          poster="videos/mars_3d_cinema.jpg" 
+          preload="auto"
+          poster="videos/mars_3d_cinema.jpg"
         >
           <source src="videos/hero.mp4" type="video/mp4">
         </video>
-        <!-- Crisp Bottom Gradient for Legibility -->
-        <div class="hero-bottom-gradient"></div>
+        <div class="hero-scrim"></div>
       </div>
 
-      <!-- Hero Typography & Actions (Top-Left Masthead) -->
-      <div class="hero-content">
-        <h1 class="hero-title" id="hero-title">The Living Archive</h1>
-        <p class="hero-tagline" id="hero-tagline">
-          The nuclear fire of Sol, Earth's lunar sentinel, and the eight planetary sanctuaries of our solar system.
-        </p>
-        <div class="hero-actions">
-          <a href="#sun" class="btn-primary magnetic-btn">Explore Worlds &darr;</a>
-          <a href="#quiz" class="btn-secondary magnetic-btn">Take The Quiz &rarr;</a>
+      <div class="hero-layout">
+        <div class="hero-content">
+          <div class="hero-meta-line" id="hero-jd-badge">SOLAR SYSTEM ATLAS • 10 CELESTIAL BODIES</div>
+          <h1 class="hero-title">The Living Archive</h1>
+          <p class="hero-tagline">
+            An editorial chronicle of Sol, Luna, and every world in our planetary neighborhood — presented in native 4K motion.
+          </p>
+          <div class="hero-actions">
+            <button type="button" class="btn-solid tab-trigger" data-tab="sun">Begin Solar Tour &rarr;</button>
+            <button type="button" class="btn-outline tab-trigger" data-tab="compare">Compare Telemetry</button>
+          </div>
+        </div>
+
+        <!-- Bottom Filmstrip Selector -->
+        <div class="hero-filmstrip-wrap" aria-label="Celestial Body Filmstrip">
+          <div class="filmstrip-header">
+            <span>Index 01 — 10</span>
+            <span>Keys 1–0 &bull; &larr; / &rarr; arrows</span>
+          </div>
+          <div class="hero-worlds-strip" id="hero-worlds-grid"></div>
         </div>
       </div>
-
-      <!-- Bottom-Left Scroll Cue -->
-      <a href="#sun" class="hero-scroll-cue magnetic-btn" aria-label="Descend into the solar chapters">
-        <span class="cue-mouse"><span class="cue-wheel"></span></span>
-        <span>Scroll to Explore &darr;</span>
-      </a>
-
-      <!-- Floating Sound Toggle Button (Bottom-Right) -->
-      <button id="hero-audio-toggle" class="hero-audio-btn is-muted magnetic-btn" aria-label="Toggle Audio" title="Audio Atmosphere">
-        <span class="audio-waves" aria-hidden="true">
-          <span class="wave-bar"></span>
-          <span class="wave-bar"></span>
-          <span class="wave-bar"></span>
-          <span class="wave-bar"></span>
-        </span>
-        <span class="audio-label" id="audio-label">Sound Off</span>
-      </button>
     </section>
 
-    <!-- CELESTIAL CHAPTERS CONTAINER (Sun to Neptune, rendered by script.js) -->
+    <!-- PLANET TABS CONTAINER -->
     <div id="chapters-container">
       <noscript>
-        <div style="padding: 4rem 2rem; text-align: center; color: #fff;">
+        <div style="padding:6rem 2rem;text-align:center;color:#fff;">
           <h2>JavaScript Required</h2>
-          <p>Please enable JavaScript to experience the full interactive 3D chapters and video observatory.</p>
+          <p>Enable JavaScript to browse the interactive planetary tabs.</p>
         </div>
       </noscript>
     </div>
 
-    <!-- QUIZ CHAPTER (Interactive, Full-Screen, Circular Timer, Streak, Confetti) -->
-    <section class="quiz-chapter" id="quiz" data-chapter="quiz" aria-label="Interactive Solar System Quiz">
-      <div class="quiz-ambient-glow"></div>
-      <div class="quiz-container">
-
-        <!-- Quiz Header -->
-        <div class="quiz-header">
-          <span class="quiz-chapter-tag">Chapter 11 • Assessment</span>
-          <h2 class="quiz-title">Solar System Odyssey Quiz</h2>
-          <p class="quiz-desc">
-            Test your planetary science acumen. Choose your difficulty mode below to begin the assessment.
-          </p>
-
-          <!-- Mode Switcher -->
-          <div class="quiz-mode-switch" role="tablist" aria-label="Quiz difficulty mode">
-            <button class="mode-btn active magnetic-btn" id="btn-mode-kids" role="tab" aria-selected="true" data-mode="kids">Explorer (Kids)</button>
-            <button class="mode-btn magnetic-btn" id="btn-mode-adults" role="tab" aria-selected="false" data-mode="adults">Astrophysicist (Adults)</button>
+    <!-- COMPARE TAB -->
+    <section class="compare-chapter tab-panel" id="compare" data-chapter="compare" role="tabpanel" aria-label="Compare Observatory" hidden>
+      <div class="editorial-container">
+        <header class="section-header-bar">
+          <div>
+            <div class="mono-kicker">Comparative Telemetry</div>
+            <h2 class="section-display-title">Planetary Matrix &amp; Versus</h2>
+            <p class="section-lead">Cross-reference physical metrics across inner silicate worlds, outer giants, ocean moons, dwarf planets, and habitable exoplanets.</p>
           </div>
+          <div class="export-group">
+            <button type="button" class="btn-outline" id="export-json-btn">Export JSON</button>
+            <button type="button" class="btn-outline" id="export-csv-btn">Export CSV</button>
+          </div>
+        </header>
+
+        <div class="subtab-bar" role="tablist" aria-label="Comparison Lab Views">
+          <button type="button" class="subtab-btn active" role="tab" aria-selected="true" data-lab="versus">Head-to-Head VS</button>
+          <button type="button" class="subtab-btn" role="tab" aria-selected="false" data-lab="matrices">All Worlds Matrix</button>
+          <button type="button" class="subtab-btn" role="tab" aria-selected="false" data-lab="moons">Ocean Moons &amp; Dwarfs</button>
+          <button type="button" class="subtab-btn" role="tab" aria-selected="false" data-lab="exoplanets">Exoplanets &amp; Probes</button>
         </div>
 
-        <!-- Active Question Card -->
-        <div class="quiz-card" id="quiz-question-card" role="region" aria-live="polite">
-          
-          <!-- Meta Header with Streak, Circular Timer & High Score -->
-          <div class="quiz-top-hud">
-            <div class="quiz-counter-group">
-              <span class="quiz-step-tag" id="quiz-question-counter">Question 1 of 12</span>
-              <span class="streak-badge" id="streak-badge">🔥 Streak: 0</span>
+        <div id="compare-lab-stage"></div>
+      </div>
+    </section>
+
+    <!-- QUIZ TAB -->
+    <section class="quiz-chapter tab-panel" id="quiz" data-chapter="quiz" role="tabpanel" aria-label="Odyssey Quiz" hidden>
+      <div class="editorial-container quiz-narrow">
+        <header class="quiz-header">
+          <div class="mono-kicker">Assessment • 12 Questions</div>
+          <h2 class="section-display-title">Solar System Quiz</h2>
+          <p class="section-lead">Keys 1–4 select an option, Enter advances to the next inquiry.</p>
+
+          <div class="subtab-bar quiz-mode-bar" role="tablist" aria-label="Quiz difficulty mode">
+            <button type="button" class="subtab-btn active" id="btn-mode-kids" role="tab" aria-selected="true" data-mode="kids">Explorer (Kids)</button>
+            <button type="button" class="subtab-btn" id="btn-mode-adults" role="tab" aria-selected="false" data-mode="adults">Astrophysicist (Adults)</button>
+          </div>
+        </header>
+
+        <div class="quiz-frame" id="quiz-question-card" role="region" aria-live="polite">
+          <div class="quiz-hud-bar">
+            <div class="hud-pair">
+              <span id="quiz-question-counter">1 / 12</span>
+              <span class="hud-sep">&bull;</span>
+              <span id="streak-badge">Streak 0</span>
             </div>
 
-            <!-- Circular SVG Countdown Timer -->
-            <div class="timer-container" title="Time remaining for this question">
+            <div class="timer-readout">
               <svg class="timer-svg" viewBox="0 0 40 40" aria-hidden="true">
                 <circle class="timer-track" cx="20" cy="20" r="17.5"></circle>
                 <circle class="timer-fill" id="timer-fill" cx="20" cy="20" r="17.5"></circle>
               </svg>
-              <span class="timer-number" id="timer-number">20</span>
+              <span id="timer-number">20</span>
             </div>
 
-            <div class="score-hud-group">
-              <span class="best-score-tag" id="best-score-display">⭐ Best: 0</span>
-              <span class="current-score-tag" id="quiz-score-counter">Score: 0</span>
+            <div class="hud-pair">
+              <span id="best-score-display">Best 0</span>
+              <span class="hud-sep">&bull;</span>
+              <strong id="quiz-score-counter">Score 0</strong>
             </div>
           </div>
 
-          <!-- Question Prompt -->
-          <h3 class="quiz-question-text" id="quiz-question-text">Loading question prompt...</h3>
+          <h3 class="quiz-question-text" id="quiz-question-text">Loading...</h3>
+          <div class="quiz-options-grid" id="quiz-options-grid"></div>
 
-          <!-- Options Grid -->
-          <div class="quiz-options-grid" id="quiz-options-grid" role="group" aria-label="Answer options">
-            <!-- Dynamically populated by script.js -->
-          </div>
-
-          <!-- Instant Scientific Feedback Box -->
           <div class="quiz-feedback-box" id="quiz-feedback-box">
-            <div class="feedback-status" id="feedback-status">Correct! Stellar Observation</div>
-            <div class="feedback-text" id="feedback-text">Scientific explanation text...</div>
+            <div class="feedback-status" id="feedback-status">Correct</div>
+            <div class="feedback-text" id="feedback-text"></div>
           </div>
 
-          <!-- Next Action Button -->
-          <button class="quiz-next-btn magnetic-btn" id="quiz-next-btn">Next Question &rarr;</button>
+          <button type="button" class="btn-solid quiz-next-btn" id="quiz-next-btn">Next Question &rarr;</button>
         </div>
 
-        <!-- Final Results Card -->
-        <div class="quiz-card quiz-results-card" id="quiz-results-card" role="region" aria-label="Quiz final score">
-          <div class="results-trophy" id="results-trophy">🏆</div>
-          <div class="results-score-display" id="results-score-display">12 / 12</div>
-          <h3 class="results-title" id="results-title">Galactic Master!</h3>
-          <p class="results-message" id="results-message">
-            You navigated every cosmic inquiry with stellar precision.
-          </p>
-          <button class="btn-primary magnetic-btn" id="quiz-restart-btn">Take Another Voyage</button>
+        <div class="quiz-frame quiz-results-frame" id="quiz-results-card" role="region" aria-label="Quiz Score">
+          <div class="mono-kicker">Assessment Complete</div>
+          <div class="results-score-big" id="results-score-display">12 / 12</div>
+          <h3 class="results-title" id="results-title">Galactic Master</h3>
+          <p class="results-message" id="results-message"></p>
+          <div class="results-actions">
+            <button type="button" class="btn-solid" id="quiz-restart-btn">Restart Quiz</button>
+            <button type="button" class="btn-outline tab-trigger" data-tab="compare">Inspect Compare Lab</button>
+          </div>
         </div>
-
       </div>
     </section>
 
   </main>
 
-  <!-- 9. Modern Minimalist One-Line Footer -->
+  <!-- Search Command Modal -->
+  <div class="search-modal-backdrop" id="search-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Search Archive">
+    <div class="search-modal-card">
+      <div class="search-input-row">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="archive-search-input" placeholder="Search planets, moons, missions, phenomena..." autocomplete="off">
+        <button type="button" class="close-search-btn" id="close-search-btn">ESC</button>
+      </div>
+      <div class="search-results-list" id="search-results-list"></div>
+    </div>
+  </div>
+
+  <!-- Minimal Footer -->
   <footer class="site-footer" role="contentinfo">
-    <div class="footer-container">
-      <p class="footer-line">
-        The Living Archive • Conceived, Designed &amp; Architected by <strong>Tanmay (Adesh Srivastava)</strong> • All Rights Reserved.
-      </p>
-      <a href="#hero" class="back-to-top-btn magnetic-btn" id="back-to-top-btn" aria-label="Return to top of page">&uarr; Zenith</a>
+    <div class="footer-inner">
+      <p class="footer-credit">The Living Archive &mdash; <strong>Tanmay (Adesh Srivastava)</strong></p>
+      <div class="footer-right">
+        <span class="footer-keys">1–0 Select World &bull; &larr;/&rarr; Tabs &bull; / Search &bull; C Cinema</span>
+        <button type="button" class="btn-top" id="back-to-top-btn">&uarr; Top</button>
+      </div>
     </div>
   </footer>
 
-  <!-- External Modern Web CDNs (Lenis Smooth Scroll, GSAP, Confetti) -->
+  <!-- Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
-  <!-- Modular Scripts Architecture -->
+  <!-- Archive Data & Engine -->
   <script src="data/planets.js"></script>
   <script src="data/quiz.js"></script>
   <script src="script.js"></script>
