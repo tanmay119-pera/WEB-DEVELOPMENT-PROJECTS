@@ -22,7 +22,7 @@
   --accent: #e8c37d;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 
-  --sidebar-w: 164px;
+  --sidebar-w: 118px;
   --safe-right: calc(var(--sidebar-w) + 52px);
 }
 
@@ -222,11 +222,11 @@ body {
 }
 
 /* ==========================================================================
-   2. RIGHT-SIDE BOUNDED PLANETARY SIDEBAR (EACH PLANET)
+   2. RIGHT-SIDE FLOATING PLANETARY TYPE INDEX (NO BACKGROUND OR NUMBERING)
    ========================================================================== */
 .planet-sidebar {
   position: fixed;
-  right: 24px;
+  right: 28px;
   top: 50%;
   transform: translateY(-50%);
   width: var(--sidebar-w);
@@ -234,32 +234,16 @@ body {
   z-index: 880;
   display: flex;
   flex-direction: column;
-  background: rgba(7, 9, 13, 0.84);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 8px;
-  overflow: hidden;
+  background: transparent;
+  border: none;
   transition: transform 0.3s var(--ease-out), opacity 0.3s ease;
 }
-
-.sidebar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 9px 12px;
-  border-bottom: 1px solid var(--line-subtle);
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-.sidebar-count { color: var(--accent); }
 
 .sidebar-list {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
   overflow-y: auto;
   scrollbar-width: none;
   padding: 4px 0;
@@ -268,69 +252,47 @@ body {
 
 .sidebar-planet-btn {
   position: relative;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  padding: 7px 12px;
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  padding: 3px 2px;
   background: transparent;
   border: none;
-  border-left: 2px solid transparent;
-  color: var(--text-secondary);
-  font-family: var(--font-body);
-  font-size: 0.88rem;
-  font-weight: 500;
-  text-align: left;
+  color: rgba(245, 246, 248, 0.78);
+  font-family: var(--font-heading);
+  font-size: 1.38rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.28;
+  text-align: right;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.95), 0 0 4px rgba(0, 0, 0, 0.96);
   cursor: pointer;
-  transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+  transition: color 0.2s ease, transform 0.22s var(--ease-out);
 }
-.sidebar-planet-btn .sp-index {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  color: var(--text-muted);
-  width: 18px;
-  flex-shrink: 0;
+.sidebar-planet-btn .sp-name {
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+  transition: border-color 0.2s ease;
 }
 .sidebar-planet-btn:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.04);
+  color: #ffffff;
+  transform: translateX(-4px);
 }
 .sidebar-planet-btn.active {
-  color: #fff;
+  color: #ffffff;
+  font-style: italic;
   font-weight: 600;
-  background: rgba(255, 255, 255, 0.08);
-  border-left-color: var(--tab-accent, var(--accent));
 }
-.sidebar-planet-btn.active .sp-index {
-  color: var(--tab-accent, var(--accent));
+.sidebar-planet-btn.active .sp-name {
+  border-bottom-color: var(--tab-accent, var(--accent));
 }
-
-.sidebar-footer {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  border-top: 1px solid var(--line-subtle);
-}
-.sidebar-step-btn {
-  padding: 8px 6px;
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  cursor: pointer;
-  transition: color 0.18s ease, background 0.18s ease;
-}
-.sidebar-step-btn:first-child { border-right: 1px solid var(--line-subtle); }
-.sidebar-step-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
 
 .sidebar-mobile-scrim {
   display: none;
   position: fixed;
   inset: 0;
   z-index: 870;
-  background: rgba(3, 4, 6, 0.72);
+  background: rgba(3, 4, 6, 0.86);
 }
 
 /* Cinema Kiosk Mode */
@@ -373,11 +335,11 @@ body.cinema-kiosk-mode .exit-cinema-pill { display: inline-flex; }
   .mobile-sidebar-toggle { display: inline-flex; align-items: center; }
 
   .planet-sidebar {
-    right: 10px;
-    top: 64px;
-    transform: translateX(calc(100% + 24px));
-    max-height: calc(100vh - 80px);
-    width: 196px;
+    right: 18px;
+    top: 72px;
+    transform: translateX(calc(100% + 28px));
+    max-height: calc(100vh - 96px);
+    width: auto;
     visibility: hidden;
     pointer-events: none;
   }

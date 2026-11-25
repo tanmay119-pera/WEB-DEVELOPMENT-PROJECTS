@@ -150,22 +150,17 @@
       btn.setAttribute('aria-selected', String(isActive));
     });
 
-    // Update bounded topbar context label & sidebar counter
+    // Update bounded topbar context label
     const planet = getPlanetById(targetId);
     const ctxEl = document.getElementById('topbar-active-context');
-    const countEl = document.getElementById('sidebar-count');
     if (planet) {
-      if (ctxEl) ctxEl.textContent = `${planet.chapter} — ${planet.name}`;
-      if (countEl) countEl.textContent = planet.chapter.replace(' ', '');
+      if (ctxEl) ctxEl.textContent = planet.name;
     } else if (targetId === 'compare') {
       if (ctxEl) ctxEl.textContent = 'Comparative Telemetry';
-      if (countEl) countEl.textContent = 'COMPARE';
     } else if (targetId === 'quiz') {
       if (ctxEl) ctxEl.textContent = 'Knowledge Assessment';
-      if (countEl) countEl.textContent = 'QUIZ';
     } else {
       if (ctxEl) ctxEl.textContent = 'Overview';
-      if (countEl) countEl.textContent = '00 / 10';
     }
 
     // 2. Toggle visible panel
@@ -936,16 +931,7 @@
       }
     });
 
-    // Right sidebar Prev / Next buttons & Mobile Drawer toggle
-    document.getElementById('sidebar-prev-btn')?.addEventListener('click', () => {
-      const i = TAB_ORDER.indexOf(state.activeTab);
-      switchTab(TAB_ORDER[i > 0 ? i - 1 : 0]);
-    });
-    document.getElementById('sidebar-next-btn')?.addEventListener('click', () => {
-      const i = TAB_ORDER.indexOf(state.activeTab);
-      switchTab(TAB_ORDER[i < TAB_ORDER.length - 1 ? i + 1 : TAB_ORDER.length - 1]);
-    });
-
+    // Mobile Drawer toggle
     const mobToggle = document.getElementById('mobile-sidebar-toggle');
     const sidebarEl = document.getElementById('planet-sidebar');
     const scrimEl = document.getElementById('sidebar-mobile-scrim');
