@@ -660,30 +660,9 @@
     }
   }
 
-  function downloadFile(filename, content, mime) {
-    const blob = new Blob([content], { type: mime });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
   function initCompareLab() {
     document.querySelectorAll('#compare .subtab-btn').forEach((btn) => {
       btn.addEventListener('click', () => renderCompareLabView(btn.getAttribute('data-lab')));
-    });
-    document.getElementById('export-json-btn')?.addEventListener('click', () => {
-      downloadFile('living_archive_solar_system.json', JSON.stringify(window.PLANETS_DATA || [], null, 2), 'application/json');
-    });
-    document.getElementById('export-csv-btn')?.addEventListener('click', () => {
-      const rows = [['Name', 'Classification', 'Distance_AU', 'Gravity_ms2', 'MeanTemp_C', 'Moons']];
-      (window.PLANETS_DATA || []).forEach((p) => {
-        const ph = p.physics || {};
-        rows.push([`"${p.name}"`, `"${p.classification}"`, ph.semiMajorAU, ph.gravityMS2, ph.meanTempC, ph.moonsCount]);
-      });
-      downloadFile('living_archive_solar_system.csv', rows.map((r) => r.join(',')).join('\n'), 'text/csv');
     });
     renderCompareLabView('versus');
   }

@@ -880,7 +880,6 @@ body.cinema-kiosk-mode .exit-cinema-pill { display: inline-flex; }
 .mono-kicker { font-family: var(--font-editorial); font-style: italic; font-size: 1.15rem; letter-spacing: 0.02em; text-transform: none; color: var(--accent); margin-bottom: 0.25rem; }
 .section-display-title { font-family: var(--font-heading); font-size: clamp(2.4rem, 4.2vw, 3.5rem); font-weight: 500; color: #fff; line-height: 1.05; margin-bottom: 0.45rem; }
 .section-lead { color: var(--text-secondary); max-width: 620px; }
-.export-group { display: flex; gap: 10px; }
 
 .subtab-bar { display: flex; gap: 22px; border-bottom: 1px solid var(--line-subtle); margin-bottom: 1.8rem; overflow-x: auto; scrollbar-width: none; }
 .subtab-btn { padding: 0.7rem 0; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-family: var(--font-body); font-size: 0.86rem; font-weight: 500; letter-spacing: 0.01em; white-space: nowrap; cursor: pointer; }
