@@ -612,21 +612,32 @@ body.cinema-kiosk-mode .exit-cinema-pill { display: inline-flex; }
 
 .hud-toggle-btn {
   position: absolute;
-  top: 78px;
+  top: 82px;
   left: clamp(1.5rem, 4vw, 3.5rem);
   z-index: 4;
-  padding: 5px 11px;
-  background: rgba(7, 9, 13, 0.72);
-  border: 1px solid var(--line-strong);
-  border-radius: 5px;
-  color: var(--text-secondary);
-  font-family: var(--font-body);
-  font-size: 0.76rem;
-  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.24);
+  color: rgba(245, 246, 248, 0.84);
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: 1.18rem;
+  font-weight: 400;
   letter-spacing: 0.02em;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.85);
   cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
 }
-.hud-toggle-btn:hover { color: #fff; border-color: #fff; }
+.hud-toggle-btn svg {
+  opacity: 0.78;
+  transition: opacity 0.2s ease, transform 0.25s var(--ease-out);
+}
+.hud-toggle-btn:hover { color: #fff; border-bottom-color: var(--accent); }
+.hud-toggle-btn:hover svg { opacity: 1; }
 .planet-chapter.is-clean-video .chapter-stage-overlay { opacity: 0; pointer-events: none; }
 .planet-chapter.is-clean-video .chapter-video-gradient { opacity: 0.15; }
 

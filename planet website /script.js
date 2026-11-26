@@ -357,7 +357,10 @@
               <div class="chapter-video-gradient"></div>
             </div>
 
-            <button type="button" class="hud-toggle-btn" data-hud-toggle="${planet.id}">Hide HUD</button>
+            <button type="button" class="hud-toggle-btn" data-hud-toggle="${planet.id}" aria-pressed="false">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="2.6"/></svg>
+              <span>Clean View</span>
+            </button>
 
             <div class="chapter-stage-overlay">
               <div class="stage-title-block">
@@ -470,7 +473,13 @@
       btn.addEventListener('click', () => {
         const chapter = btn.closest('.planet-chapter');
         const hidden = chapter.classList.toggle('is-clean-video');
-        btn.textContent = hidden ? 'Show HUD' : 'Hide HUD';
+        btn.setAttribute('aria-pressed', String(hidden));
+        const labelEl = btn.querySelector('span');
+        if (labelEl) {
+          labelEl.textContent = hidden ? 'Show Details' : 'Clean View';
+        } else {
+          btn.textContent = hidden ? 'Show Details' : 'Clean View';
+        }
       });
     });
 
