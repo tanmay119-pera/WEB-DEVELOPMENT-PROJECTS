@@ -516,47 +516,151 @@
     if (viewName === 'versus') {
       const leftP = getPlanetById(state.vsLeft) || planets[4];
       const rightP = getPlanetById(state.vsRight) || planets[6];
-      const optionsHtml = (selId) => planets.map((p) =>
-        `<option value="${p.id}" ${p.id === selId ? 'selected' : ''}>${p.name} — ${p.classification}</option>`
-      ).join('');
+      const optionsMenuHtml = (selId) => planets.map((p) => `
+        <button type="button" class="vs-picker-option ${p.id === selId ? 'is-selected' : ''}" data-world-id="${p.id}" role="option" aria-selected="${p.id === selId}">
+          <span class="vs-opt-name">
+            <span class="vs-opt-dot" style="background:${p.accentColor}"></span>
+            <span>${p.name}</span>
+          </span>
+        </button>
+      `).join('');
 
-      const buildVsCard = (p) => {
-        const ph = p.physics || {};
-        return `
-          <div class="vs-card">
-            <img src="videos/thumbs/${p.id}_3d_cinema.jpg" alt="${p.name}" class="vs-card-poster" decoding="async">
-            <div>
-              <span class="lab-card-tag" style="color:${p.accentColor}">${p.classification}</span>
-              <h3 style="font-family:var(--font-heading);font-size:2rem;color:#fff;">${p.name}</h3>
+      const buildSpecimen = (p, side) => `
+        <div class="vs-specimen ${side}" style="--spec-accent:${p.accentColor};--spec-glow:${p.glowColor || 'rgba(255,255,255,0.12)'};">
+          <div class="vs-picker-wrap" data-picker-side="${side}">
+            <button type="button" id="vs-select-${side}" class="vs-picker-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Select ${side} world">
+              <span>${p.name}</span>
+              <svg class="vs-select-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="vs-picker-menu" role="listbox" aria-label="${side} world options">
+              ${optionsMenuHtml(p.id)}
             </div>
-            <div class="vs-metric-row"><span>Surface Gravity</span><strong>${ph.gravityMS2} m/s² (${(ph.gravityMS2 / 9.807).toFixed(2)}g)</strong></div>
-            <div class="vs-metric-row"><span>Mean Radius</span><strong>${(ph.radiusKm || 0).toLocaleString()} km</strong></div>
-            <div class="vs-metric-row"><span>Orbital Velocity</span><strong>${computeOrbitalVelocity(ph.semiMajorAU, ph.eccentricity || 0)} km/s</strong></div>
-            <div class="vs-metric-row"><span>Escape Velocity</span><strong>${ph.massKg ? computeEscapeVelocity(ph.massKg, ph.radiusKm) : '—'} km/s</strong></div>
-            <div class="vs-metric-row"><span>Solar Distance</span><strong>${ph.semiMajorAU} AU (${formatLightTime(ph.lightTimeFromSunMin)})</strong></div>
-            <div class="vs-metric-row"><span>Known Moons</span><strong>${ph.moonsCount}</strong></div>
-            <button type="button" class="btn-outline tab-trigger" data-tab="${p.id}" style="margin-top:0.5rem;">Open ${p.name} Tab &rarr;</button>
           </div>
-        `;
-      };
-
-      stage.innerHTML = `
-        <div class="vs-controls">
-          <select id="vs-select-left" class="vs-select" aria-label="Select left world">${optionsHtml(leftP.id)}</select>
-          <span class="vs-badge">VS</span>
-          <select id="vs-select-right" class="vs-select" aria-label="Select right world">${optionsHtml(rightP.id)}</select>
+          <span class="vs-specimen-class">${p.classification}</span>
+          <div class="vs-portal">
+            <img src="videos/thumbs/${p.id}_3d_cinema.jpg" alt="${p.name}" class="vs-portal-img" decoding="async">
+          </div>
         </div>
-        <div class="vs-grid">${buildVsCard(leftP)}${buildVsCard(rightP)}</div>
       `;
 
-      document.getElementById('vs-select-left')?.addEventListener('change', (e) => {
-        state.vsLeft = e.target.value;
-        renderCompareLabView('versus');
+      const lp = leftP.physics || {};
+      const rp = rightP.physics || {};
+      const lRad = lp.radiusKm || 0;
+      const rRad = rp.radiusKm || 0;
+      const scaleRatioText = (lRad && rRad)
+        ? (rRad >= lRad
+          ? `${(rRad / lRad).toFixed(1)}× wider`
+          : `${(lRad / rRad).toFixed(1)}× wider`)
+        : 'Equal scale';
+
+      const lOrb = lp.semiMajorAU ? parseFloat(computeOrbitalVelocity(lp.semiMajorAU, lp.eccentricity || 0)) : 0;
+      const rOrb = rp.semiMajorAU ? parseFloat(computeOrbitalVelocity(rp.semiMajorAU, rp.eccentricity || 0)) : 0;
+      const lEsc = lp.massKg ? parseFloat(computeEscapeVelocity(lp.massKg, lp.radiusKm)) : 0;
+      const rEsc = rp.massKg ? parseFloat(computeEscapeVelocity(rp.massKg, rp.radiusKm)) : 0;
+      const lGrav = lp.gravityMS2 || 0;
+      const rGrav = rp.gravityMS2 || 0;
+      const lAu = lp.semiMajorAU || 0;
+      const rAu = rp.semiMajorAU || 0;
+      const lMoons = lp.moonsCount || 0;
+      const rMoons = rp.moonsCount || 0;
+
+      const metrics = [
+        {
+          label: 'Surface Gravity',
+          lv: `${lGrav} m/s² (${(lGrav / 9.807).toFixed(2)}g)`,
+          rv: `${rGrav} m/s² (${(rGrav / 9.807).toFixed(2)}g)`,
+          ln: lGrav, rn: rGrav
+        },
+        {
+          label: 'Mean Radius',
+          lv: `${lRad.toLocaleString()} km`,
+          rv: `${rRad.toLocaleString()} km`,
+          ln: lRad, rn: rRad
+        },
+        {
+          label: 'Orbital Speed',
+          lv: lp.semiMajorAU ? `${lOrb.toFixed(2)} km/s` : 'Galactic center',
+          rv: rp.semiMajorAU ? `${rOrb.toFixed(2)} km/s` : 'Galactic center',
+          ln: lOrb, rn: rOrb
+        },
+        {
+          label: 'Escape Speed',
+          lv: lEsc ? `${lEsc.toFixed(2)} km/s` : '—',
+          rv: rEsc ? `${rEsc.toFixed(2)} km/s` : '—',
+          ln: lEsc, rn: rEsc
+        },
+        {
+          label: 'Solar Distance',
+          lv: `${lAu} AU (${formatLightTime(lp.lightTimeFromSunMin)})`,
+          rv: `${rAu} AU (${formatLightTime(rp.lightTimeFromSunMin)})`,
+          ln: lAu, rn: rAu
+        },
+        {
+          label: 'Known Moons',
+          lv: `${lMoons}`,
+          rv: `${rMoons}`,
+          ln: lMoons, rn: rMoons
+        }
+      ];
+
+      const ledgerHtml = metrics.map((m) => {
+        const maxVal = Math.max(m.ln, m.rn, 0);
+        const lPct = maxVal > 0 ? Math.max(4, Math.round((m.ln / maxVal) * 100)) : 0;
+        const rPct = maxVal > 0 ? Math.max(4, Math.round((m.rn / maxVal) * 100)) : 0;
+        return `
+          <div class="vs-ledger-row">
+            <div class="vs-ledger-vals">
+              <span class="vs-val left ${m.ln >= m.rn ? 'is-leading' : ''}">${m.lv}</span>
+              <span class="vs-metric-name">${m.label}</span>
+              <span class="vs-val right ${m.rn >= m.ln ? 'is-leading' : ''}">${m.rv}</span>
+            </div>
+            <div class="vs-bars" aria-hidden="true">
+              <div class="vs-bar-track left"><div class="vs-bar-fill" style="width:${m.ln > 0 ? lPct : 0}%;background:${leftP.accentColor};"></div></div>
+              <div class="vs-bar-track right"><div class="vs-bar-fill" style="width:${m.rn > 0 ? rPct : 0}%;background:${rightP.accentColor};"></div></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      stage.innerHTML = `
+        <div class="vs-duo-stage">
+          ${buildSpecimen(leftP, 'left')}
+          <div class="vs-center-axis">
+            <span class="vs-vs-glyph">vs</span>
+            <span class="vs-ratio-note">${scaleRatioText}</span>
+          </div>
+          ${buildSpecimen(rightP, 'right')}
+        </div>
+        <div class="vs-ledger">${ledgerHtml}</div>
+        <div class="vs-actions-row">
+          <button type="button" class="vs-explore-link tab-trigger" data-tab="${leftP.id}">Open ${leftP.name} &rarr;</button>
+          <button type="button" class="vs-explore-link tab-trigger" data-tab="${rightP.id}">Open ${rightP.name} &rarr;</button>
+        </div>
+      `;
+
+      stage.querySelectorAll('.vs-picker-wrap').forEach((wrap) => {
+        const side = wrap.getAttribute('data-picker-side');
+        const btn = wrap.querySelector('.vs-picker-btn');
+        btn?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const willOpen = !wrap.classList.contains('open');
+          stage.querySelectorAll('.vs-picker-wrap').forEach((other) => {
+            other.classList.remove('open');
+            other.querySelector('.vs-picker-btn')?.setAttribute('aria-expanded', 'false');
+          });
+          wrap.classList.toggle('open', willOpen);
+          btn.setAttribute('aria-expanded', String(willOpen));
+        });
+        wrap.querySelectorAll('.vs-picker-option').forEach((opt) => {
+          opt.addEventListener('click', () => {
+            const worldId = opt.getAttribute('data-world-id');
+            if (side === 'left') state.vsLeft = worldId;
+            else state.vsRight = worldId;
+            renderCompareLabView('versus');
+          });
+        });
       });
-      document.getElementById('vs-select-right')?.addEventListener('change', (e) => {
-        state.vsRight = e.target.value;
-        renderCompareLabView('versus');
-      });
+
       return;
     }
 
@@ -614,11 +718,11 @@
       const exos = window.EXOPLANET_BENCHMARKS || [];
       const probes = window.INTERSTELLAR_TRAJECTORIES || {};
       stage.innerHTML = `
-        <div class="lab-card" style="border:1px solid var(--line-subtle);margin-bottom:1.8rem;">
+        <div class="lab-card" style="border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-subtle);padding:1.4rem 0;margin-bottom:2.2rem;">
           <span class="lab-card-tag">Habitable Zone Simulator (<span id="hz-lum-readout">1.00</span> L<sub>&odot;</sub>)</span>
           <h4>Circumstellar Liquid-Water Zone Boundaries</h4>
           <input type="range" id="hz-lum-slider" min="0.05" max="4.0" step="0.05" value="1.0" class="sim-slider" style="margin:0.65rem 0;">
-          <p id="hz-bounds-output" style="font-family:var(--font-mono);color:#fff;">Habitable Ring: 0.95 AU — 1.37 AU</p>
+          <p id="hz-bounds-output" style="font-family:var(--font-numeric);font-variant-numeric:tabular-nums;color:#fff;">Habitable Ring: 0.95 AU — 1.37 AU</p>
         </div>
         <div class="mono-kicker" style="margin-bottom:0.8rem;">Habitable Exoplanet Benchmarks</div>
         <div class="lab-cards-grid">
@@ -660,9 +764,22 @@
     }
   }
 
+  function closeAllVsPickers() {
+    document.querySelectorAll('#compare-lab-stage .vs-picker-wrap.open').forEach((w) => {
+      w.classList.remove('open');
+      w.querySelector('.vs-picker-btn')?.setAttribute('aria-expanded', 'false');
+    });
+  }
+
   function initCompareLab() {
     document.querySelectorAll('#compare .subtab-btn').forEach((btn) => {
       btn.addEventListener('click', () => renderCompareLabView(btn.getAttribute('data-lab')));
+    });
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.vs-picker-wrap')) closeAllVsPickers();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeAllVsPickers();
     });
     renderCompareLabView('versus');
   }
