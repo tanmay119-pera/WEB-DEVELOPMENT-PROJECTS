@@ -221,7 +221,7 @@
 
     const jdBadge = document.getElementById('hero-jd-badge');
     if (jdBadge) {
-      jdBadge.textContent = `JD ${getCurrentJulianDate().toFixed(2)} • SOLAR SYSTEM ATLAS • 10 WORLDS`;
+      jdBadge.textContent = 'Solar System Observatory';
     }
   }
 
@@ -324,9 +324,9 @@
         </div>
       `).join('');
 
-      const anomaliesHtml = (planet.flipFacts || []).map((f, i) => `
+      const anomaliesHtml = (planet.flipFacts || []).map((f) => `
         <article class="anomaly-col">
-          <div class="anomaly-tag">0${i + 1} &bull; ${f.tag}</div>
+          <div class="anomaly-tag">${f.tag}</div>
           <h4>${f.hook}</h4>
           <p>${f.fact}</p>
         </article>
@@ -361,7 +361,7 @@
 
             <div class="chapter-stage-overlay">
               <div class="stage-title-block">
-                <div class="stage-kicker">${planet.chapter} &mdash; ${planet.classification}</div>
+                <div class="stage-kicker">${planet.classification}</div>
                 <h2 class="stage-title">${planet.name}</h2>
                 <p class="stage-tagline">${planet.tagline}</p>
               </div>
@@ -376,14 +376,14 @@
               <div class="spec-table-list">${specRows}</div>
               <div class="weight-calc-box" data-gravity-ratio="${earthG.toFixed(4)}">
                 <div class="weight-calc-top">
-                  <span>Surface Mass Simulator</span>
-                  <span><strong class="earth-kg-readout">70</strong> kg Earth</span>
+                  <span>Surface Weight</span>
+                  <span><strong class="earth-kg-readout">70</strong> kg on Earth</span>
                 </div>
                 <div class="weight-calc-readout">
                   <span class="world-kg-readout">${(70 * earthG).toFixed(1)}</span> kg
                 </div>
                 <input type="range" min="10" max="200" value="70" class="sim-slider weight-slider" aria-label="Simulate your weight on ${planet.name}">
-                <div class="weight-calc-foot">${earthG.toFixed(2)}g gravity &bull; Schwarzschild r<sub>s</sub> ${schwarz}</div>
+                <div class="weight-calc-foot">${earthG.toFixed(2)}g surface gravity</div>
               </div>
             </aside>
 
@@ -517,7 +517,7 @@
           <div class="vs-card">
             <img src="videos/thumbs/${p.id}_3d_cinema.jpg" alt="${p.name}" class="vs-card-poster" decoding="async">
             <div>
-              <span class="lab-card-tag" style="color:${p.accentColor}">${p.chapter} &bull; ${p.classification}</span>
+              <span class="lab-card-tag" style="color:${p.accentColor}">${p.classification}</span>
               <h3 style="font-family:var(--font-heading);font-size:2rem;color:#fff;">${p.name}</h3>
             </div>
             <div class="vs-metric-row"><span>Surface Gravity</span><strong>${ph.gravityMS2} m/s² (${(ph.gravityMS2 / 9.807).toFixed(2)}g)</strong></div>
