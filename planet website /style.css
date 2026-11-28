@@ -313,17 +313,20 @@ body {
 .sidebar-actions {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: stretch;
   gap: 7px;
   margin-top: 10px;
   padding-top: 12px;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
-.sidebar-cta-btn {
-  padding: 0.48rem 0.88rem;
-  font-size: 0.78rem;
+.btn-solid.sidebar-cta-btn,
+.btn-outline.sidebar-cta-btn {
+  padding: 0.46rem 0.82rem;
+  font-size: 0.76rem;
   border-radius: 6px;
   white-space: nowrap;
+  width: 100%;
+  justify-content: center;
 }
 
 .sidebar-mobile-scrim {
