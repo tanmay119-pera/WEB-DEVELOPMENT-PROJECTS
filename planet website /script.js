@@ -133,9 +133,38 @@
     mobToggle?.setAttribute('aria-expanded', 'false');
   }
 
+  function updateSidebarScrollVisibility() {
+    const sidebar = document.getElementById('planet-sidebar');
+    if (!sidebar) return;
+
+    const aboutEl = document.getElementById('about-creator');
+    const footerEl = document.querySelector('.site-footer');
+    const vh = window.innerHeight || 900;
+
+    const inAboutView = state.activeTab === 'hero' && aboutEl &&
+      aboutEl.getBoundingClientRect().top < vh * 0.72;
+    const inFooterView = footerEl && footerEl.getBoundingClientRect().top < vh - 20;
+    const isScrolledDown = window.scrollY > 100;
+
+    const shouldHide = isScrolledDown || inAboutView || inFooterView;
+    sidebar.classList.toggle('is-scroll-hidden', !!shouldHide);
+
+    if (state.activeTab === 'hero') {
+      const targetMode = inAboutView ? 'about' : 'hero';
+      document.querySelectorAll('.mode-tab').forEach((btn) => {
+        const match = btn.getAttribute('data-tab') === targetMode;
+        btn.classList.toggle('active', match);
+        btn.setAttribute('aria-selected', String(match));
+      });
+      const ctxEl = document.getElementById('topbar-active-context');
+      if (ctxEl) ctxEl.textContent = inAboutView ? 'About & Vision' : 'Overview';
+    }
+  }
+
   function scrollToAboutSection() {
     const el = document.getElementById('about-creator');
     if (!el) return;
+    document.getElementById('planet-sidebar')?.classList.add('is-scroll-hidden');
     document.querySelectorAll('.mode-tab').forEach((btn) => {
       const isAbout = btn.getAttribute('data-tab') === 'about';
       btn.classList.toggle('active', isAbout);
@@ -225,6 +254,7 @@
     if (!options.skipScroll) {
       window.scrollTo({ top: 0, behavior: 'auto' });
     }
+    updateSidebarScrollVisibility();
     const progress = document.getElementById('scroll-progress');
     if (progress && !options.skipScroll) progress.style.width = '0%';
 
@@ -1096,6 +1126,7 @@
     window.addEventListener('scroll', () => {
       const h = document.documentElement.scrollHeight - window.innerHeight;
       if (progress) progress.style.width = `${h > 0 ? (window.scrollY / h) * 100 : 0}%`;
+      updateSidebarScrollVisibility();
     }, { passive: true });
 
     document.addEventListener('click', (e) => {

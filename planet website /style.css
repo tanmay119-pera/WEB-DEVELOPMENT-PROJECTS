@@ -259,7 +259,7 @@ body {
   flex-direction: column;
   background: transparent;
   border: none;
-  transition: transform 0.3s var(--ease-out), opacity 0.3s ease;
+  transition: transform 0.3s var(--ease-out), opacity 0.28s ease, visibility 0.28s ease;
 }
 
 .sidebar-list {
@@ -1455,16 +1455,20 @@ body.cinema-kiosk-mode .exit-cinema-pill { display: inline-flex; }
   color: #fff;
 }
 
-/* Safe right-sidebar clearance for all desktop sections (placed last to override shorthand padding) */
+/* Safe right-sidebar clearance for visible-sidebar stages; hide sidebar smoothly on scroll/credits */
 @media (min-width: 961px) {
+  .planet-sidebar.is-scroll-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-50%) translateX(28px);
+  }
   .hero-section,
-  .about-creator-section,
   .chapter-stage,
   .dossier-workspace,
   .planet-footer-bar,
   .compare-chapter,
-  .quiz-chapter,
-  .site-footer {
+  .quiz-chapter {
     padding-right: var(--safe-right);
   }
 }
