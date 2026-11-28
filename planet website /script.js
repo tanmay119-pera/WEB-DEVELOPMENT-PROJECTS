@@ -133,11 +133,45 @@
     mobToggle?.setAttribute('aria-expanded', 'false');
   }
 
+  function scrollToAboutSection() {
+    const el = document.getElementById('about-creator');
+    if (!el) return;
+    document.querySelectorAll('.mode-tab').forEach((btn) => {
+      const isAbout = btn.getAttribute('data-tab') === 'about';
+      btn.classList.toggle('active', isAbout);
+      btn.setAttribute('aria-selected', String(isAbout));
+    });
+    const ctxEl = document.getElementById('topbar-active-context');
+    if (ctxEl) ctxEl.textContent = 'About & Vision';
+    if (history.replaceState && window.location.hash !== '#about') {
+      history.replaceState(null, '', '#about');
+    }
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   function switchTab(targetId, options = {}) {
+    if (targetId === 'about') {
+      closeMobileDrawer();
+      if (state.activeTab !== 'hero') {
+        switchTab('hero', { skipHash: true, skipScroll: true });
+      }
+      requestAnimationFrame(() => scrollToAboutSection());
+      return;
+    }
     if (!TAB_ORDER.includes(targetId)) targetId = 'hero';
     closeMobileDrawer();
     if (state.activeTab === targetId && !options.force) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.querySelectorAll('.mode-tab').forEach((btn) => {
+        const isActive = btn.getAttribute('data-tab') === targetId;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-selected', String(isActive));
+      });
+      const ctxEl = document.getElementById('topbar-active-context');
+      if (ctxEl && targetId === 'hero') ctxEl.textContent = 'Overview';
+      if (history.replaceState && window.location.hash !== `#${targetId}`) {
+        history.replaceState(null, '', `#${targetId}`);
+      }
+      if (!options.skipScroll) window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
@@ -188,9 +222,11 @@
 
     // 4. Switch active 4K video & reset scroll cleanly
     syncActiveVideoPlayback(targetId);
-    window.scrollTo({ top: 0, behavior: 'auto' });
+    if (!options.skipScroll) {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
     const progress = document.getElementById('scroll-progress');
-    if (progress) progress.style.width = '0%';
+    if (progress && !options.skipScroll) progress.style.width = '0%';
 
     // 5. Screen reader & URL hash update
     const announcer = document.getElementById('aria-live-announcer');
@@ -1176,7 +1212,8 @@
 
     window.addEventListener('hashchange', () => {
       const h = window.location.hash.replace('#', '').trim().toLowerCase();
-      if (TAB_ORDER.includes(h)) switchTab(h);
+      if (h === 'about') switchTab('about');
+      else if (TAB_ORDER.includes(h)) switchTab(h);
     });
   }
 
@@ -1195,7 +1232,11 @@
     }
 
     const hash = window.location.hash.replace('#', '').trim().toLowerCase();
-    const initialTab = TAB_ORDER.includes(hash) ? hash : 'hero';
-    switchTab(initialTab, { skipHash: !hash, force: true });
+    if (hash === 'about') {
+      switchTab('about');
+    } else {
+      const initialTab = TAB_ORDER.includes(hash) ? hash : 'hero';
+      switchTab(initialTab, { skipHash: !hash, force: true });
+    }
   });
 })();

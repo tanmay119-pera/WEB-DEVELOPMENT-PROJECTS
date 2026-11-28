@@ -424,28 +424,32 @@ body.cinema-kiosk-mode .exit-cinema-pill { display: inline-flex; }
 }
 
 @media (max-width: 640px) {
-  .bounded-topbar { left: 14px; right: 14px; height: 42px; padding: 0; }
-  .topbar-right { gap: 8px; }
-  .topbar-modes { gap: 11px; }
+  .bounded-topbar { left: 14px; right: 14px; height: 42px; padding: 0; gap: 6px; }
+  .topbar-right { gap: 7px; }
+  .topbar-modes { gap: 9px; }
   .mode-tab {
     padding: 2px 1px;
-    font-size: 1.05rem;
+    font-size: 0.96rem;
     letter-spacing: 0.01em;
     flex-shrink: 0;
   }
   .tool-icon-btn {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     flex-shrink: 0;
   }
   .mobile-sidebar-toggle {
     padding: 2px 1px;
-    font-size: 1.05rem;
+    font-size: 0.96rem;
+    flex-shrink: 0;
   }
 }
 
 @media (max-width: 440px) {
-  .brand-btn { padding: 2px; }
+  .brand-btn { padding: 1px; }
+  .topbar-right { gap: 5px; }
+  .topbar-modes { gap: 8px; }
+  .mode-tab, .mobile-sidebar-toggle { font-size: 0.92rem; }
   #cinema-mode-btn { display: none; }
 }
 
@@ -462,7 +466,6 @@ body.cinema-kiosk-mode .exit-cinema-pill { display: inline-flex; }
   display: block;
   animation: fadeInTab 0.25s var(--ease-out) both;
 }
-.hero-section.tab-panel.active { display: flex; }
 
 @keyframes fadeInTab {
   from { opacity: 0; }
@@ -510,6 +513,7 @@ body.cinema-kiosk-mode .exit-cinema-pill { display: inline-flex; }
   position: relative;
   min-height: 100vh;
   padding: 90px clamp(1.5rem, 4vw, 3.5rem) 1.75rem;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
@@ -1286,29 +1290,130 @@ body.cinema-kiosk-mode .exit-cinema-pill { display: inline-flex; }
 .search-res-sub { font-size: 0.82rem; color: var(--text-muted); }
 .search-res-cta { font-family: var(--font-body); font-size: 0.78rem; font-weight: 500; color: var(--accent); white-space: nowrap; flex-shrink: 0; }
 
-.site-footer { border-top: 1px solid var(--line-subtle); background: #030406; padding: 1.35rem clamp(1.25rem, 4vw, 3.5rem); }
-.footer-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
-.footer-credit { font-family: var(--font-heading); font-size: 1.12rem; color: var(--text-secondary); letter-spacing: 0.01em; }
+.site-footer { border-top: 1px solid var(--line-subtle); background: #030406; padding: 1.7rem clamp(1.25rem, 4vw, 3.5rem); }
+.footer-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 18px 28px; }
+.footer-credits-block { display: flex; flex-direction: column; gap: 5px; max-width: 680px; }
+.footer-credit { font-family: var(--font-heading); font-size: 1.18rem; color: var(--text-secondary); letter-spacing: 0.01em; line-height: 1.35; }
 .footer-credit strong { color: #fff; font-weight: 600; }
+.footer-tagline-note { font-family: var(--font-body); font-size: 0.84rem; color: var(--text-muted); line-height: 1.5; }
+.footer-tagline-note em { font-family: var(--font-editorial); font-style: italic; font-size: 1rem; color: var(--text-secondary); }
 .footer-right { display: flex; align-items: baseline; gap: 20px; flex-wrap: wrap; }
-.footer-note { font-family: var(--font-body); font-size: 0.86rem; color: var(--text-muted); }
+.footer-link {
+  padding: 1px 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: 1.08rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.footer-link:hover { color: #fff; border-bottom-color: var(--accent); }
 .btn-top {
   padding: 1px 0;
   background: transparent;
   border: none;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   color: var(--text-secondary);
-  font-family: var(--font-heading);
-  font-size: 1.08rem;
+  font-family: var(--font-editorial);
   font-style: italic;
+  font-size: 1.08rem;
   cursor: pointer;
   transition: color 0.2s ease, border-color 0.2s ease;
 }
 .btn-top:hover { color: #fff; border-bottom-color: var(--accent); }
 
+/* Creator & Vision Section (Below The Ten Worlds) */
+.about-creator-section {
+  border-top: 1px solid var(--line-subtle);
+  background: #050608;
+  padding: clamp(4.2rem, 7vw, 6.2rem) clamp(1.5rem, 4vw, 3.5rem);
+  scroll-margin-top: 64px;
+}
+.about-container { max-width: 1400px; margin: 0 auto; }
+.about-header { margin-bottom: 2.4rem; }
+.about-legal-name {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text-secondary);
+  font-size: 0.72em;
+}
+.about-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 34px 56px;
+}
+@media (max-width: 820px) {
+  .about-columns { grid-template-columns: 1fr; gap: 28px; }
+}
+.about-col {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 1.25rem;
+}
+.about-col-heading {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.45rem, 2.2vw, 1.8rem);
+  color: #fff;
+  margin-bottom: 0.85rem;
+  line-height: 1.2;
+}
+.about-col p {
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  line-height: 1.72;
+  color: var(--text-secondary);
+  max-width: 56ch;
+}
+.about-col p + p { margin-top: 0.85rem; }
+
+.about-closing-band {
+  margin-top: 2.8rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 18px 36px;
+}
+.about-closing-note {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: clamp(1.24rem, 1.9vw, 1.52rem);
+  color: var(--accent);
+  line-height: 1.35;
+}
+.editorial-links-row {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.editorial-ext-link {
+  padding: 2px 0;
+  color: rgba(245, 246, 248, 0.88);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.24);
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.editorial-ext-link:hover {
+  color: #fff;
+  border-bottom-color: var(--accent);
+}
+
 /* Safe right-sidebar clearance for all desktop sections (placed last to override shorthand padding) */
 @media (min-width: 961px) {
   .hero-section,
+  .about-creator-section,
   .chapter-stage,
   .dossier-workspace,
   .planet-footer-bar,

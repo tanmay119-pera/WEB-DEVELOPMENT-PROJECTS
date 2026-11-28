@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=12">
+  <link rel="stylesheet" href="style.css?v=15">
 </head>
 <body>
 
@@ -40,6 +40,7 @@
         <button type="button" class="mode-tab active" role="tab" aria-selected="true" data-tab="hero">Overview</button>
         <button type="button" class="mode-tab" role="tab" aria-selected="false" data-tab="compare">Compare</button>
         <button type="button" class="mode-tab" role="tab" aria-selected="false" data-tab="quiz">Quiz</button>
+        <button type="button" class="mode-tab" role="tab" aria-selected="false" data-tab="about">About</button>
       </nav>
       <span class="topbar-sep" aria-hidden="true"></span>
       <button type="button" class="tool-icon-btn" id="open-search-btn" aria-label="Search Archive (/)" title="Search Archive (/)">
@@ -112,39 +113,75 @@
   <main id="main-content" class="observatory-main">
 
     <!-- OVERVIEW TAB -->
-    <section class="hero-section tab-panel active" id="hero" data-chapter="hero" role="tabpanel" aria-label="Observatory Overview">
-      <div class="hero-video-wrap">
-        <video
-          class="hero-video"
-          id="hero-video"
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="auto"
-          poster="videos/mars_3d_cinema.jpg"
-        >
-          <source src="videos/hero.mp4" type="video/mp4">
-        </video>
-        <div class="hero-scrim"></div>
-      </div>
-
-      <div class="hero-layout">
-        <div class="hero-content">
-          <div class="hero-meta-line" id="hero-jd-badge">Solar System Observatory</div>
-          <h1 class="hero-title">The Living Archive</h1>
-          <p class="hero-tagline">
-            An editorial chronicle of Sol, Luna, and every world in our planetary neighborhood — presented in native 4K motion.
-          </p>
+    <section class="hero-overview-panel tab-panel active" id="hero" data-chapter="hero" role="tabpanel" aria-label="Observatory Overview">
+      <div class="hero-section">
+        <div class="hero-video-wrap">
+          <video
+            class="hero-video"
+            id="hero-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            poster="videos/mars_3d_cinema.jpg"
+          >
+            <source src="videos/hero.mp4" type="video/mp4">
+          </video>
+          <div class="hero-scrim"></div>
         </div>
 
-        <!-- Bottom Planetary Dock -->
-        <div class="hero-filmstrip-wrap" aria-label="Celestial Body Directory">
-          <div class="filmstrip-header">
-            <span class="filmstrip-kicker">The Ten Worlds</span>
-            <span class="filmstrip-live-brief" id="filmstrip-active-brief">Select a world to enter its observatory</span>
+        <div class="hero-layout">
+          <div class="hero-content">
+            <div class="hero-meta-line" id="hero-jd-badge">Solar System Observatory</div>
+            <h1 class="hero-title">The Living Archive</h1>
+            <p class="hero-tagline">
+              An editorial chronicle of Sol, Luna, and every world in our planetary neighborhood — presented in native 4K motion.
+            </p>
           </div>
-          <div class="hero-worlds-strip" id="hero-worlds-grid"></div>
+
+          <!-- Bottom Planetary Dock -->
+          <div class="hero-filmstrip-wrap" aria-label="Celestial Body Directory">
+            <div class="filmstrip-header">
+              <span class="filmstrip-kicker">The Ten Worlds</span>
+              <span class="filmstrip-live-brief" id="filmstrip-active-brief">Select a world to enter its observatory</span>
+            </div>
+            <div class="hero-worlds-strip" id="hero-worlds-grid"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CREATOR INTRO & VISION (Below The Ten Worlds) -->
+      <div class="about-creator-section" id="about-creator" aria-label="About the Creator and Vision">
+        <div class="about-container">
+          <header class="about-header">
+            <div class="mono-kicker">Behind the Archive</div>
+            <h2 class="section-display-title">
+              Tanmay <span class="about-legal-name">(Adesh Srivastava)</span>
+            </h2>
+          </header>
+
+          <div class="about-columns">
+            <article class="about-col">
+              <h3 class="about-col-heading">A few words about me</h3>
+              <p>First-year Computer Science student from Delhi NCR. I'm focused on AI and building toward agentic AI systems.</p>
+              <p>I like turning what I learn into real, shipped projects, like this site, a RAG-with-citations project, and a voice AI co-pilot.</p>
+            </article>
+
+            <article class="about-col">
+              <h3 class="about-col-heading">My vision for The Living Archive</h3>
+              <p>Most space websites feel like textbooks: dense, flat, and forgettable. I wanted to build something that feels like standing inside an observatory. Every world gets its own story, its own data, and its own motion.</p>
+              <p>It's built for everyone: a ten-year-old can play the quiz and a curious adult can dive into the telemetry.</p>
+            </article>
+          </div>
+
+          <div class="about-closing-band">
+            <p class="about-closing-note">&ldquo;This is only the first chapter. I&rsquo;ll keep growing the archive, one world at a time.&rdquo;</p>
+            <div class="editorial-links-row">
+              <a href="https://www.linkedin.com/in/adesh-srivastava-706278411?utm_source=share_via&amp;utm_content=profile&amp;utm_medium=member_android" target="_blank" rel="noopener noreferrer" class="editorial-ext-link">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+              <a href="https://github.com/ADESH-011" target="_blank" rel="noopener noreferrer" class="editorial-ext-link">GitHub (@ADESH-011) <span aria-hidden="true">&#8599;</span></a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -256,12 +293,21 @@
     </div>
   </div>
 
-  <!-- Minimal Footer -->
+  <!-- End Credits Footer -->
   <footer class="site-footer" role="contentinfo">
     <div class="footer-inner">
-      <p class="footer-credit">The Living Archive &mdash; <strong>Tanmay (Adesh Srivastava)</strong></p>
+      <div class="footer-credits-block">
+        <p class="footer-credit">
+          The Living Archive &mdash; Conceived, Designed &amp; Engineered by <strong>Tanmay (Adesh Srivastava)</strong>
+        </p>
+        <p class="footer-tagline-note">
+          CS student from Delhi NCR focused on AI &amp; agentic systems &middot; <em>This is only the first chapter; growing one world at a time.</em>
+        </p>
+      </div>
       <div class="footer-right">
-        <span class="footer-note">Solar System Observatory</span>
+        <a href="https://www.linkedin.com/in/adesh-srivastava-706278411?utm_source=share_via&amp;utm_content=profile&amp;utm_medium=member_android" target="_blank" rel="noopener noreferrer" class="footer-link">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+        <a href="https://github.com/ADESH-011" target="_blank" rel="noopener noreferrer" class="footer-link">GitHub <span aria-hidden="true">&#8599;</span></a>
+        <button type="button" class="footer-link tab-trigger" data-tab="about">About</button>
         <button type="button" class="btn-top" id="back-to-top-btn">Back to top &uarr;</button>
       </div>
     </div>
@@ -274,6 +320,6 @@
   <!-- Archive Data & Engine -->
   <script src="data/planets.js"></script>
   <script src="data/quiz.js"></script>
-  <script src="script.js?v=9"></script>
+  <script src="script.js?v=13"></script>
 </body>
 </html>
