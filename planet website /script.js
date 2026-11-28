@@ -205,19 +205,55 @@
   /* ============================================================================
      4. HERO FILMSTRIP & PLANET TAB PANELS RENDERER
      ============================================================================ */
+  const WORLD_BRIEFS = {
+    sun: 'Nuclear G2V star anchoring all orbits.',
+    moon: 'Tidal partner scarred with basalt seas.',
+    mercury: 'Iron-rich world racing close to Sol.',
+    venus: 'Superheated greenhouse under dense clouds.',
+    earth: 'Oceanic biosphere shielded by a dipole.',
+    mars: 'Iron-oxide desert with towering canyons.',
+    jupiter: 'Giant storm sphere guarding inner orbits.',
+    saturn: 'Golden giant crowned by crystalline rings.',
+    uranus: 'Sideways-rolling ice world in cyan haze.',
+    neptune: 'Sapphire frontier swept by supersonic winds.'
+  };
+
   function renderHeroFilmstrip() {
     const grid = document.getElementById('hero-worlds-grid');
     if (!grid || !window.PLANETS_DATA) return;
 
-    grid.innerHTML = window.PLANETS_DATA.map((p, i) => `
-      <button type="button" class="world-strip-item tab-trigger" data-tab="${p.id}" style="--card-accent:${p.accentColor};">
-        <img src="videos/thumbs/${p.id}_3d_cinema.jpg" alt="${p.name}" class="world-strip-thumb" decoding="async">
-        <div class="world-strip-meta">
-          <span class="world-strip-name">${p.name.replace('The ', '')}</span>
-          <span class="world-strip-num">${String(i + 1).padStart(2, '0')}</span>
-        </div>
-      </button>
-    `).join('');
+    grid.innerHTML = window.PLANETS_DATA.map((p) => {
+      const brief = WORLD_BRIEFS[p.id] || p.classification;
+      return `
+        <button type="button" class="world-strip-item tab-trigger" data-tab="${p.id}" data-world-class="${p.classification}" data-world-name="${p.name}" style="--card-accent:${p.accentColor};">
+          <div class="world-strip-orb">
+            <img src="videos/thumbs/${p.id}_3d_cinema.jpg" alt="${p.name}" class="world-strip-thumb" decoding="async">
+          </div>
+          <div class="world-strip-body">
+            <div class="world-strip-meta">
+              <span class="world-strip-name">${p.name.replace('The ', '')}</span>
+            </div>
+            <span class="world-strip-brief">${brief}</span>
+          </div>
+        </button>
+      `;
+    }).join('');
+
+    const liveBriefEl = document.getElementById('filmstrip-active-brief');
+    if (liveBriefEl) {
+      grid.querySelectorAll('.world-strip-item').forEach((card) => {
+        const showPreview = () => {
+          liveBriefEl.textContent = `${card.dataset.worldName} — ${card.dataset.worldClass}`;
+          liveBriefEl.style.color = 'var(--text-secondary)';
+        };
+        card.addEventListener('mouseenter', showPreview);
+        card.addEventListener('focus', showPreview);
+      });
+      grid.addEventListener('mouseleave', () => {
+        liveBriefEl.textContent = 'Select a world to enter its observatory';
+        liveBriefEl.style.color = '';
+      });
+    }
 
     const jdBadge = document.getElementById('hero-jd-badge');
     if (jdBadge) {
